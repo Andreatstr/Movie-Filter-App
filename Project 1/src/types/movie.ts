@@ -31,8 +31,8 @@ export interface MovieFilters {
   minRating?: number;
   maxRating?: number;
   year?: number;
-  sortBy?: "popularity" | "rating" | "release_date" | "title";
-  sortOrder?: "asc" | "desc";
+  sortBy?: 'popularity' | 'rating' | 'release_date' | 'title';
+  sortOrder?: 'asc' | 'desc';
 }
 
 export interface FavoriteMovie {
