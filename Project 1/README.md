@@ -1,69 +1,115 @@
-# React + TypeScript + Vite
+# Movie Filter App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based movie filtering application built with TypeScript that allows users to browse, filter, and manage movie collections using the TMDB API.
 
-Currently, two official plugins are available:
+## Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project is part of a web development course focusing on modern React development practices, REST API integration, and comprehensive testing strategies.
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Browse popular movies from TMDB
+- Search movies by title
+- Responsive design for mobile and desktop
+- Mark movies as favorites (localStorage)
+- Filter by genre, rating, and year
+- Fast loading with TanStack Query caching
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- **Frontend**: React 19 + TypeScript
+- **Build Tool**: Vite
+- **API**: The Movie Database (TMDB)
+- **State Management**: TanStack Query
+- **Testing**: Vitest + React Testing Library
+- **Styling**: Plain CSS (responsive design)
+- **Code Quality**: ESLint + Prettier
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Getting Started
+
+### Prerequisites
+
+- Node.js v24.6.x or higher (currently using v22.13.1 - upgrade recommended)
+- npm v11.x or higher
+- TMDB API key (free at [themoviedb.org](https://www.themoviedb.org/settings/api))
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone <your-repo-url>
+cd Project 1
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. Install dependencies
+```bash
+npm install
 ```
+
+3. Set up environment variables
+```bash
+cp .env.example .env
+```
+
+4. Add your TMDB API key to `.env`:
+```
+VITE_TMDB_API_KEY=your_api_key_here
+```
+
+5. Start the development server
+```bash
+npm run dev
+```
+
+## Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Check for linting errors
+- `npm run lint:fix` - Fix auto-fixable linting errors
+- `npm run format` - Format code with Prettier
+- `npm run format:check` - Check code formatting
+
+## Project Structure
+
+```
+src/
+├── components/          # Reusable React components
+├── services/           # API service layer
+├── types/              # TypeScript type definitions
+├── hooks/              # Custom React hooks
+├── styles/             # CSS stylesheets
+└── utils/              # Utility functions
+```
+
+## API Integration
+
+Uses [The Movie Database (TMDB) API](https://developers.themoviedb.org/3) for movie data:
+
+- Popular movies endpoint
+- Search functionality
+- Genre listings
+- Movie details and images
+
+## Contributing
+
+1. Create GitHub issue inside Projects board
+2. Create feature branch
+3. Implement with tests
+4. Submit pull request
+5. Code review process
+
+## License
+
+This project is for educational purposes as part of NTNU web development course.
+
+## Assignment Requirements Met
+
+- React + TypeScript setup
+- REST API integration with TanStack Query
+- Responsive design
+- Git workflow with issues/PRs
+- Code quality (ESLint + Prettier)
+- Environment configuration
+- Modern development practices
