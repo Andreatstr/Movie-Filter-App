@@ -1,0 +1,125 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MovieCard > Snapshot Tests > should render MovieCard with complete movie data 1`] = `
+<article
+  class="movie-card"
+>
+  <figure
+    class="movie-card__image-container"
+  >
+    <img
+      alt="Test Movie poster"
+      class="movie-card__image"
+      loading="lazy"
+      src="mocked-image-url"
+    />
+  </figure>
+  <section
+    class="movie-card__content"
+  >
+    <h2
+      class="movie-card__title"
+    >
+      Test Movie
+    </h2>
+    <aside
+      class="movie-card__meta"
+    >
+      <span
+        class="movie-card__year"
+      >
+        2023
+      </span>
+      <span
+        aria-label="Rating: 8.5 out of 10"
+        class="movie-card__rating"
+      >
+        ★ 
+        8.5
+      </span>
+    </aside>
+  </section>
+</article>
+`;
+
+exports[`MovieCard > Snapshot Tests > should render MovieCard with missing data 1`] = `
+<article
+  class="movie-card"
+>
+  <figure
+    class="movie-card__image-container"
+  >
+    <img
+      alt="Movie poster placeholder"
+      class="movie-card__image"
+      src="/placeholder-movie.jpg"
+    />
+  </figure>
+  <section
+    class="movie-card__content"
+  >
+    <h2
+      class="movie-card__title"
+    >
+      Title Missing
+    </h2>
+    <aside
+      class="movie-card__meta"
+    >
+      <span
+        class="movie-card__year"
+      >
+        Missing year
+      </span>
+      <span
+        aria-label="Rating: N/A out of 10"
+        class="movie-card__rating"
+      >
+        ★ 
+        N/A
+      </span>
+    </aside>
+  </section>
+</article>
+`;
+
+exports[`MovieCard > Snapshot Tests > should render MovieCard with missing poster 1`] = `
+<article
+  class="movie-card"
+>
+  <figure
+    class="movie-card__image-container"
+  >
+    <img
+      alt="Movie poster placeholder"
+      class="movie-card__image"
+      src="/placeholder-movie.jpg"
+    />
+  </figure>
+  <section
+    class="movie-card__content"
+  >
+    <h2
+      class="movie-card__title"
+    >
+      Test Movie
+    </h2>
+    <aside
+      class="movie-card__meta"
+    >
+      <span
+        class="movie-card__year"
+      >
+        2023
+      </span>
+      <span
+        aria-label="Rating: 8.5 out of 10"
+        class="movie-card__rating"
+      >
+        ★ 
+        8.5
+      </span>
+    </aside>
+  </section>
+</article>
+`;
