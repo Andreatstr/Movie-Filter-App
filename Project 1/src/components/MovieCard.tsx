@@ -48,6 +48,9 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
             ★ {rating}
           </span>
         </aside>
+        <p className="movie-card__overview">
+          {movie.overview || "No description available."}
+        </p>
       </section>
     </article>
   );
