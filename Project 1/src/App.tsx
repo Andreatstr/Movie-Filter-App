@@ -29,7 +29,7 @@ function App() {
     );
   }
 
-  const movies = data?.results || [];
+  const movies = data?.results.slice(0, 1) || [];
 
   return (
     <main className="app">
