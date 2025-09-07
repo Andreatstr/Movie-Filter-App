@@ -1,9 +1,20 @@
 .movie-card {
   display: flex;
   flex-direction: column;
-  width: 400px;
   margin: 0;
   flex-shrink: 0;
+}
+
+.movie-card--small {
+  width: 200px;
+}
+
+.movie-card--medium {
+  width: 300px;
+}
+
+.movie-card--large {
+  width: 400px;
 }
 
 .movie-card:hover .movie-card__image-container {
@@ -88,12 +99,8 @@
   font-size: 0.8rem;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments for text scaling */
 @media (max-width: 768px) {
-  .movie-card {
-    width: 320px;
-  }
-
   .movie-card__title {
     font-size: 1rem;
     line-height: 1.2;
@@ -111,10 +118,6 @@
 }
 
 @media (max-width: 480px) {
-  .movie-card {
-    width: 280px;
-  }
-
   .movie-card__content {
     padding: 0.5rem 0 0 0;
     gap: 0.25rem;

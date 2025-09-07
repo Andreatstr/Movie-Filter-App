@@ -39,7 +39,7 @@ function App() {
       </header>
       <section className="app-main">
         {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <MovieCard key={movie.id} movie={movie} size="large" />
         ))}
       </section>
     </main>

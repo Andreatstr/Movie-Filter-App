@@ -5,9 +5,10 @@ import '../styles/MovieCard.css';
 
 interface MovieCardProps {
   movie: Movie;
+  size?: 'small' | 'medium' | 'large';
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({movie}) => {
+const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
   const [imageError, setImageError] = useState(false);
   const year = movie.release_date
     ? new Date(movie.release_date).getFullYear()
@@ -18,7 +19,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie}) => {
   const showPlaceholder = !movie.poster_path || imageError;
 
   return (
-    <article className="movie-card">
+    <article className={`movie-card movie-card--${size}`}>
       <figure className="movie-card__image-container">
         {showPlaceholder ? (
           <img
