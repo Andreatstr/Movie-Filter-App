@@ -45,7 +45,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
             className="movie-card__rating"
             aria-label={`Rating: ${rating} out of 10`}
           >
-            ★ {rating}
+            ★ {rating}/10
           </span>
         </aside>
         <p className="movie-card__overview">
