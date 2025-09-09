@@ -36,27 +36,32 @@ This project is part of a web development course focusing on modern React develo
 ### Installation
 
 1. Clone the repository
+
 ```bash
 git clone <your-repo-url>
 cd Project 1
 ```
 
 2. Install dependencies
+
 ```bash
 npm install
 ```
 
 3. Set up environment variables
+
 ```bash
 cp .env.example .env
 ```
 
 4. Add your TMDB API key to `.env`:
+
 ```
 VITE_TMDB_API_KEY=your_api_key_here
 ```
 
 5. Start the development server
+
 ```bash
 npm run dev
 ```
@@ -103,6 +108,7 @@ Uses [The Movie Database (TMDB) API](https://developers.themoviedb.org/3) for mo
 ## License
 
 This project is for educational purposes as part of NTNU web development course.
+
 
 ## Assignment Requirements Met
 
