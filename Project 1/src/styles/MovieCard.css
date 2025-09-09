@@ -14,7 +14,7 @@
 }
 
 .movie-card--large {
-  width: 800px;
+  width: 700px;
   flex-direction: row;
   gap: 2rem;
 }
