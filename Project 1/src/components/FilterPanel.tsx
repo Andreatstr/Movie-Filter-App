@@ -1,4 +1,4 @@
-import {useMemo} from 'react';
+import {useMemo, useState, useEffect} from 'react';
 import type {Genre, Movie, MovieFilters} from '../types/movie';
 import '../styles/FilterPanel.css';
 
@@ -31,12 +31,36 @@ export default function FilterPanel({
 
   const ratingMin = filters.minRating ?? 0;
   const ratingMax = filters.maxRating ?? 10;
+  
+  // Track if we're on mobile
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 1024);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Handle min/max changes with validation
+  const handleMinChange = (value: number) => {
+    const newMin = Math.min(value, ratingMax);
+    setFilters({minRating: newMin});
+  };
+
+  const handleMaxChange = (value: number) => {
+    const newMax = Math.max(value, ratingMin);
+    setFilters({maxRating: newMax});
+  };
 
   return (
     <section className="filter-panel" aria-label="Filters">
       <header className="filter-header">
         <h2 className="filter-title">Filters</h2>
-        <div className="filter-actions">
+        <section className="filter-actions">
           <button
             type="button"
             className="filter-reset-btn"
@@ -46,11 +70,11 @@ export default function FilterPanel({
           >
             Clear filters
           </button>
-        </div>
+        </section>
       </header>
 
-      <div className="filter-grid">
-        <div className="filter-control">
+      <form className="filter-grid">
+        <fieldset className="filter-control">
           <label htmlFor="genre-select" className="filter-label">
             Genre
           </label>
@@ -69,10 +93,9 @@ export default function FilterPanel({
               </option>
             ))}
           </select>
-          {/* Genre fetch status handled by parent if needed */}
-        </div>
+        </fieldset>
 
-        <div className="filter-control">
+        <fieldset className="filter-control">
           <label className="filter-label" htmlFor="year-select">
             Year
           </label>
@@ -91,46 +114,85 @@ export default function FilterPanel({
               </option>
             ))}
           </select>
-        </div>
+        </fieldset>
 
-        <div className="filter-control filter-control-rating">
+        <fieldset className="filter-control filter-control-rating">
           <label className="filter-label">Rating</label>
-          <div className="rating-range">
-            <div className="rating-field">
-              <label htmlFor="min-rating" className="sub-label">
-                Min rating
-              </label>
+          {isMobile ? (
+            // Mobile: Dual-handle slider
+            <div className="dual-range-slider">
+              <div className="slider-track"></div>
+              <div 
+                className="slider-range" 
+                style={{
+                  left: `calc(22px + (100% - 44px) * ${ratingMin / 10})`,
+                  width: `calc((100% - 44px) * ${(ratingMax - ratingMin) / 10})`
+                }}
+              />
               <input
-                id="min-rating"
                 type="range"
                 min={0}
                 max={10}
                 step={0.5}
                 value={ratingMin}
-                onChange={(e) => setFilters({minRating: Number(e.target.value)})}
+                onChange={(e) => handleMinChange(Number(e.target.value))}
+                className="range-min"
+                aria-label="Minimum rating"
               />
-              <span className="rating-value">{ratingMin.toFixed(1)}</span>
-            </div>
-
-            <div className="rating-field">
-              <label htmlFor="max-rating" className="sub-label">
-                Max rating
-              </label>
               <input
-                id="max-rating"
                 type="range"
                 min={0}
                 max={10}
                 step={0.5}
                 value={ratingMax}
-                onChange={(e) => setFilters({maxRating: Number(e.target.value)})}
+                onChange={(e) => handleMaxChange(Number(e.target.value))}
+                className="range-max"
+                aria-label="Maximum rating"
               />
-              <span className="rating-value">{ratingMax.toFixed(1)}</span>
+              <div className="range-values">
+                <span className="range-value">Min: {ratingMin.toFixed(1)}</span>
+                <span className="range-value">Max: {ratingMax.toFixed(1)}</span>
+              </div>
             </div>
-          </div>
-        </div>
+          ) : (
+            // Desktop: Original separate sliders
+            <section className="rating-range">
+              <section className="rating-field">
+                <label htmlFor="min-rating" className="sub-label">
+                  Min rating
+                </label>
+                <input
+                  id="min-rating"
+                  type="range"
+                  min={0}
+                  max={10}
+                  step={0.5}
+                  value={ratingMin}
+                  onChange={(e) => setFilters({minRating: Number(e.target.value)})}
+                />
+                <span className="rating-value">{ratingMin.toFixed(1)}</span>
+              </section>
 
-        <div className="filter-control">
+              <section className="rating-field">
+                <label htmlFor="max-rating" className="sub-label">
+                  Max rating
+                </label>
+                <input
+                  id="max-rating"
+                  type="range"
+                  min={0}
+                  max={10}
+                  step={0.5}
+                  value={ratingMax}
+                  onChange={(e) => setFilters({maxRating: Number(e.target.value)})}
+                />
+                <span className="rating-value">{ratingMax.toFixed(1)}</span>
+              </section>
+            </section>
+          )}
+        </fieldset>
+
+        <fieldset className="filter-control">
           <label htmlFor="sort-by" className="filter-label">
             Sort by
           </label>
@@ -138,18 +200,18 @@ export default function FilterPanel({
             id="sort-by"
             className="filter-select"
             value={filters.sortBy}
-            onChange={(e) => setFilters({sortBy: e.target.value as any})}
+            onChange={(e) => setFilters({sortBy: e.target.value as MovieFilters['sortBy']})}
           >
             <option value="popularity">Popularity</option>
             <option value="rating">Rating</option>
             <option value="release_date">Release date</option>
             <option value="title">Title</option>
           </select>
-        </div>
+        </fieldset>
 
-        <div className="filter-control">
+        <fieldset className="filter-control">
           <label className="filter-label">Order</label>
-          <div className="order-toggle">
+          <section className="order-toggle">
             <button
               type="button"
               className={`order-btn ${filters.sortOrder === 'asc' ? 'is-active' : ''}`}
@@ -166,13 +228,13 @@ export default function FilterPanel({
             >
               Desc
             </button>
-          </div>
-        </div>
-      </div>
+          </section>
+        </fieldset>
+      </form>
 
       <aside className="filter-active">
         {hasActiveFilters ? (
-          <div className="chips">
+          <section className="chips">
             {filters.genre !== undefined && (
               <span className="chip">Genre: {genres.find((g) => g.id === filters.genre)?.name ?? filters.genre}</span>
             )}
@@ -185,7 +247,7 @@ export default function FilterPanel({
             {filters.maxRating !== undefined && (
               <span className="chip">Max rating: {filters.maxRating}</span>
             )}
-          </div>
+          </section>
         ) : (
           <small className="filter-hint">No active filters</small>
         )}
