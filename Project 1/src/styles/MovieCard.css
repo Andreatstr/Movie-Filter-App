@@ -136,7 +136,7 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
-  line-clamp: 3; 
+  line-clamp: 3;
 }
 
 /* New styles for expanded overview */
@@ -177,7 +177,6 @@
 .movie-card--large .movie-card__expand-btn {
   font-size: 0.9rem;
 }
-
 
 @media (max-width: 768px) {
   .movie-card--large {
@@ -259,7 +258,7 @@
     line-height: 1.2;
     -webkit-line-clamp: 2;
     line-clamp: 2;
-    max-height: 2.4em; 
+    max-height: 2.4em;
   }
 
   .movie-card--large .movie-card__meta {

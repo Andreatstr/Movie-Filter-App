@@ -21,7 +21,8 @@ function App() {
     return (
       <main className="app">
         <div className="error">
-          Error loading movies: {error instanceof Error ? error.message : 'Unknown error'}
+          Error loading movies:{' '}
+          {error instanceof Error ? error.message : 'Unknown error'}
         </div>
       </main>
     );
@@ -35,7 +36,7 @@ function App() {
         <h1>Movie Browser</h1>
         <p>Discover popular movies</p>
       </header>
-      
+
       <MovieViewer movies={movies} />
     </main>
   );

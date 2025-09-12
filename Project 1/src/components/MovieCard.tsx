@@ -13,7 +13,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTruncated, setIsTruncated] = useState(false);
   const overviewRef = useRef<HTMLParagraphElement>(null);
-  
+
   const year = movie.release_date
     ? new Date(movie.release_date).getFullYear()
     : 'Missing year';
@@ -25,7 +25,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
   useEffect(() => {
     // Reset expanded state when movie changes
     setIsExpanded(false);
-    
+
     const checkTruncation = () => {
       const element = overviewRef.current;
       if (element) {
@@ -37,18 +37,18 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
 
     // Check on mount and when text changes
     checkTruncation();
-    
+
     // Also check after a small delay to ensure CSS is applied
     const timer = setTimeout(checkTruncation, 100);
-    
+
     // Add resize event listener to recheck on viewport changes
     const handleResize = () => {
       // Small delay to ensure layout has updated
       setTimeout(checkTruncation, 50);
     };
-    
+
     window.addEventListener('resize', handleResize);
-    
+
     return () => {
       clearTimeout(timer);
       window.removeEventListener('resize', handleResize);

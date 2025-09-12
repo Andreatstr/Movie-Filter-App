@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import type { Movie } from '../types/movie';
+import {useState, useEffect, useCallback} from 'react';
+import type {Movie} from '../types/movie';
 import MovieCard from './MovieCard';
 import './../styles/MovieViewer.css';
 
@@ -7,8 +7,20 @@ interface MovieViewerProps {
   movies: Movie[];
 }
 
-export const MovieViewer = ({ movies }: MovieViewerProps) => {
+export const MovieViewer = ({movies}: MovieViewerProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const goToNext = useCallback(() => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === movies.length - 1 ? 0 : prevIndex + 1
+    );
+  }, [movies.length]);
+
+  const goToPrevious = useCallback(() => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? movies.length - 1 : prevIndex - 1
+    );
+  }, [movies.length]);
 
   // Handle keyboard navigation
   useEffect(() => {
@@ -24,7 +36,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [currentIndex, movies.length]);
+  }, [goToNext, goToPrevious]);
 
   // Save current position to sessionStorage
   useEffect(() => {
@@ -41,18 +53,6 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
       }
     }
   }, [movies.length]);
-
-  const goToNext = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === movies.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const goToPrevious = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? movies.length - 1 : prevIndex - 1
-    );
-  };
 
   const jumpToMovie = (index: number) => {
     setCurrentIndex(index);
@@ -74,7 +74,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     <div className="movie-viewer">
       {/* Navigation Controls */}
       <div className="movie-nav-controls">
-        <button 
+        <button
           className="nav-btn nav-btn--prev"
           onClick={goToPrevious}
           aria-label="Previous movie"
@@ -89,7 +89,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
           </span>
         </div>
 
-        <button 
+        <button
           className="nav-btn nav-btn--next"
           onClick={goToNext}
           aria-label="Next movie"
@@ -109,7 +109,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
         <label htmlFor="movie-select" className="jump-label">
           Jump to movie:
         </label>
-        <select 
+        <select
           id="movie-select"
           className="movie-select"
           value={currentIndex}

@@ -29,7 +29,7 @@ This project is part of a web development course focusing on modern React develo
 
 ### Prerequisites
 
-- Node.js v24.6.x or higher (currently using v22.13.1 - upgrade recommended)
+- Node.js v24.6.x or higher
 - npm v11.x or higher
 - TMDB API key (free at [themoviedb.org](https://www.themoviedb.org/settings/api))
 
@@ -38,14 +38,21 @@ This project is part of a web development course focusing on modern React develo
 1. Clone the repository
 
 ```bash
-git clone <your-repo-url>
-cd Project 1
+git clone <git@git.ntnu.no:IT2810-H25/T26-Project-1.git>
+cd "Project 1"
+```
+
+    Alt:
+
+```bash
+git clone <https://git.ntnu.no/IT2810-H25/T26-Project-1.git>
+cd "Project 1"
 ```
 
 2. Install dependencies
 
 ```bash
-npm install
+pnpm install
 ```
 
 3. Set up environment variables
@@ -63,18 +70,18 @@ VITE_TMDB_API_KEY=your_api_key_here
 5. Start the development server
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 ## Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Check for linting errors
-- `npm run lint:fix` - Fix auto-fixable linting errors
-- `npm run format` - Format code with Prettier
-- `npm run format:check` - Check code formatting
+- `pnpm run dev` - Start development server
+- `pnpm run build` - Build for production
+- `pnpm run preview` - Preview production build
+- `pnpm run lint` - Check for linting errors
+- `pnpm run lint:fix` - Fix auto-fixable linting errors
+- `pnpm run format` - Format code with Prettier
+- `pnpm run format:check` - Check code formatting
 
 ## Project Structure
 
@@ -108,7 +115,6 @@ Uses [The Movie Database (TMDB) API](https://developers.themoviedb.org/3) for mo
 ## License
 
 This project is for educational purposes as part of NTNU web development course.
-
 
 ## Assignment Requirements Met
 
