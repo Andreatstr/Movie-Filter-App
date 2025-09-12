@@ -69,7 +69,7 @@ describe('MovieCard', () => {
 
     it('should display rating', () => {
       render(<MovieCard movie={mockMovie} />);
-      expect(screen.getByText('★ 8.5')).toBeInTheDocument();
+      expect(screen.getByText('★ 8.5/10')).toBeInTheDocument();
     });
 
     it('should display movie poster with correct alt text', () => {
@@ -102,7 +102,7 @@ describe('MovieCard', () => {
     it('should show "N/A" when rating is missing', () => {
       const movieWithoutRating = {...mockMovie, vote_average: 0};
       render(<MovieCard movie={movieWithoutRating} />);
-      expect(screen.getByText('★ N/A')).toBeInTheDocument();
+      expect(screen.getByText('★ N/A/10')).toBeInTheDocument();
     });
   });
 

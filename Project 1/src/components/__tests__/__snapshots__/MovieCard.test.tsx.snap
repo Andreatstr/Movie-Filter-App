@@ -2,7 +2,7 @@
 
 exports[`MovieCard > Snapshot Tests > should render MovieCard with complete movie data 1`] = `
 <article
-  class="movie-card"
+  class="movie-card movie-card--medium"
 >
   <figure
     class="movie-card__image-container"
@@ -17,34 +17,49 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with complete movi
   <section
     class="movie-card__content"
   >
-    <h2
-      class="movie-card__title"
+    <header
+      class="movie-card__header"
     >
-      Test Movie
-    </h2>
-    <aside
-      class="movie-card__meta"
+      <h2
+        class="movie-card__title"
+      >
+        Test Movie
+      </h2>
+      <aside
+        class="movie-card__meta"
+      >
+        <time
+          class="movie-card__year"
+          datetime="2023-12-25"
+        >
+          2023
+        </time>
+        <span
+          aria-label="Rating: 8.5 out of 10"
+          class="movie-card__rating"
+        >
+          ★ 
+          8.5
+          /10
+        </span>
+      </aside>
+    </header>
+    <section
+      class="movie-card__overview-container"
     >
-      <span
-        class="movie-card__year"
+      <p
+        class="movie-card__overview "
       >
-        2023
-      </span>
-      <span
-        aria-label="Rating: 8.5 out of 10"
-        class="movie-card__rating"
-      >
-        ★ 
-        8.5
-      </span>
-    </aside>
+        A test movie description
+      </p>
+    </section>
   </section>
 </article>
 `;
 
 exports[`MovieCard > Snapshot Tests > should render MovieCard with missing data 1`] = `
 <article
-  class="movie-card"
+  class="movie-card movie-card--medium"
 >
   <figure
     class="movie-card__image-container"
@@ -58,34 +73,48 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing data 
   <section
     class="movie-card__content"
   >
-    <h2
-      class="movie-card__title"
+    <header
+      class="movie-card__header"
     >
-      Title Missing
-    </h2>
-    <aside
-      class="movie-card__meta"
+      <h2
+        class="movie-card__title"
+      >
+        Title Missing
+      </h2>
+      <aside
+        class="movie-card__meta"
+      >
+        <time
+          class="movie-card__year"
+        >
+          Missing year
+        </time>
+        <span
+          aria-label="Rating: N/A out of 10"
+          class="movie-card__rating"
+        >
+          ★ 
+          N/A
+          /10
+        </span>
+      </aside>
+    </header>
+    <section
+      class="movie-card__overview-container"
     >
-      <span
-        class="movie-card__year"
+      <p
+        class="movie-card__overview "
       >
-        Missing year
-      </span>
-      <span
-        aria-label="Rating: N/A out of 10"
-        class="movie-card__rating"
-      >
-        ★ 
-        N/A
-      </span>
-    </aside>
+        A test movie description
+      </p>
+    </section>
   </section>
 </article>
 `;
 
 exports[`MovieCard > Snapshot Tests > should render MovieCard with missing poster 1`] = `
 <article
-  class="movie-card"
+  class="movie-card movie-card--medium"
 >
   <figure
     class="movie-card__image-container"
@@ -99,27 +128,42 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing poste
   <section
     class="movie-card__content"
   >
-    <h2
-      class="movie-card__title"
+    <header
+      class="movie-card__header"
     >
-      Test Movie
-    </h2>
-    <aside
-      class="movie-card__meta"
+      <h2
+        class="movie-card__title"
+      >
+        Test Movie
+      </h2>
+      <aside
+        class="movie-card__meta"
+      >
+        <time
+          class="movie-card__year"
+          datetime="2023-12-25"
+        >
+          2023
+        </time>
+        <span
+          aria-label="Rating: 8.5 out of 10"
+          class="movie-card__rating"
+        >
+          ★ 
+          8.5
+          /10
+        </span>
+      </aside>
+    </header>
+    <section
+      class="movie-card__overview-container"
     >
-      <span
-        class="movie-card__year"
+      <p
+        class="movie-card__overview "
       >
-        2023
-      </span>
-      <span
-        aria-label="Rating: 8.5 out of 10"
-        class="movie-card__rating"
-      >
-        ★ 
-        8.5
-      </span>
-    </aside>
+        A test movie description
+      </p>
+    </section>
   </section>
 </article>
 `;

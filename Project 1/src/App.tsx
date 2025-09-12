@@ -1,11 +1,11 @@
 import {useQuery} from '@tanstack/react-query';
 import {tmdbApi} from './services/tmdbApi';
-import MovieCard from './components/MovieCard';
+import {MovieViewer} from './components/MovieViewer';
 import './App.css';
 
 function App() {
   const {data, isLoading, error} = useQuery({
-    queryKey: ['movies', 'popular'],
+    queryKey: ['popularMovies'],
     queryFn: () => tmdbApi.getPopularMovies(1),
   });
 
@@ -29,7 +29,7 @@ function App() {
     );
   }
 
-  const movies = data?.results.slice(0, 1) || [];
+  const movies = data?.results || [];
 
   return (
     <main className="app">
@@ -37,11 +37,8 @@ function App() {
         <h1>Movie Card Demo</h1>
         <p>Displaying popular movies from TMDB</p>
       </header>
-      <section className="app-main">
-        {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} size="large" />
-        ))}
-      </section>
+
+      <MovieViewer movies={movies} />
     </main>
   );
 }

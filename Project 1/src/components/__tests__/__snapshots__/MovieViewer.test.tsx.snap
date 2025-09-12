@@ -1,0 +1,277 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple movies 1`] = `
+<section
+  aria-label="Movie Viewer"
+  class="movie-viewer"
+>
+  <nav
+    aria-label="Movie navigation"
+    class="movie-nav-controls"
+  >
+    <button
+      aria-label="Previous movie"
+      class="nav-btn nav-btn--prev"
+    >
+      ← Previous
+    </button>
+    <aside
+      class="movie-position"
+    >
+      <span
+        class="position-text"
+      >
+        1
+         of 
+        3
+      </span>
+    </aside>
+    <button
+      aria-label="Next movie"
+      class="nav-btn nav-btn--next"
+    >
+      Next →
+    </button>
+  </nav>
+  <main
+    class="movie-display"
+  >
+    <article
+      class="movie-card movie-card--large"
+    >
+      <figure
+        class="movie-card__image-container"
+      >
+        <img
+          alt="First Movie poster"
+          class="movie-card__image"
+          loading="lazy"
+          src="mocked-image-url"
+        />
+      </figure>
+      <section
+        class="movie-card__content"
+      >
+        <header
+          class="movie-card__header"
+        >
+          <h2
+            class="movie-card__title"
+          >
+            First Movie
+          </h2>
+          <aside
+            class="movie-card__meta"
+          >
+            <time
+              class="movie-card__year"
+              datetime="2023-12-25"
+            >
+              2023
+            </time>
+            <span
+              aria-label="Rating: 8.5 out of 10"
+              class="movie-card__rating"
+            >
+              ★ 
+              8.5
+              /10
+            </span>
+          </aside>
+        </header>
+        <section
+          class="movie-card__overview-container"
+        >
+          <p
+            class="movie-card__overview "
+          >
+            First movie description that is long enough to test truncation behavior
+          </p>
+        </section>
+      </section>
+    </article>
+  </main>
+  <aside
+    class="movie-jump-controls"
+  >
+    <label
+      class="jump-label"
+      for="movie-select"
+    >
+      Jump to movie:
+    </label>
+    <select
+      class="movie-select"
+      id="movie-select"
+    >
+      <option
+        value="0"
+      >
+        1
+        . 
+        First Movie
+      </option>
+      <option
+        value="1"
+      >
+        2
+        . 
+        Second Movie
+      </option>
+      <option
+        value="2"
+      >
+        3
+        . 
+        Third Movie
+      </option>
+    </select>
+  </aside>
+  <aside
+    class="keyboard-hint"
+  >
+    <p>
+      Use ← → arrow keys to navigate
+    </p>
+  </aside>
+</section>
+`;
+
+exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies 1`] = `
+<section
+  aria-label="Movie Viewer"
+  class="movie-viewer"
+>
+  <p
+    class="no-movies"
+  >
+    No movies available
+  </p>
+</section>
+`;
+
+exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single movie 1`] = `
+<section
+  aria-label="Movie Viewer"
+  class="movie-viewer"
+>
+  <nav
+    aria-label="Movie navigation"
+    class="movie-nav-controls"
+  >
+    <button
+      aria-label="Previous movie"
+      class="nav-btn nav-btn--prev"
+      disabled=""
+    >
+      ← Previous
+    </button>
+    <aside
+      class="movie-position"
+    >
+      <span
+        class="position-text"
+      >
+        1
+         of 
+        1
+      </span>
+    </aside>
+    <button
+      aria-label="Next movie"
+      class="nav-btn nav-btn--next"
+      disabled=""
+    >
+      Next →
+    </button>
+  </nav>
+  <main
+    class="movie-display"
+  >
+    <article
+      class="movie-card movie-card--large"
+    >
+      <figure
+        class="movie-card__image-container"
+      >
+        <img
+          alt="First Movie poster"
+          class="movie-card__image"
+          loading="lazy"
+          src="mocked-image-url"
+        />
+      </figure>
+      <section
+        class="movie-card__content"
+      >
+        <header
+          class="movie-card__header"
+        >
+          <h2
+            class="movie-card__title"
+          >
+            First Movie
+          </h2>
+          <aside
+            class="movie-card__meta"
+          >
+            <time
+              class="movie-card__year"
+              datetime="2023-12-25"
+            >
+              2023
+            </time>
+            <span
+              aria-label="Rating: 8.5 out of 10"
+              class="movie-card__rating"
+            >
+              ★ 
+              8.5
+              /10
+            </span>
+          </aside>
+        </header>
+        <section
+          class="movie-card__overview-container"
+        >
+          <p
+            class="movie-card__overview "
+          >
+            First movie description that is long enough to test truncation behavior
+          </p>
+        </section>
+      </section>
+    </article>
+  </main>
+  <aside
+    class="movie-jump-controls"
+  >
+    <label
+      class="jump-label"
+      for="movie-select"
+    >
+      Jump to movie:
+    </label>
+    <select
+      class="movie-select"
+      disabled=""
+      id="movie-select"
+    >
+      <option
+        value="0"
+      >
+        1
+        . 
+        First Movie
+      </option>
+    </select>
+  </aside>
+  <aside
+    class="keyboard-hint"
+  >
+    <p>
+      Use ← → arrow keys to navigate
+    </p>
+  </aside>
+</section>
+`;
