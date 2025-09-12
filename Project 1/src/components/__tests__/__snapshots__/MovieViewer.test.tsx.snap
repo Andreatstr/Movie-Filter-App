@@ -17,7 +17,7 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
       >
         Filters
       </h2>
-      <div
+      <section
         class="filter-actions"
       >
         <button
@@ -28,12 +28,12 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
         >
           Clear filters
         </button>
-      </div>
+      </section>
     </header>
-    <div
+    <form
       class="filter-grid"
     >
-      <div
+      <fieldset
         class="filter-control"
       >
         <label
@@ -52,8 +52,8 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
             Any
           </option>
         </select>
-      </div>
-      <div
+      </fieldset>
+      <fieldset
         class="filter-control"
       >
         <label
@@ -77,9 +77,9 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
             2023
           </option>
         </select>
-      </div>
-      <div
-        class="filter-control"
+      </fieldset>
+      <fieldset
+        class="filter-control filter-control-rating"
       >
         <label
           class="filter-label"
@@ -87,57 +87,52 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
           Rating
         </label>
         <div
-          class="rating-range"
+          class="dual-range-slider"
         >
           <div
-            class="rating-field"
+            class="slider-track"
+          />
+          <div
+            class="slider-range"
+            style="left: calc(22px + 0 * (100% - 44px)); width: calc(1 * (100% - 44px));"
+          />
+          <input
+            aria-label="Minimum rating"
+            class="range-min"
+            max="10"
+            min="0"
+            step="0.5"
+            type="range"
+            value="0"
+          />
+          <input
+            aria-label="Maximum rating"
+            class="range-max"
+            max="10"
+            min="0"
+            step="0.5"
+            type="range"
+            value="10"
+          />
+          <div
+            class="range-values"
           >
-            <label
-              class="sub-label"
-              for="min-rating"
-            >
-              Min rating
-            </label>
-            <input
-              id="min-rating"
-              max="10"
-              min="0"
-              step="0.5"
-              type="range"
-              value="0"
-            />
             <span
-              class="rating-value"
+              class="range-value"
             >
+              Min: 
               0.0
             </span>
-          </div>
-          <div
-            class="rating-field"
-          >
-            <label
-              class="sub-label"
-              for="max-rating"
-            >
-              Max rating
-            </label>
-            <input
-              id="max-rating"
-              max="10"
-              min="0"
-              step="0.5"
-              type="range"
-              value="10"
-            />
             <span
-              class="rating-value"
+              class="range-value"
             >
+              Max: 
               10.0
             </span>
           </div>
         </div>
-      </div>
-      <div
+      </fieldset>
+      <fieldset
         class="filter-control"
       >
         <label
@@ -171,8 +166,8 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
             Title
           </option>
         </select>
-      </div>
-      <div
+      </fieldset>
+      <fieldset
         class="filter-control"
       >
         <label
@@ -180,7 +175,7 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
         >
           Order
         </label>
-        <div
+        <section
           class="order-toggle"
         >
           <button
@@ -197,9 +192,9 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
           >
             Desc
           </button>
-        </div>
-      </div>
-    </div>
+        </section>
+      </fieldset>
+    </form>
     <aside
       class="filter-active"
     >
@@ -359,7 +354,7 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies
       >
         Filters
       </h2>
-      <div
+      <section
         class="filter-actions"
       >
         <button
@@ -370,12 +365,12 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies
         >
           Clear filters
         </button>
-      </div>
+      </section>
     </header>
-    <div
+    <form
       class="filter-grid"
     >
-      <div
+      <fieldset
         class="filter-control"
       >
         <label
@@ -394,8 +389,8 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies
             Any
           </option>
         </select>
-      </div>
-      <div
+      </fieldset>
+      <fieldset
         class="filter-control"
       >
         <label
@@ -414,9 +409,9 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies
             Any
           </option>
         </select>
-      </div>
-      <div
-        class="filter-control"
+      </fieldset>
+      <fieldset
+        class="filter-control filter-control-rating"
       >
         <label
           class="filter-label"
@@ -424,57 +419,52 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies
           Rating
         </label>
         <div
-          class="rating-range"
+          class="dual-range-slider"
         >
           <div
-            class="rating-field"
+            class="slider-track"
+          />
+          <div
+            class="slider-range"
+            style="left: calc(22px + 0 * (100% - 44px)); width: calc(1 * (100% - 44px));"
+          />
+          <input
+            aria-label="Minimum rating"
+            class="range-min"
+            max="10"
+            min="0"
+            step="0.5"
+            type="range"
+            value="0"
+          />
+          <input
+            aria-label="Maximum rating"
+            class="range-max"
+            max="10"
+            min="0"
+            step="0.5"
+            type="range"
+            value="10"
+          />
+          <div
+            class="range-values"
           >
-            <label
-              class="sub-label"
-              for="min-rating"
-            >
-              Min rating
-            </label>
-            <input
-              id="min-rating"
-              max="10"
-              min="0"
-              step="0.5"
-              type="range"
-              value="0"
-            />
             <span
-              class="rating-value"
+              class="range-value"
             >
+              Min: 
               0.0
             </span>
-          </div>
-          <div
-            class="rating-field"
-          >
-            <label
-              class="sub-label"
-              for="max-rating"
-            >
-              Max rating
-            </label>
-            <input
-              id="max-rating"
-              max="10"
-              min="0"
-              step="0.5"
-              type="range"
-              value="10"
-            />
             <span
-              class="rating-value"
+              class="range-value"
             >
+              Max: 
               10.0
             </span>
           </div>
         </div>
-      </div>
-      <div
+      </fieldset>
+      <fieldset
         class="filter-control"
       >
         <label
@@ -508,8 +498,8 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies
             Title
           </option>
         </select>
-      </div>
-      <div
+      </fieldset>
+      <fieldset
         class="filter-control"
       >
         <label
@@ -517,7 +507,7 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies
         >
           Order
         </label>
-        <div
+        <section
           class="order-toggle"
         >
           <button
@@ -534,9 +524,9 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies
           >
             Desc
           </button>
-        </div>
-      </div>
-    </div>
+        </section>
+      </fieldset>
+    </form>
     <aside
       class="filter-active"
     >
@@ -572,7 +562,7 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
       >
         Filters
       </h2>
-      <div
+      <section
         class="filter-actions"
       >
         <button
@@ -583,12 +573,12 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
         >
           Clear filters
         </button>
-      </div>
+      </section>
     </header>
-    <div
+    <form
       class="filter-grid"
     >
-      <div
+      <fieldset
         class="filter-control"
       >
         <label
@@ -607,8 +597,8 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
             Any
           </option>
         </select>
-      </div>
-      <div
+      </fieldset>
+      <fieldset
         class="filter-control"
       >
         <label
@@ -632,9 +622,9 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
             2023
           </option>
         </select>
-      </div>
-      <div
-        class="filter-control"
+      </fieldset>
+      <fieldset
+        class="filter-control filter-control-rating"
       >
         <label
           class="filter-label"
@@ -642,57 +632,52 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
           Rating
         </label>
         <div
-          class="rating-range"
+          class="dual-range-slider"
         >
           <div
-            class="rating-field"
+            class="slider-track"
+          />
+          <div
+            class="slider-range"
+            style="left: calc(22px + 0 * (100% - 44px)); width: calc(1 * (100% - 44px));"
+          />
+          <input
+            aria-label="Minimum rating"
+            class="range-min"
+            max="10"
+            min="0"
+            step="0.5"
+            type="range"
+            value="0"
+          />
+          <input
+            aria-label="Maximum rating"
+            class="range-max"
+            max="10"
+            min="0"
+            step="0.5"
+            type="range"
+            value="10"
+          />
+          <div
+            class="range-values"
           >
-            <label
-              class="sub-label"
-              for="min-rating"
-            >
-              Min rating
-            </label>
-            <input
-              id="min-rating"
-              max="10"
-              min="0"
-              step="0.5"
-              type="range"
-              value="0"
-            />
             <span
-              class="rating-value"
+              class="range-value"
             >
+              Min: 
               0.0
             </span>
-          </div>
-          <div
-            class="rating-field"
-          >
-            <label
-              class="sub-label"
-              for="max-rating"
-            >
-              Max rating
-            </label>
-            <input
-              id="max-rating"
-              max="10"
-              min="0"
-              step="0.5"
-              type="range"
-              value="10"
-            />
             <span
-              class="rating-value"
+              class="range-value"
             >
+              Max: 
               10.0
             </span>
           </div>
         </div>
-      </div>
-      <div
+      </fieldset>
+      <fieldset
         class="filter-control"
       >
         <label
@@ -726,8 +711,8 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
             Title
           </option>
         </select>
-      </div>
-      <div
+      </fieldset>
+      <fieldset
         class="filter-control"
       >
         <label
@@ -735,7 +720,7 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
         >
           Order
         </label>
-        <div
+        <section
           class="order-toggle"
         >
           <button
@@ -752,9 +737,9 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
           >
             Desc
           </button>
-        </div>
-      </div>
-    </div>
+        </section>
+      </fieldset>
+    </form>
     <aside
       class="filter-active"
     >
