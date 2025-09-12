@@ -93,7 +93,7 @@ export default function FilterPanel({
           </select>
         </div>
 
-        <div className="filter-control">
+        <div className="filter-control filter-control-rating">
           <label className="filter-label">Rating</label>
           <div className="rating-range">
             <div className="rating-field">

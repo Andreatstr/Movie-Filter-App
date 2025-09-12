@@ -4,6 +4,7 @@
   padding: 1rem;
   background: #fff;
   color: #333;
+  overflow: hidden;
 }
 
 .filter-header {
@@ -57,6 +58,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  min-width: 0;
 }
 
 .filter-label {
@@ -75,9 +77,11 @@
 
 .rating-range {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 0.5rem;
   align-items: center;
+  width: 100%;
+  min-width: 0;
 }
 
 .rating-field {
@@ -85,6 +89,7 @@
   flex-direction: column;
   align-items: stretch;
   gap: 0.35rem;
+  min-width: 0;
 }
 
 .sub-label {
@@ -100,11 +105,41 @@
   align-self: flex-end;
 }
 
+.rating-field input[type='range'] {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 @media (min-width: 640px) {
   .rating-field {
     flex-direction: row;
     align-items: center;
     gap: 0.5rem;
+  }
+  .rating-range {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Desktop layout adjustments: keep rating controls on one line area and allow wrapping */
+@media (min-width: 900px) {
+  /* Make the rating block span full row to avoid crowding with other controls */
+  .filter-control-rating {
+    grid-column: 1 / -1;
+  }
+
+  /* Align rating fields horizontally with space and allow wrap when needed */
+  .filter-control-rating .rating-range {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    align-items: center;
+  }
+
+  .filter-control-rating .rating-field {
+    flex-direction: row;
+    align-items: center;
   }
 }
 
