@@ -49,6 +49,12 @@
   font-size: 1.1rem;
   line-height: 1.6;
   margin: 0;
+  height: 8em; /* 5 lines of text at 1.6 line-height */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  line-clamp: 5; /* Modern standard property */
 }
 
 .movie-card__image-container {
@@ -130,6 +136,12 @@
   line-height: 1.5;
   color: #555;
   margin: 0.75rem 0 0 0;
+  height: 4.5em;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3; /* Modern standard property */
 }
 
 /* Responsive adjustments */
@@ -168,6 +180,9 @@
     font-size: 1rem;
     line-height: 1.5;
     margin: 0;
+    height: 6em; /* 4 lines at 1.5 line-height */
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
   }
 
   .movie-card__title {
@@ -222,6 +237,9 @@
     font-size: 0.95rem;
     line-height: 1.4;
     margin: 0;
+    height: 4.2em;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
   }
 
   .movie-card__content {
