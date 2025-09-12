@@ -5,6 +5,312 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
   aria-label="Movie Viewer"
   class="movie-viewer"
 >
+  <section
+    aria-label="Filters"
+    class="filter-panel"
+  >
+    <header
+      class="filter-header"
+    >
+      <h2
+        class="filter-title"
+      >
+        Filters
+      </h2>
+      <div
+        class="filter-actions"
+      >
+        <button
+          aria-disabled="true"
+          class="filter-reset-btn"
+          disabled=""
+          type="button"
+        >
+          Clear filters
+        </button>
+      </div>
+    </header>
+    <div
+      class="filter-grid"
+    >
+      <div
+        class="filter-control"
+      >
+        <label
+          class="filter-label"
+          for="genre-select"
+        >
+          Genre
+        </label>
+        <select
+          class="filter-select"
+          id="genre-select"
+        >
+          <option
+            value=""
+          >
+            Any
+          </option>
+        </select>
+      </div>
+      <div
+        class="filter-control"
+      >
+        <label
+          class="filter-label"
+          for="year-select"
+        >
+          Year
+        </label>
+        <select
+          class="filter-select"
+          id="year-select"
+        >
+          <option
+            value=""
+          >
+            Any
+          </option>
+          <option
+            value="2023"
+          >
+            2023
+          </option>
+        </select>
+      </div>
+      <div
+        class="filter-control"
+      >
+        <label
+          class="filter-label"
+        >
+          Rating
+        </label>
+        <div
+          class="rating-range"
+        >
+          <div
+            class="rating-field"
+          >
+            <label
+              class="sub-label"
+              for="min-rating"
+            >
+              Min rating
+            </label>
+            <input
+              id="min-rating"
+              max="10"
+              min="0"
+              step="0.5"
+              type="range"
+              value="0"
+            />
+            <span
+              class="rating-value"
+            >
+              0.0
+            </span>
+          </div>
+          <div
+            class="rating-field"
+          >
+            <label
+              class="sub-label"
+              for="max-rating"
+            >
+              Max rating
+            </label>
+            <input
+              id="max-rating"
+              max="10"
+              min="0"
+              step="0.5"
+              type="range"
+              value="10"
+            />
+            <span
+              class="rating-value"
+            >
+              10.0
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="filter-control"
+      >
+        <label
+          class="filter-label"
+          for="sort-by"
+        >
+          Sort by
+        </label>
+        <select
+          class="filter-select"
+          id="sort-by"
+        >
+          <option
+            value="popularity"
+          >
+            Popularity
+          </option>
+          <option
+            value="rating"
+          >
+            Rating
+          </option>
+          <option
+            value="release_date"
+          >
+            Release date
+          </option>
+          <option
+            value="title"
+          >
+            Title
+          </option>
+        </select>
+      </div>
+      <div
+        class="filter-control"
+      >
+        <label
+          class="filter-label"
+        >
+          Order
+        </label>
+        <div
+          class="order-toggle"
+        >
+          <button
+            aria-pressed="false"
+            class="order-btn "
+            type="button"
+          >
+            Asc
+          </button>
+          <button
+            aria-pressed="true"
+            class="order-btn is-active"
+            type="button"
+          >
+            Desc
+          </button>
+        </div>
+      </div>
+    </div>
+    <aside
+      class="filter-active"
+    >
+      <small
+        class="filter-hint"
+      >
+        No active filters
+      </small>
+    </aside>
+  </section>
+  <aside
+    class="movie-jump-controls"
+  >
+    <label
+      class="jump-label"
+      for="movie-select"
+    >
+      Jump to movie:
+    </label>
+    <select
+      class="movie-select"
+      id="movie-select"
+    >
+      <option
+        value="0"
+      >
+        1
+        . 
+        Third Movie
+      </option>
+      <option
+        value="1"
+      >
+        2
+        . 
+        First Movie
+      </option>
+      <option
+        value="2"
+      >
+        3
+        . 
+        Second Movie
+      </option>
+    </select>
+  </aside>
+  <main
+    class="movie-display"
+  >
+    <article
+      class="movie-card movie-card--large"
+    >
+      <figure
+        class="movie-card__image-container"
+      >
+        <img
+          alt="Third Movie poster"
+          class="movie-card__image"
+          loading="lazy"
+          src="mocked-image-url"
+        />
+      </figure>
+      <section
+        class="movie-card__content"
+      >
+        <header
+          class="movie-card__header"
+        >
+          <h2
+            class="movie-card__title"
+          >
+            Third Movie
+          </h2>
+          <aside
+            class="movie-card__meta"
+          >
+            <time
+              class="movie-card__year"
+              datetime="2023-10-01"
+            >
+              2023
+            </time>
+            <span
+              aria-label="Rating: 9.1 out of 10"
+              class="movie-card__rating"
+            >
+              ★ 
+              9.1
+              /10
+            </span>
+          </aside>
+        </header>
+        <section
+          class="movie-card__overview-container"
+        >
+          <p
+            class="movie-card__overview "
+          >
+            Third movie description
+          </p>
+        </section>
+      </section>
+    </article>
+  </main>
+  <aside
+    class="keyboard-hint"
+  >
+    <p>
+      Use ← → arrow keys to navigate
+    </p>
+  </aside>
   <nav
     aria-label="Movie navigation"
     class="movie-nav-controls"
@@ -33,107 +339,6 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
       Next →
     </button>
   </nav>
-  <main
-    class="movie-display"
-  >
-    <article
-      class="movie-card movie-card--large"
-    >
-      <figure
-        class="movie-card__image-container"
-      >
-        <img
-          alt="First Movie poster"
-          class="movie-card__image"
-          loading="lazy"
-          src="mocked-image-url"
-        />
-      </figure>
-      <section
-        class="movie-card__content"
-      >
-        <header
-          class="movie-card__header"
-        >
-          <h2
-            class="movie-card__title"
-          >
-            First Movie
-          </h2>
-          <aside
-            class="movie-card__meta"
-          >
-            <time
-              class="movie-card__year"
-              datetime="2023-12-25"
-            >
-              2023
-            </time>
-            <span
-              aria-label="Rating: 8.5 out of 10"
-              class="movie-card__rating"
-            >
-              ★ 
-              8.5
-              /10
-            </span>
-          </aside>
-        </header>
-        <section
-          class="movie-card__overview-container"
-        >
-          <p
-            class="movie-card__overview "
-          >
-            First movie description that is long enough to test truncation behavior
-          </p>
-        </section>
-      </section>
-    </article>
-  </main>
-  <aside
-    class="movie-jump-controls"
-  >
-    <label
-      class="jump-label"
-      for="movie-select"
-    >
-      Jump to movie:
-    </label>
-    <select
-      class="movie-select"
-      id="movie-select"
-    >
-      <option
-        value="0"
-      >
-        1
-        . 
-        First Movie
-      </option>
-      <option
-        value="1"
-      >
-        2
-        . 
-        Second Movie
-      </option>
-      <option
-        value="2"
-      >
-        3
-        . 
-        Third Movie
-      </option>
-    </select>
-  </aside>
-  <aside
-    class="keyboard-hint"
-  >
-    <p>
-      Use ← → arrow keys to navigate
-    </p>
-  </aside>
 </section>
 `;
 
@@ -142,6 +347,206 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies
   aria-label="Movie Viewer"
   class="movie-viewer"
 >
+  <section
+    aria-label="Filters"
+    class="filter-panel"
+  >
+    <header
+      class="filter-header"
+    >
+      <h2
+        class="filter-title"
+      >
+        Filters
+      </h2>
+      <div
+        class="filter-actions"
+      >
+        <button
+          aria-disabled="true"
+          class="filter-reset-btn"
+          disabled=""
+          type="button"
+        >
+          Clear filters
+        </button>
+      </div>
+    </header>
+    <div
+      class="filter-grid"
+    >
+      <div
+        class="filter-control"
+      >
+        <label
+          class="filter-label"
+          for="genre-select"
+        >
+          Genre
+        </label>
+        <select
+          class="filter-select"
+          id="genre-select"
+        >
+          <option
+            value=""
+          >
+            Any
+          </option>
+        </select>
+      </div>
+      <div
+        class="filter-control"
+      >
+        <label
+          class="filter-label"
+          for="year-select"
+        >
+          Year
+        </label>
+        <select
+          class="filter-select"
+          id="year-select"
+        >
+          <option
+            value=""
+          >
+            Any
+          </option>
+        </select>
+      </div>
+      <div
+        class="filter-control"
+      >
+        <label
+          class="filter-label"
+        >
+          Rating
+        </label>
+        <div
+          class="rating-range"
+        >
+          <div
+            class="rating-field"
+          >
+            <label
+              class="sub-label"
+              for="min-rating"
+            >
+              Min rating
+            </label>
+            <input
+              id="min-rating"
+              max="10"
+              min="0"
+              step="0.5"
+              type="range"
+              value="0"
+            />
+            <span
+              class="rating-value"
+            >
+              0.0
+            </span>
+          </div>
+          <div
+            class="rating-field"
+          >
+            <label
+              class="sub-label"
+              for="max-rating"
+            >
+              Max rating
+            </label>
+            <input
+              id="max-rating"
+              max="10"
+              min="0"
+              step="0.5"
+              type="range"
+              value="10"
+            />
+            <span
+              class="rating-value"
+            >
+              10.0
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="filter-control"
+      >
+        <label
+          class="filter-label"
+          for="sort-by"
+        >
+          Sort by
+        </label>
+        <select
+          class="filter-select"
+          id="sort-by"
+        >
+          <option
+            value="popularity"
+          >
+            Popularity
+          </option>
+          <option
+            value="rating"
+          >
+            Rating
+          </option>
+          <option
+            value="release_date"
+          >
+            Release date
+          </option>
+          <option
+            value="title"
+          >
+            Title
+          </option>
+        </select>
+      </div>
+      <div
+        class="filter-control"
+      >
+        <label
+          class="filter-label"
+        >
+          Order
+        </label>
+        <div
+          class="order-toggle"
+        >
+          <button
+            aria-pressed="false"
+            class="order-btn "
+            type="button"
+          >
+            Asc
+          </button>
+          <button
+            aria-pressed="true"
+            class="order-btn is-active"
+            type="button"
+          >
+            Desc
+          </button>
+        </div>
+      </div>
+    </div>
+    <aside
+      class="filter-active"
+    >
+      <small
+        class="filter-hint"
+      >
+        No active filters
+      </small>
+    </aside>
+  </section>
   <p
     class="no-movies"
   >
@@ -155,36 +560,234 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
   aria-label="Movie Viewer"
   class="movie-viewer"
 >
-  <nav
-    aria-label="Movie navigation"
-    class="movie-nav-controls"
+  <section
+    aria-label="Filters"
+    class="filter-panel"
   >
-    <button
-      aria-label="Previous movie"
-      class="nav-btn nav-btn--prev"
-      disabled=""
+    <header
+      class="filter-header"
     >
-      ← Previous
-    </button>
+      <h2
+        class="filter-title"
+      >
+        Filters
+      </h2>
+      <div
+        class="filter-actions"
+      >
+        <button
+          aria-disabled="true"
+          class="filter-reset-btn"
+          disabled=""
+          type="button"
+        >
+          Clear filters
+        </button>
+      </div>
+    </header>
+    <div
+      class="filter-grid"
+    >
+      <div
+        class="filter-control"
+      >
+        <label
+          class="filter-label"
+          for="genre-select"
+        >
+          Genre
+        </label>
+        <select
+          class="filter-select"
+          id="genre-select"
+        >
+          <option
+            value=""
+          >
+            Any
+          </option>
+        </select>
+      </div>
+      <div
+        class="filter-control"
+      >
+        <label
+          class="filter-label"
+          for="year-select"
+        >
+          Year
+        </label>
+        <select
+          class="filter-select"
+          id="year-select"
+        >
+          <option
+            value=""
+          >
+            Any
+          </option>
+          <option
+            value="2023"
+          >
+            2023
+          </option>
+        </select>
+      </div>
+      <div
+        class="filter-control"
+      >
+        <label
+          class="filter-label"
+        >
+          Rating
+        </label>
+        <div
+          class="rating-range"
+        >
+          <div
+            class="rating-field"
+          >
+            <label
+              class="sub-label"
+              for="min-rating"
+            >
+              Min rating
+            </label>
+            <input
+              id="min-rating"
+              max="10"
+              min="0"
+              step="0.5"
+              type="range"
+              value="0"
+            />
+            <span
+              class="rating-value"
+            >
+              0.0
+            </span>
+          </div>
+          <div
+            class="rating-field"
+          >
+            <label
+              class="sub-label"
+              for="max-rating"
+            >
+              Max rating
+            </label>
+            <input
+              id="max-rating"
+              max="10"
+              min="0"
+              step="0.5"
+              type="range"
+              value="10"
+            />
+            <span
+              class="rating-value"
+            >
+              10.0
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="filter-control"
+      >
+        <label
+          class="filter-label"
+          for="sort-by"
+        >
+          Sort by
+        </label>
+        <select
+          class="filter-select"
+          id="sort-by"
+        >
+          <option
+            value="popularity"
+          >
+            Popularity
+          </option>
+          <option
+            value="rating"
+          >
+            Rating
+          </option>
+          <option
+            value="release_date"
+          >
+            Release date
+          </option>
+          <option
+            value="title"
+          >
+            Title
+          </option>
+        </select>
+      </div>
+      <div
+        class="filter-control"
+      >
+        <label
+          class="filter-label"
+        >
+          Order
+        </label>
+        <div
+          class="order-toggle"
+        >
+          <button
+            aria-pressed="false"
+            class="order-btn "
+            type="button"
+          >
+            Asc
+          </button>
+          <button
+            aria-pressed="true"
+            class="order-btn is-active"
+            type="button"
+          >
+            Desc
+          </button>
+        </div>
+      </div>
+    </div>
     <aside
-      class="movie-position"
+      class="filter-active"
     >
-      <span
-        class="position-text"
+      <small
+        class="filter-hint"
+      >
+        No active filters
+      </small>
+    </aside>
+  </section>
+  <aside
+    class="movie-jump-controls"
+  >
+    <label
+      class="jump-label"
+      for="movie-select"
+    >
+      Jump to movie:
+    </label>
+    <select
+      class="movie-select"
+      disabled=""
+      id="movie-select"
+    >
+      <option
+        value="0"
       >
         1
-         of 
-        1
-      </span>
-    </aside>
-    <button
-      aria-label="Next movie"
-      class="nav-btn nav-btn--next"
-      disabled=""
-    >
-      Next →
-    </button>
-  </nav>
+        . 
+        First Movie
+      </option>
+    </select>
+  </aside>
   <main
     class="movie-display"
   >
@@ -244,34 +847,41 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
     </article>
   </main>
   <aside
-    class="movie-jump-controls"
-  >
-    <label
-      class="jump-label"
-      for="movie-select"
-    >
-      Jump to movie:
-    </label>
-    <select
-      class="movie-select"
-      disabled=""
-      id="movie-select"
-    >
-      <option
-        value="0"
-      >
-        1
-        . 
-        First Movie
-      </option>
-    </select>
-  </aside>
-  <aside
     class="keyboard-hint"
   >
     <p>
       Use ← → arrow keys to navigate
     </p>
   </aside>
+  <nav
+    aria-label="Movie navigation"
+    class="movie-nav-controls"
+  >
+    <button
+      aria-label="Previous movie"
+      class="nav-btn nav-btn--prev"
+      disabled=""
+    >
+      ← Previous
+    </button>
+    <aside
+      class="movie-position"
+    >
+      <span
+        class="position-text"
+      >
+        1
+         of 
+        1
+      </span>
+    </aside>
+    <button
+      aria-label="Next movie"
+      class="nav-btn nav-btn--next"
+      disabled=""
+    >
+      Next →
+    </button>
+  </nav>
 </section>
 `;

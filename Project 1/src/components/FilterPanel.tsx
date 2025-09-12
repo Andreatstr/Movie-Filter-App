@@ -97,8 +97,8 @@ export default function FilterPanel({
           <label className="filter-label">Rating</label>
           <div className="rating-range">
             <div className="rating-field">
-              <label htmlFor="min-rating" className="sr-only">
-                Minimum rating
+              <label htmlFor="min-rating" className="sub-label">
+                Min rating
               </label>
               <input
                 id="min-rating"
@@ -113,8 +113,8 @@ export default function FilterPanel({
             </div>
 
             <div className="rating-field">
-              <label htmlFor="max-rating" className="sr-only">
-                Maximum rating
+              <label htmlFor="max-rating" className="sub-label">
+                Max rating
               </label>
               <input
                 id="max-rating"
