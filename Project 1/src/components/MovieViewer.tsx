@@ -97,6 +97,22 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
   const currentMovie = filteredMovies[currentIndex];
   const totalMovies = filteredMovies.length;
 
+  if (!currentMovie) {
+    return (
+      <section className="movie-viewer" aria-label="Movie Viewer">
+        <FilterPanel
+          movies={movies}
+          genres={genresData?.genres ?? []}
+          filters={filters}
+          setFilters={setFilters}
+          reset={reset}
+          hasActiveFilters={hasActiveFilters}
+        />
+        <p className="no-movies">No movies available</p>
+      </section>
+    );
+  }
+
   return (
     <section className="movie-viewer" aria-label="Movie Viewer">
       <FilterPanel
