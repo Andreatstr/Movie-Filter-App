@@ -1,10 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple movies 1`] = `
-<div
+<section
+  aria-label="Movie Viewer"
   class="movie-viewer"
 >
-  <div
+  <nav
+    aria-label="Movie navigation"
     class="movie-nav-controls"
   >
     <button
@@ -13,7 +15,7 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
     >
       ← Previous
     </button>
-    <div
+    <aside
       class="movie-position"
     >
       <span
@@ -23,15 +25,15 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
          of 
         3
       </span>
-    </div>
+    </aside>
     <button
       aria-label="Next movie"
       class="nav-btn nav-btn--next"
     >
       Next →
     </button>
-  </div>
-  <div
+  </nav>
+  <main
     class="movie-display"
   >
     <article
@@ -50,29 +52,34 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
       <section
         class="movie-card__content"
       >
-        <h2
-          class="movie-card__title"
+        <header
+          class="movie-card__header"
         >
-          First Movie
-        </h2>
-        <aside
-          class="movie-card__meta"
-        >
-          <span
-            class="movie-card__year"
+          <h2
+            class="movie-card__title"
           >
-            2023
-          </span>
-          <span
-            aria-label="Rating: 8.5 out of 10"
-            class="movie-card__rating"
+            First Movie
+          </h2>
+          <aside
+            class="movie-card__meta"
           >
-            ★ 
-            8.5
-            /10
-          </span>
-        </aside>
-        <div
+            <time
+              class="movie-card__year"
+              datetime="2023-12-25"
+            >
+              2023
+            </time>
+            <span
+              aria-label="Rating: 8.5 out of 10"
+              class="movie-card__rating"
+            >
+              ★ 
+              8.5
+              /10
+            </span>
+          </aside>
+        </header>
+        <section
           class="movie-card__overview-container"
         >
           <p
@@ -80,11 +87,11 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
           >
             First movie description that is long enough to test truncation behavior
           </p>
-        </div>
+        </section>
       </section>
     </article>
-  </div>
-  <div
+  </main>
+  <aside
     class="movie-jump-controls"
   >
     <label
@@ -119,19 +126,20 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
         Third Movie
       </option>
     </select>
-  </div>
-  <div
+  </aside>
+  <aside
     class="keyboard-hint"
   >
     <p>
       Use ← → arrow keys to navigate
     </p>
-  </div>
-</div>
+  </aside>
+</section>
 `;
 
 exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies 1`] = `
-<div
+<section
+  aria-label="Movie Viewer"
   class="movie-viewer"
 >
   <p
@@ -139,14 +147,16 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies
   >
     No movies available
   </p>
-</div>
+</section>
 `;
 
 exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single movie 1`] = `
-<div
+<section
+  aria-label="Movie Viewer"
   class="movie-viewer"
 >
-  <div
+  <nav
+    aria-label="Movie navigation"
     class="movie-nav-controls"
   >
     <button
@@ -156,7 +166,7 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
     >
       ← Previous
     </button>
-    <div
+    <aside
       class="movie-position"
     >
       <span
@@ -166,7 +176,7 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
          of 
         1
       </span>
-    </div>
+    </aside>
     <button
       aria-label="Next movie"
       class="nav-btn nav-btn--next"
@@ -174,8 +184,8 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
     >
       Next →
     </button>
-  </div>
-  <div
+  </nav>
+  <main
     class="movie-display"
   >
     <article
@@ -194,29 +204,34 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
       <section
         class="movie-card__content"
       >
-        <h2
-          class="movie-card__title"
+        <header
+          class="movie-card__header"
         >
-          First Movie
-        </h2>
-        <aside
-          class="movie-card__meta"
-        >
-          <span
-            class="movie-card__year"
+          <h2
+            class="movie-card__title"
           >
-            2023
-          </span>
-          <span
-            aria-label="Rating: 8.5 out of 10"
-            class="movie-card__rating"
+            First Movie
+          </h2>
+          <aside
+            class="movie-card__meta"
           >
-            ★ 
-            8.5
-            /10
-          </span>
-        </aside>
-        <div
+            <time
+              class="movie-card__year"
+              datetime="2023-12-25"
+            >
+              2023
+            </time>
+            <span
+              aria-label="Rating: 8.5 out of 10"
+              class="movie-card__rating"
+            >
+              ★ 
+              8.5
+              /10
+            </span>
+          </aside>
+        </header>
+        <section
           class="movie-card__overview-container"
         >
           <p
@@ -224,11 +239,11 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
           >
             First movie description that is long enough to test truncation behavior
           </p>
-        </div>
+        </section>
       </section>
     </article>
-  </div>
-  <div
+  </main>
+  <aside
     class="movie-jump-controls"
   >
     <label
@@ -250,13 +265,13 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
         First Movie
       </option>
     </select>
-  </div>
-  <div
+  </aside>
+  <aside
     class="keyboard-hint"
   >
     <p>
       Use ← → arrow keys to navigate
     </p>
-  </div>
-</div>
+  </aside>
+</section>
 `;

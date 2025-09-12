@@ -79,17 +79,24 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
         )}
       </figure>
       <section className="movie-card__content">
-        <h2 className="movie-card__title">{title}</h2>
-        <aside className="movie-card__meta">
-          <span className="movie-card__year">{year}</span>
-          <span
-            className="movie-card__rating"
-            aria-label={`Rating: ${rating} out of 10`}
-          >
-            ★ {rating}/10
-          </span>
-        </aside>
-        <div className="movie-card__overview-container">
+        <header className="movie-card__header">
+          <h2 className="movie-card__title">{title}</h2>
+          <aside className="movie-card__meta">
+            <time
+              className="movie-card__year"
+              dateTime={movie.release_date || undefined}
+            >
+              {year}
+            </time>
+            <span
+              className="movie-card__rating"
+              aria-label={`Rating: ${rating} out of 10`}
+            >
+              ★ {rating}/10
+            </span>
+          </aside>
+        </header>
+        <section className="movie-card__overview-container">
           <p
             ref={overviewRef}
             className={`movie-card__overview ${
@@ -107,7 +114,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
               {isExpanded ? 'Show less' : 'Show more'}
             </button>
           )}
-        </div>
+        </section>
       </section>
     </article>
   );

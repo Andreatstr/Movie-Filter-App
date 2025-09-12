@@ -61,9 +61,9 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
   // Handle edge case no movies
   if (!movies || movies.length === 0) {
     return (
-      <div className="movie-viewer">
+      <section className="movie-viewer" aria-label="Movie Viewer">
         <p className="no-movies">No movies available</p>
-      </div>
+      </section>
     );
   }
 
@@ -71,9 +71,9 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
   const totalMovies = movies.length;
 
   return (
-    <div className="movie-viewer">
+    <section className="movie-viewer" aria-label="Movie Viewer">
       {/* Navigation Controls */}
-      <div className="movie-nav-controls">
+      <nav className="movie-nav-controls" aria-label="Movie navigation">
         <button
           className="nav-btn nav-btn--prev"
           onClick={goToPrevious}
@@ -83,11 +83,11 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
           ← Previous
         </button>
 
-        <div className="movie-position">
+        <aside className="movie-position">
           <span className="position-text">
             {currentIndex + 1} of {totalMovies}
           </span>
-        </div>
+        </aside>
 
         <button
           className="nav-btn nav-btn--next"
@@ -97,15 +97,15 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
         >
           Next →
         </button>
-      </div>
+      </nav>
 
       {/* Movie Card Display */}
-      <div className="movie-display">
+      <main className="movie-display">
         <MovieCard movie={currentMovie} size="large" />
-      </div>
+      </main>
 
       {/* Jump to Movie Dropdown */}
-      <div className="movie-jump-controls">
+      <aside className="movie-jump-controls">
         <label htmlFor="movie-select" className="jump-label">
           Jump to movie:
         </label>
@@ -122,12 +122,12 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
             </option>
           ))}
         </select>
-      </div>
+      </aside>
 
       {/* Keyboard Instructions */}
-      <div className="keyboard-hint">
+      <aside className="keyboard-hint">
         <p>Use ← → arrow keys to navigate</p>
-      </div>
-    </div>
+      </aside>
+    </section>
   );
 };
