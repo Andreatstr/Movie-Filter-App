@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useRef, useEffect} from 'react';
 import type {Movie} from '../types/movie';
 import {tmdbApi} from '../services/tmdbApi';
 import '../styles/MovieCard.css';
@@ -10,6 +10,10 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
   const [imageError, setImageError] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isTruncated, setIsTruncated] = useState(false);
+  const overviewRef = useRef<HTMLParagraphElement>(null);
+  
   const year = movie.release_date
     ? new Date(movie.release_date).getFullYear()
     : 'Missing year';
@@ -17,6 +21,43 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
   const title = movie.title || 'Title Missing';
 
   const showPlaceholder = !movie.poster_path || imageError;
+
+  useEffect(() => {
+    // Reset expanded state when movie changes
+    setIsExpanded(false);
+    
+    const checkTruncation = () => {
+      const element = overviewRef.current;
+      if (element) {
+        // Check if the content is being truncated
+        const isOverflowing = element.scrollHeight > element.clientHeight;
+        setIsTruncated(isOverflowing);
+      }
+    };
+
+    // Check on mount and when text changes
+    checkTruncation();
+    
+    // Also check after a small delay to ensure CSS is applied
+    const timer = setTimeout(checkTruncation, 100);
+    
+    // Add resize event listener to recheck on viewport changes
+    const handleResize = () => {
+      // Small delay to ensure layout has updated
+      setTimeout(checkTruncation, 50);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [movie.overview, size, movie.id]);
+
+  const toggleExpanded = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   return (
     <article className={`movie-card movie-card--${size}`}>
@@ -48,9 +89,25 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
             ★ {rating}/10
           </span>
         </aside>
-        <p className="movie-card__overview">
-          {movie.overview || "No description available."}
-        </p>
+        <div className="movie-card__overview-container">
+          <p
+            ref={overviewRef}
+            className={`movie-card__overview ${
+              isExpanded ? 'movie-card__overview--expanded' : ''
+            }`}
+          >
+            {movie.overview || 'No description available.'}
+          </p>
+          {isTruncated && (
+            <button
+              className="movie-card__expand-btn"
+              onClick={toggleExpanded}
+              aria-expanded={isExpanded}
+            >
+              {isExpanded ? 'Show less' : 'Show more'}
+            </button>
+          )}
+        </div>
       </section>
     </article>
   );

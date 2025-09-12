@@ -49,12 +49,12 @@
   font-size: 1.1rem;
   line-height: 1.6;
   margin: 0;
-  height: 8em; /* 5 lines of text at 1.6 line-height */
+  height: 8em;
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 5;
-  line-clamp: 5; /* Modern standard property */
+  line-clamp: 5;
 }
 
 .movie-card__image-container {
@@ -141,10 +141,49 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
-  line-clamp: 3; /* Modern standard property */
+  line-clamp: 3; 
 }
 
-/* Responsive adjustments */
+/* New styles for expanded overview */
+.movie-card__overview-container {
+  position: relative;
+}
+
+.movie-card__overview--expanded {
+  height: auto !important;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
+}
+
+.movie-card__expand-btn {
+  background: none;
+  border: none;
+  color: #646cff;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  margin-top: 0.5rem;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.movie-card__expand-btn:hover {
+  color: #535bf2;
+}
+
+.movie-card__expand-btn:focus {
+  outline: 2px solid #646cff;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* For large cards */
+.movie-card--large .movie-card__expand-btn {
+  font-size: 0.9rem;
+}
+
+
 @media (max-width: 768px) {
   .movie-card--large {
     width: 280px;
@@ -180,7 +219,7 @@
     font-size: 1rem;
     line-height: 1.5;
     margin: 0;
-    height: 6em; /* 4 lines at 1.5 line-height */
+    height: 6em;
     -webkit-line-clamp: 4;
     line-clamp: 4;
   }

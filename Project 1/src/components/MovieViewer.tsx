@@ -58,7 +58,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     setCurrentIndex(index);
   };
 
-  // Handle edge cases
+  // Handle edge case no movies
   if (!movies || movies.length === 0) {
     return (
       <div className="movie-viewer">
