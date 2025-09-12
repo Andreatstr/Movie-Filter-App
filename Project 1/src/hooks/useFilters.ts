@@ -28,7 +28,7 @@ function normalizeFilters(
   const sortByValues = ['popularity', 'rating', 'release_date', 'title'] as const;
   const sortOrderValues = ['asc', 'desc'] as const;
 
-  const sortBy = sortByValues.includes(f?.sortBy as any)
+  const sortBy = sortByValues.includes(f?.sortBy as (typeof sortByValues)[number])
     ? (f!.sortBy as MovieFilters['sortBy'])
     : (prev?.sortBy ?? DEFAULT_FILTERS.sortBy);
 
@@ -40,12 +40,12 @@ function normalizeFilters(
   const hasSortByInPatch = patch ? Object.prototype.hasOwnProperty.call(patch, 'sortBy') : false;
 
   if (hasSortOrderInPatch) {
-    sortOrder = sortOrderValues.includes(patch!.sortOrder as any)
+    sortOrder = sortOrderValues.includes(patch!.sortOrder as (typeof sortOrderValues)[number])
       ? (patch!.sortOrder as MovieFilters['sortOrder'])
       : defaultOrderFor(sortBy);
   } else if (hasSortByInPatch) {
     sortOrder = defaultOrderFor(sortBy);
-  } else if (sortOrderValues.includes(f?.sortOrder as any)) {
+  } else if (sortOrderValues.includes(f?.sortOrder as (typeof sortOrderValues)[number])) {
     sortOrder = f!.sortOrder as MovieFilters['sortOrder'];
   } else {
     sortOrder = prev?.sortOrder ?? defaultOrderFor(sortBy);
