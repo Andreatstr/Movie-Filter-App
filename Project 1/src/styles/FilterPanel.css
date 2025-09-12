@@ -1,0 +1,153 @@
+.filter-panel {
+  border: 1px solid #e6e8f0;
+  border-radius: 10px;
+  padding: 1rem;
+  background: #fff;
+  color: #333;
+}
+
+.filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.filter-title {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.filter-actions {
+}
+
+.filter-reset-btn {
+  border: 1px solid #d0d4f7;
+  background: #f4f6ff;
+  color: #3f46d6;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.filter-reset-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .filter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 900px) {
+  .filter-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.filter-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.filter-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.filter-select {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #dfe3f0;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+}
+
+.rating-range {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.rating-field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rating-value {
+  min-width: 2.5rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.order-toggle {
+  display: inline-flex;
+  border: 1px solid #dfe3f0;
+  border-radius: 6px;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.order-btn {
+  background: #fff;
+  border: none;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.order-btn.is-active {
+  background: #eef0ff;
+  color: #3f46d6;
+}
+
+.filter-active {
+  margin-top: 0.75rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  background: #f2f4ff;
+  color: #2f36c0;
+  border: 1px solid #d0d4f7;
+  border-radius: 9999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+.filter-hint {
+  color: #6b7280;
+}
+
+.filter-error {
+  color: #b91c1c;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
