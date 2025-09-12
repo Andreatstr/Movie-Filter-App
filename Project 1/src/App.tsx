@@ -1,20 +1,18 @@
 import {useQuery} from '@tanstack/react-query';
 import {tmdbApi} from './services/tmdbApi';
-import MovieCard from './components/MovieCard';
+import {MovieViewer} from './components/MovieViewer';
 import './App.css';
 
 function App() {
   const {data, isLoading, error} = useQuery({
-    queryKey: ['movies', 'popular'],
+    queryKey: ['popularMovies'],
     queryFn: () => tmdbApi.getPopularMovies(1),
   });
 
   if (isLoading) {
     return (
       <main className="app">
-        <section className="loading" aria-live="polite">
-          Loading movies...
-        </section>
+        <div className="loading">Loading movies...</div>
       </main>
     );
   }
@@ -22,26 +20,23 @@ function App() {
   if (error) {
     return (
       <main className="app">
-        <section className="error" role="alert">
-          Error: {(error as Error).message}
-        </section>
+        <div className="error">
+          Error loading movies: {error instanceof Error ? error.message : 'Unknown error'}
+        </div>
       </main>
     );
   }
 
-  const movies = data?.results.slice(0, 1) || [];
+  const movies = data?.results || [];
 
   return (
     <main className="app">
       <header className="app-header">
-        <h1>Movie Card Demo</h1>
-        <p>Displaying popular movies from TMDB</p>
+        <h1>Movie Browser</h1>
+        <p>Discover popular movies</p>
       </header>
-      <section className="app-main">
-        {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} size="large" />
-        ))}
-      </section>
+      
+      <MovieViewer movies={movies} />
     </main>
   );
 }
