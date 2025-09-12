@@ -12,7 +12,9 @@ function App() {
   if (isLoading) {
     return (
       <main className="app">
-        <div className="loading">Loading movies...</div>
+        <section className="loading" aria-live="polite">
+          Loading movies...
+        </section>
       </main>
     );
   }
@@ -20,10 +22,9 @@ function App() {
   if (error) {
     return (
       <main className="app">
-        <div className="error">
-          Error loading movies:{' '}
-          {error instanceof Error ? error.message : 'Unknown error'}
-        </div>
+        <section className="error" role="alert">
+          Error: {(error as Error).message}
+        </section>
       </main>
     );
   }
@@ -33,8 +34,8 @@ function App() {
   return (
     <main className="app">
       <header className="app-header">
-        <h1>Movie Browser</h1>
-        <p>Discover popular movies</p>
+        <h1>Movie Card Demo</h1>
+        <p>Displaying popular movies from TMDB</p>
       </header>
 
       <MovieViewer movies={movies} />
