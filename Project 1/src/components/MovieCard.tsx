@@ -23,35 +23,40 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
   const showPlaceholder = !movie.poster_path || imageError;
 
   useEffect(() => {
-    // Reset expanded state when movie changes
     setIsExpanded(false);
 
     const checkTruncation = () => {
       const element = overviewRef.current;
       if (element) {
-        // Check if the content is being truncated
+        const wasExpanded = element.classList.contains(
+          'movie-card__overview--expanded'
+        );
+        if (wasExpanded) {
+          element.classList.remove('movie-card__overview--expanded');
+        }
+
         const isOverflowing = element.scrollHeight > element.clientHeight;
         setIsTruncated(isOverflowing);
+
+        if (wasExpanded) {
+          element.classList.add('movie-card__overview--expanded');
+        }
       }
     };
 
-    // Check on mount and when text changes
-    checkTruncation();
+    // Initial check
+    requestAnimationFrame(checkTruncation);
 
-    // Also check after a small delay to ensure CSS is applied
-    const timer = setTimeout(checkTruncation, 100);
+    const resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(checkTruncation);
+    });
 
-    // Add resize event listener to recheck on viewport changes
-    const handleResize = () => {
-      // Small delay to ensure layout has updated
-      setTimeout(checkTruncation, 50);
-    };
-
-    window.addEventListener('resize', handleResize);
+    if (overviewRef.current) {
+      resizeObserver.observe(overviewRef.current);
+    }
 
     return () => {
-      clearTimeout(timer);
-      window.removeEventListener('resize', handleResize);
+      resizeObserver.disconnect();
     };
   }, [movie.overview, size, movie.id]);
 

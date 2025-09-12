@@ -1,4 +1,3 @@
-/* Mobile-first base styles */
 .movie-viewer {
   max-width: 800px;
   margin: 0 auto;
@@ -115,7 +114,7 @@
   padding: 2rem;
 }
 
-/* Tablet and up (min-width: 768px) */
+/* Tablet and up */
 @media (min-width: 768px) {
   .movie-viewer {
     padding: 1.5rem;
@@ -164,7 +163,7 @@
   }
 }
 
-/* Desktop and up (min-width: 1024px) */
+/* Desktop and up*/
 @media (min-width: 1024px) {
   .movie-viewer {
     padding: 2rem;

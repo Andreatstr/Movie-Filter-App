@@ -22,7 +22,6 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
     );
   }, [movies.length]);
 
-  // Handle keyboard navigation
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === 'ArrowLeft') {
@@ -58,7 +57,6 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
     setCurrentIndex(index);
   };
 
-  // Handle edge case no movies
   if (!movies || movies.length === 0) {
     return (
       <section className="movie-viewer" aria-label="Movie Viewer">
@@ -72,7 +70,6 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
 
   return (
     <section className="movie-viewer" aria-label="Movie Viewer">
-      {/* Navigation Controls */}
       <nav className="movie-nav-controls" aria-label="Movie navigation">
         <button
           className="nav-btn nav-btn--prev"
@@ -99,12 +96,10 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
         </button>
       </nav>
 
-      {/* Movie Card Display */}
       <main className="movie-display">
         <MovieCard movie={currentMovie} size="large" />
       </main>
 
-      {/* Jump to Movie Dropdown */}
       <aside className="movie-jump-controls">
         <label htmlFor="movie-select" className="jump-label">
           Jump to movie:
@@ -124,7 +119,6 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
         </select>
       </aside>
 
-      {/* Keyboard Instructions */}
       <aside className="keyboard-hint">
         <p>Use ← → arrow keys to navigate</p>
       </aside>
