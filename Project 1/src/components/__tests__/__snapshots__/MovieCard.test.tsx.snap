@@ -2,7 +2,7 @@
 
 exports[`MovieCard > Snapshot Tests > should render MovieCard with complete movie data 1`] = `
 <article
-  class="movie-card"
+  class="movie-card movie-card--medium"
 >
   <figure
     class="movie-card__image-container"
@@ -36,15 +36,25 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with complete movi
       >
         ★ 
         8.5
+        /10
       </span>
     </aside>
+    <div
+      class="movie-card__overview-container"
+    >
+      <p
+        class="movie-card__overview "
+      >
+        A test movie description
+      </p>
+    </div>
   </section>
 </article>
 `;
 
 exports[`MovieCard > Snapshot Tests > should render MovieCard with missing data 1`] = `
 <article
-  class="movie-card"
+  class="movie-card movie-card--medium"
 >
   <figure
     class="movie-card__image-container"
@@ -77,15 +87,25 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing data 
       >
         ★ 
         N/A
+        /10
       </span>
     </aside>
+    <div
+      class="movie-card__overview-container"
+    >
+      <p
+        class="movie-card__overview "
+      >
+        A test movie description
+      </p>
+    </div>
   </section>
 </article>
 `;
 
 exports[`MovieCard > Snapshot Tests > should render MovieCard with missing poster 1`] = `
 <article
-  class="movie-card"
+  class="movie-card movie-card--medium"
 >
   <figure
     class="movie-card__image-container"
@@ -118,8 +138,18 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing poste
       >
         ★ 
         8.5
+        /10
       </span>
     </aside>
+    <div
+      class="movie-card__overview-container"
+    >
+      <p
+        class="movie-card__overview "
+      >
+        A test movie description
+      </p>
+    </div>
   </section>
 </article>
 `;
