@@ -1,7 +1,11 @@
 .movie-viewer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   max-width: 800px;
-  margin: 0 auto;
   padding: 1rem;
+  width: 100%;
 }
 
 .movie-nav-controls {
@@ -20,7 +24,6 @@
   border-radius: 8px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
   min-width: 80px;
   font-size: 0.9rem;
 }
@@ -84,6 +87,7 @@
   font-size: 1rem;
   cursor: pointer;
   width: 100%;
+  height: 48px;
 }
 
 .movie-select:focus {

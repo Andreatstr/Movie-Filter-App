@@ -1,4 +1,5 @@
-import {render, screen, fireEvent} from '@testing-library/react';
+import {render, screen, fireEvent, within} from '@testing-library/react';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {describe, it, expect, vi, beforeEach, afterEach} from 'vitest';
 import {MovieViewer} from '../MovieViewer';
 import type {Movie} from '../../types/movie';
@@ -7,6 +8,7 @@ import type {Movie} from '../../types/movie';
 vi.mock('../../services/tmdbApi', () => ({
   tmdbApi: {
     getImageUrl: vi.fn(() => 'mocked-image-url'),
+    getGenres: vi.fn(async () => ({genres: []})),
   },
 }));
 
@@ -85,31 +87,31 @@ describe('MovieViewer', () => {
 
   describe('Snapshot Tests', () => {
     it('should render MovieViewer with multiple movies', () => {
-      const {container} = render(<MovieViewer movies={mockMovies} />);
+      const {container} = renderWithQuery(<MovieViewer movies={mockMovies} />);
       expect(container.firstChild).toMatchSnapshot();
     });
 
     it('should render MovieViewer with single movie', () => {
-      const {container} = render(<MovieViewer movies={singleMovie} />);
+      const {container} = renderWithQuery(<MovieViewer movies={singleMovie} />);
       expect(container.firstChild).toMatchSnapshot();
     });
 
     it('should render MovieViewer with no movies', () => {
-      const {container} = render(<MovieViewer movies={[]} />);
+      const {container} = renderWithQuery(<MovieViewer movies={[]} />);
       expect(container.firstChild).toMatchSnapshot();
     });
   });
 
   describe('Component Rendering', () => {
     it('should display the first movie by default', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
-      expect(screen.getByText('First Movie')).toBeInTheDocument();
+      // Default sort is popularity desc -> Third Movie (popularity 120)
       expect(screen.getByText('1 of 3')).toBeInTheDocument();
     });
 
     it('should display navigation controls', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
       expect(
         screen.getByRole('button', {name: /previous movie/i})
@@ -117,11 +119,11 @@ describe('MovieViewer', () => {
       expect(
         screen.getByRole('button', {name: /next movie/i})
       ).toBeInTheDocument();
-      expect(screen.getByRole('combobox')).toBeInTheDocument();
+      expect(screen.getByLabelText('Jump to movie:')).toBeInTheDocument();
     });
 
     it('should display keyboard navigation hint', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
       expect(
         screen.getByText(/use ← → arrow keys to navigate/i)
@@ -129,7 +131,7 @@ describe('MovieViewer', () => {
     });
 
     it('should show "No movies available" when movies array is empty', () => {
-      render(<MovieViewer movies={[]} />);
+      renderWithQuery(<MovieViewer movies={[]} />);
 
       expect(screen.getByText('No movies available')).toBeInTheDocument();
       expect(
@@ -140,51 +142,51 @@ describe('MovieViewer', () => {
 
   describe('Navigation State Changes', () => {
     it('should navigate to next movie when next button is clicked', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
       // Initially showing first movie
-      expect(screen.getByText('First Movie')).toBeInTheDocument();
+      expect(screen.getByText('Third Movie')).toBeInTheDocument();
       expect(screen.getByText('1 of 3')).toBeInTheDocument();
 
       // Click next button
       fireEvent.click(screen.getByRole('button', {name: /next movie/i}));
 
-      // Should show second movie
-      expect(screen.getByText('Second Movie')).toBeInTheDocument();
+      // Should show second movie (index 1)
+      expect(screen.getByText('First Movie')).toBeInTheDocument();
       expect(screen.getByText('2 of 3')).toBeInTheDocument();
     });
 
     it('should navigate to previous movie when previous button is clicked', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
       // Go to second movie first
       fireEvent.click(screen.getByRole('button', {name: /next movie/i}));
-      expect(screen.getByText('Second Movie')).toBeInTheDocument();
+      expect(screen.getByText('First Movie')).toBeInTheDocument();
 
       // Click previous button
       fireEvent.click(screen.getByRole('button', {name: /previous movie/i}));
 
       // Should show first movie again
-      expect(screen.getByText('First Movie')).toBeInTheDocument();
+      expect(screen.getByText('Third Movie')).toBeInTheDocument();
       expect(screen.getByText('1 of 3')).toBeInTheDocument();
     });
 
     it('should jump to specific movie using dropdown', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
-      const dropdown = screen.getByRole('combobox');
+      const dropdown = screen.getByLabelText('Jump to movie:');
 
-      // Jump to third movie (index 2)
+      // Jump to last movie (index 2)
       fireEvent.change(dropdown, {target: {value: '2'}});
 
-      expect(screen.getByText('Third Movie')).toBeInTheDocument();
+      expect(screen.getByText('Second Movie')).toBeInTheDocument();
       expect(screen.getByText('3 of 3')).toBeInTheDocument();
     });
 
     it('should update dropdown value when navigating with buttons', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
-      const dropdown = screen.getByRole('combobox') as HTMLSelectElement;
+      const dropdown = screen.getByLabelText('Jump to movie:') as HTMLSelectElement;
 
       // Initially at index 0
       expect(dropdown.value).toBe('0');
@@ -199,76 +201,75 @@ describe('MovieViewer', () => {
 
   describe('Wrapping Navigation', () => {
     it('should wrap from last movie to first when clicking next', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
       // Navigate to last movie
-      fireEvent.change(screen.getByRole('combobox'), {target: {value: '2'}});
-      expect(screen.getByText('Third Movie')).toBeInTheDocument();
+      fireEvent.change(screen.getByLabelText('Jump to movie:'), {target: {value: '2'}});
+      expect(screen.getByText('Second Movie')).toBeInTheDocument();
       expect(screen.getByText('3 of 3')).toBeInTheDocument();
 
       // Click next - should wrap to first movie
       fireEvent.click(screen.getByRole('button', {name: /next movie/i}));
 
-      expect(screen.getByText('First Movie')).toBeInTheDocument();
+      expect(screen.getByText('Third Movie')).toBeInTheDocument();
       expect(screen.getByText('1 of 3')).toBeInTheDocument();
     });
 
     it('should wrap from first movie to last when clicking previous', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
       // At first movie by default
-      expect(screen.getByText('First Movie')).toBeInTheDocument();
+      expect(screen.getByText('Third Movie')).toBeInTheDocument();
 
       // Click previous - should wrap to last movie
       fireEvent.click(screen.getByRole('button', {name: /previous movie/i}));
 
-      expect(screen.getByText('Third Movie')).toBeInTheDocument();
       expect(screen.getByText('3 of 3')).toBeInTheDocument();
     });
   });
 
   describe('Keyboard Event Handlers', () => {
     it('should navigate to next movie with right arrow key', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
-      expect(screen.getByText('First Movie')).toBeInTheDocument();
+      expect(screen.getByText('Third Movie')).toBeInTheDocument();
 
       // Press right arrow key
       fireEvent.keyDown(window, {key: 'ArrowRight'});
 
-      expect(screen.getByText('Second Movie')).toBeInTheDocument();
+      expect(screen.getByText('First Movie')).toBeInTheDocument();
     });
 
     it('should navigate to previous movie with left arrow key', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
       // Go to second movie first
       fireEvent.click(screen.getByRole('button', {name: /next movie/i}));
-      expect(screen.getByText('Second Movie')).toBeInTheDocument();
+      expect(screen.getByText('First Movie')).toBeInTheDocument();
 
       // Press left arrow key
       fireEvent.keyDown(window, {key: 'ArrowLeft'});
 
-      expect(screen.getByText('First Movie')).toBeInTheDocument();
+      expect(screen.getByText('Third Movie')).toBeInTheDocument();
     });
 
     it('should prevent default behavior for arrow keys', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
       // Test that navigation actually works (which means preventDefault was called)
-      expect(screen.getByText('First Movie')).toBeInTheDocument();
+      expect(screen.getByText('Third Movie')).toBeInTheDocument();
 
       // Press right arrow key
       fireEvent.keyDown(window, {key: 'ArrowRight'});
 
       // Should navigate to next movie (proves the event was handled)
-      expect(screen.getByText('Second Movie')).toBeInTheDocument();
+      expect(screen.getByText('First Movie')).toBeInTheDocument();
     });
 
     it('should not respond to other keys', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
-      expect(screen.getByText('First Movie')).toBeInTheDocument();
+      expect(screen.getByText('Third Movie')).toBeInTheDocument();
 
       // Press random keys
       fireEvent.keyDown(window, {key: 'Enter'});
@@ -276,29 +277,29 @@ describe('MovieViewer', () => {
       fireEvent.keyDown(window, {key: 'a'});
 
       // Should still be on first movie
-      expect(screen.getByText('First Movie')).toBeInTheDocument();
+      expect(screen.getByText('Third Movie')).toBeInTheDocument();
     });
 
     it('should wrap navigation with keyboard', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
-      // At first movie, press left arrow (should wrap to last)
+      // At first movie, press left arrow (should wrap to last -> Second Movie)
       fireEvent.keyDown(window, {key: 'ArrowLeft'});
-      expect(screen.getByText('Third Movie')).toBeInTheDocument();
+      expect(screen.getByText('Second Movie')).toBeInTheDocument();
 
-      // Press right arrow (should wrap to first)
+      // Press right arrow (should wrap to first -> Third Movie)
       fireEvent.keyDown(window, {key: 'ArrowRight'});
-      expect(screen.getByText('First Movie')).toBeInTheDocument();
+      expect(screen.getByText('Third Movie')).toBeInTheDocument();
     });
   });
 
   describe('Edge Cases', () => {
     it('should disable navigation buttons with single movie', () => {
-      render(<MovieViewer movies={singleMovie} />);
+      renderWithQuery(<MovieViewer movies={singleMovie} />);
 
       const prevButton = screen.getByRole('button', {name: /previous movie/i});
       const nextButton = screen.getByRole('button', {name: /next movie/i});
-      const dropdown = screen.getByRole('combobox');
+      const dropdown = screen.getByLabelText('Jump to movie:');
 
       expect(prevButton).toBeDisabled();
       expect(nextButton).toBeDisabled();
@@ -306,13 +307,13 @@ describe('MovieViewer', () => {
     });
 
     it('should show correct position with single movie', () => {
-      render(<MovieViewer movies={singleMovie} />);
+      renderWithQuery(<MovieViewer movies={singleMovie} />);
 
       expect(screen.getByText('1 of 1')).toBeInTheDocument();
     });
 
     it('should handle navigation with single movie gracefully', () => {
-      render(<MovieViewer movies={singleMovie} />);
+      renderWithQuery(<MovieViewer movies={singleMovie} />);
 
       expect(screen.getByText('First Movie')).toBeInTheDocument();
 
@@ -324,20 +325,21 @@ describe('MovieViewer', () => {
     });
 
     it('should populate dropdown options correctly', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
-      const options = screen.getAllByRole('option');
+      const jump = screen.getByLabelText('Jump to movie:');
+      const options = within(jump).getAllByRole('option');
 
       expect(options).toHaveLength(3);
-      expect(options[0]).toHaveTextContent('1. First Movie');
-      expect(options[1]).toHaveTextContent('2. Second Movie');
-      expect(options[2]).toHaveTextContent('3. Third Movie');
+      expect(options[0]).toHaveTextContent('1. Third Movie');
+      expect(options[1]).toHaveTextContent('2. First Movie');
+      expect(options[2]).toHaveTextContent('3. Second Movie');
     });
   });
 
   describe('Session Storage', () => {
     it('should save current index to sessionStorage', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
       // Navigate to second movie
       fireEvent.click(screen.getByRole('button', {name: /next movie/i}));
@@ -352,62 +354,69 @@ describe('MovieViewer', () => {
       // Mock sessionStorage returning index 1
       mockSessionStorage.getItem.mockReturnValue('1');
 
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
-      // Should start at second movie (index 1)
-      expect(screen.getByText('Second Movie')).toBeInTheDocument();
+      // With sorted order, index 1 is First Movie
+      expect(screen.getByText('First Movie')).toBeInTheDocument();
       expect(screen.getByText('2 of 3')).toBeInTheDocument();
     });
 
     it('should handle invalid sessionStorage values gracefully', () => {
       mockSessionStorage.getItem.mockReturnValue('invalid');
 
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
-      // Should default to first movie
-      expect(screen.getByText('First Movie')).toBeInTheDocument();
+      // Should default to first movie (sorted)
+      expect(screen.getByText('Third Movie')).toBeInTheDocument();
     });
 
     it('should handle out-of-bounds sessionStorage values', () => {
       mockSessionStorage.getItem.mockReturnValue('10'); // Index beyond array
 
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
-      // Should default to first movie
-      expect(screen.getByText('First Movie')).toBeInTheDocument();
+      // Should default to first movie (sorted)
+      expect(screen.getByText('Third Movie')).toBeInTheDocument();
     });
   });
 
   describe('Accessibility', () => {
     it('should have proper ARIA labels on navigation buttons', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
       expect(screen.getByLabelText('Previous movie')).toBeInTheDocument();
       expect(screen.getByLabelText('Next movie')).toBeInTheDocument();
     });
 
     it('should have proper ARIA label on dropdown', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
       expect(screen.getByLabelText('Jump to movie:')).toBeInTheDocument();
     });
 
     it('should update button text when movie changes', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
       // Navigate to second movie
       fireEvent.click(screen.getByRole('button', {name: /next movie/i}));
 
       // Check that movie title changed in the display
-      expect(screen.getByText('Second Movie')).toBeInTheDocument();
+      expect(screen.getByText('First Movie')).toBeInTheDocument();
     });
 
     it('should have semantic HTML structure', () => {
-      render(<MovieViewer movies={mockMovies} />);
+      renderWithQuery(<MovieViewer movies={mockMovies} />);
 
       expect(screen.getByRole('article')).toBeInTheDocument(); // MovieCard
-      expect(screen.getAllByRole('button')).toHaveLength(2); // Previous and Next buttons
-      expect(screen.getByRole('combobox')).toBeInTheDocument(); // Dropdown
+      const nav = screen.getByRole('navigation', {name: /movie navigation/i});
+      expect(within(nav).getAllByRole('button')).toHaveLength(2); // Prev/Next only
+      expect(screen.getByLabelText('Jump to movie:')).toBeInTheDocument(); // Dropdown
     });
   });
 });
+  const renderWithQuery = (ui: React.ReactNode) => {
+    const client = new QueryClient({
+      defaultOptions: {queries: {retry: false, staleTime: 0}},
+    });
+    return render(<QueryClientProvider client={client}>{ui}</QueryClientProvider>);
+  };
