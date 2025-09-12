@@ -14,13 +14,13 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
   const [isTruncated, setIsTruncated] = useState(false);
   const overviewRef = useRef<HTMLParagraphElement>(null);
 
-  const year = movie.release_date
+  const year = movie?.release_date
     ? new Date(movie.release_date).getFullYear()
     : 'Missing year';
-  const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
-  const title = movie.title || 'Title Missing';
+  const rating = movie?.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
+  const title = movie?.title || 'Title Missing';
 
-  const showPlaceholder = !movie.poster_path || imageError;
+  const showPlaceholder = !movie?.poster_path || imageError;
 
   useEffect(() => {
     setIsExpanded(false);
@@ -58,11 +58,22 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
     return () => {
       resizeObserver.disconnect();
     };
-  }, [movie.overview, size, movie.id]);
+  }, [movie?.overview, size, movie?.id]);
 
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);
   };
+
+  // Handle undefined movie gracefully
+  if (!movie) {
+    return (
+      <article className={`movie-card movie-card--${size}`}>
+        <section className="movie-card__content">
+          <p>No movie data available</p>
+        </section>
+      </article>
+    );
+  }
 
   return (
     <article className={`movie-card movie-card--${size}`}>
@@ -75,7 +86,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
           />
         ) : (
           <img
-            src={tmdbApi.getImageUrl(movie.poster_path, 'w500')}
+            src={tmdbApi.getImageUrl(movie?.poster_path || null, 'w500')}
             alt={`${title} poster`}
             className="movie-card__image"
             loading="lazy"
@@ -89,7 +100,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
           <aside className="movie-card__meta">
             <time
               className="movie-card__year"
-              dateTime={movie.release_date || undefined}
+              dateTime={movie?.release_date || undefined}
             >
               {year}
             </time>
@@ -108,7 +119,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
               isExpanded ? 'movie-card__overview--expanded' : ''
             }`}
           >
-            {movie.overview || 'No description available.'}
+            {movie?.overview || 'No description available.'}
           </p>
           {isTruncated && (
             <button
