@@ -19,7 +19,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   const [searchResults, setSearchResults] = useState<Movie[] | null>(null);
   const [searchTerm, setSearchTerm] = useState(sessionStorage.getItem('searchTerm') || '');
   const [loadingSearch, setLoadingSearch] = useState(false);
-  const [searchActive, setSearchActive] = useState(false);
+  const [searchActive, setSearchActive] = useState(!!sessionStorage.getItem('searchTerm'));
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [viewerSource, setViewerSource] = useState<Movie[]>(applyFilters(movies));
 
@@ -29,7 +29,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   }, [searchActive, searchResults, applyFilters, movies]);
 
 
-  const handleSearch = async (query: string) => {
+  const handleSearch = useCallback(async (query: string) => {
     setSearchTerm(query);
     setSearchActive(!!query);
     setLoadingSearch(true);
@@ -49,7 +49,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     } finally {
       setLoadingSearch(false);
     }
-  };
+  }, []);
 
   // Fetch genres for FilterPanel
   const { data: genresData } = useQuery({
@@ -120,7 +120,6 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   const jumpToMovie = (index: number, source: Movie[]) => {
     setViewerSource(source);
     setCurrentIndex(index);
-    setSearchActive(false);
   };
 
   if (!filteredMovies || filteredMovies.length === 0) {
@@ -172,13 +171,11 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
 
 
       <div className="search-container">
-        <div className="search-bar">
           <SearchBar
             onSearch={handleSearch}
             initialValue={searchTerm}
             onTyping={() => setShowSuggestions(true)}
           />
-        </div>
 
         {loadingSearch && (
           <div className="search-loading">
@@ -186,19 +183,24 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
           </div>
         )}
 
-        {searchTerm && showSuggestions && filteredMovies.length > 0 && (
+        {searchTerm && showSuggestions && !loadingSearch && filteredMovies.length > 0 && (
           <ul className="search-suggestions">
-            {filteredMovies.slice(0, 3).map((movie, index) => (
+            {filteredMovies.slice(0, 5).map((movie, index) => (
               <li key={movie.id}>
                 <button
                   className="suggestion-button"
                   onClick={() => {
                     jumpToMovie(index, filteredMovies);
-                    setSearchActive(false);
                     setShowSuggestions(false);
                   }}
+                  title={`${movie.title} (${movie.release_date?.split('-')[0] || 'N/A'})`}
                 >
-                  {movie.title}
+                  <span>{movie.title}</span>
+                  {movie.release_date && (
+                    <span style={{ fontSize: '12px', color: '#666', marginLeft: '8px' }}>
+                      ({movie.release_date.split('-')[0]})
+                    </span>
+                  )}
                 </button>
               </li>
             ))}
