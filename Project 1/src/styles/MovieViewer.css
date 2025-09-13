@@ -118,7 +118,6 @@
   padding: 2rem;
 }
 
-/* Tablet and up */
 @media (min-width: 768px) {
   .movie-viewer {
     padding: 1.5rem;
@@ -167,7 +166,6 @@
   }
 }
 
-/* Desktop and up*/
 @media (min-width: 1024px) {
   .movie-viewer {
     padding: 2rem;
