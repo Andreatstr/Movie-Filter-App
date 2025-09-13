@@ -44,7 +44,6 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
       }
     };
 
-    // Initial check
     requestAnimationFrame(checkTruncation);
 
     const resizeObserver = new ResizeObserver(() => {
@@ -64,7 +63,6 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
     setIsExpanded(!isExpanded);
   };
 
-  // Handle undefined movie gracefully
   if (!movie) {
     return (
       <article className={`movie-card movie-card--${size}`}>
