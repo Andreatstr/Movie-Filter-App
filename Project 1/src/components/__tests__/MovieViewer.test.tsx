@@ -9,6 +9,7 @@ vi.mock('../../services/tmdbApi', () => ({
   tmdbApi: {
     getImageUrl: vi.fn(() => 'mocked-image-url'),
     getGenres: vi.fn(async () => ({genres: []})),
+    searchMovies: vi.fn(async () => ({results: []})),
   },
 }));
 

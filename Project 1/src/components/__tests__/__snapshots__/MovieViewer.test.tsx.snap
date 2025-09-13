@@ -205,6 +205,20 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
       </small>
     </aside>
   </section>
+  <div
+    class="search-container"
+  >
+    <div
+      class="search-bar"
+    >
+      <input
+        class="input-field"
+        placeholder="Search for movies..."
+        type="text"
+        value=""
+      />
+    </div>
+  </div>
   <aside
     class="movie-jump-controls"
   >
@@ -248,38 +262,38 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
       class="movie-card movie-card--large"
     >
       <figure
-        class="movie-card__image-container"
+        class="image-container"
       >
         <img
           alt="Third Movie poster"
-          class="movie-card__image"
+          class="image"
           loading="lazy"
           src="mocked-image-url"
         />
       </figure>
       <section
-        class="movie-card__content"
+        class="content"
       >
         <header
-          class="movie-card__header"
+          class="header"
         >
           <h2
-            class="movie-card__title"
+            class="title"
           >
             Third Movie
           </h2>
           <aside
-            class="movie-card__meta"
+            class="meta"
           >
             <time
-              class="movie-card__year"
+              class="year"
               datetime="2023-10-01"
             >
               2023
             </time>
             <span
               aria-label="Rating: 9.1 out of 10"
-              class="movie-card__rating"
+              class="rating"
             >
               ★ 
               9.1
@@ -288,10 +302,10 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
           </aside>
         </header>
         <section
-          class="movie-card__overview-container"
+          class="overview-container"
         >
           <p
-            class="movie-card__overview "
+            class="overview "
           >
             Third movie description
           </p>
@@ -537,6 +551,16 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies
       </small>
     </aside>
   </section>
+  <div
+    class="search-bar"
+  >
+    <input
+      class="input-field"
+      placeholder="Search for movies..."
+      type="text"
+      value=""
+    />
+  </div>
   <p
     class="no-movies"
   >
@@ -750,6 +774,20 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
       </small>
     </aside>
   </section>
+  <div
+    class="search-container"
+  >
+    <div
+      class="search-bar"
+    >
+      <input
+        class="input-field"
+        placeholder="Search for movies..."
+        type="text"
+        value=""
+      />
+    </div>
+  </div>
   <aside
     class="movie-jump-controls"
   >
@@ -780,38 +818,38 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
       class="movie-card movie-card--large"
     >
       <figure
-        class="movie-card__image-container"
+        class="image-container"
       >
         <img
           alt="First Movie poster"
-          class="movie-card__image"
+          class="image"
           loading="lazy"
           src="mocked-image-url"
         />
       </figure>
       <section
-        class="movie-card__content"
+        class="content"
       >
         <header
-          class="movie-card__header"
+          class="header"
         >
           <h2
-            class="movie-card__title"
+            class="title"
           >
             First Movie
           </h2>
           <aside
-            class="movie-card__meta"
+            class="meta"
           >
             <time
-              class="movie-card__year"
+              class="year"
               datetime="2023-12-25"
             >
               2023
             </time>
             <span
               aria-label="Rating: 8.5 out of 10"
-              class="movie-card__rating"
+              class="rating"
             >
               ★ 
               8.5
@@ -820,10 +858,10 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
           </aside>
         </header>
         <section
-          class="movie-card__overview-container"
+          class="overview-container"
         >
           <p
-            class="movie-card__overview "
+            class="overview "
           >
             First movie description that is long enough to test truncation behavior
           </p>
