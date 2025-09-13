@@ -25,10 +25,17 @@ function normalizeFilters(
 ): MovieFilters {
   const f: Partial<MovieFilters> = {...input};
 
-  const sortByValues = ['popularity', 'rating', 'release_date', 'title'] as const;
+  const sortByValues = [
+    'popularity',
+    'rating',
+    'release_date',
+    'title',
+  ] as const;
   const sortOrderValues = ['asc', 'desc'] as const;
 
-  const sortBy = sortByValues.includes(f?.sortBy as (typeof sortByValues)[number])
+  const sortBy = sortByValues.includes(
+    f?.sortBy as (typeof sortByValues)[number]
+  )
     ? (f!.sortBy as MovieFilters['sortBy'])
     : (prev?.sortBy ?? DEFAULT_FILTERS.sortBy);
 
@@ -36,16 +43,24 @@ function normalizeFilters(
     sb === 'title' ? 'asc' : 'desc';
 
   let sortOrder: MovieFilters['sortOrder'];
-  const hasSortOrderInPatch = patch ? Object.prototype.hasOwnProperty.call(patch, 'sortOrder') : false;
-  const hasSortByInPatch = patch ? Object.prototype.hasOwnProperty.call(patch, 'sortBy') : false;
+  const hasSortOrderInPatch = patch
+    ? Object.prototype.hasOwnProperty.call(patch, 'sortOrder')
+    : false;
+  const hasSortByInPatch = patch
+    ? Object.prototype.hasOwnProperty.call(patch, 'sortBy')
+    : false;
 
   if (hasSortOrderInPatch) {
-    sortOrder = sortOrderValues.includes(patch!.sortOrder as (typeof sortOrderValues)[number])
+    sortOrder = sortOrderValues.includes(
+      patch!.sortOrder as (typeof sortOrderValues)[number]
+    )
       ? (patch!.sortOrder as MovieFilters['sortOrder'])
       : defaultOrderFor(sortBy);
   } else if (hasSortByInPatch) {
     sortOrder = defaultOrderFor(sortBy);
-  } else if (sortOrderValues.includes(f?.sortOrder as (typeof sortOrderValues)[number])) {
+  } else if (
+    sortOrderValues.includes(f?.sortOrder as (typeof sortOrderValues)[number])
+  ) {
     sortOrder = f!.sortOrder as MovieFilters['sortOrder'];
   } else {
     sortOrder = prev?.sortOrder ?? defaultOrderFor(sortBy);
@@ -93,7 +108,9 @@ function loadFromStorage(): MovieFilters {
 }
 
 export function useFilters() {
-  const [filters, setFiltersState] = useState<MovieFilters>(() => loadFromStorage());
+  const [filters, setFiltersState] = useState<MovieFilters>(() =>
+    loadFromStorage()
+  );
 
   const hasActiveFilters = useMemo(() => {
     return (
@@ -115,7 +132,9 @@ export function useFilters() {
   }, [filters]);
 
   const setFilters = useCallback((patch: Partial<MovieFilters>) => {
-    setFiltersState((prev) => normalizeFilters({...prev, ...patch}, prev, patch));
+    setFiltersState((prev) =>
+      normalizeFilters({...prev, ...patch}, prev, patch)
+    );
   }, []);
 
   const reset = useCallback(() => {
@@ -133,10 +152,14 @@ export function useFilters() {
 
       // Filter by rating range
       if (typeof filters.minRating === 'number') {
-        out = out.filter((m) => m.vote_average >= (filters.minRating as number));
+        out = out.filter(
+          (m) => m.vote_average >= (filters.minRating as number)
+        );
       }
       if (typeof filters.maxRating === 'number') {
-        out = out.filter((m) => m.vote_average <= (filters.maxRating as number));
+        out = out.filter(
+          (m) => m.vote_average <= (filters.maxRating as number)
+        );
       }
 
       // Filter by year

@@ -5,38 +5,38 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with complete movi
   class="movie-card movie-card--medium"
 >
   <figure
-    class="movie-card__image-container"
+    class="image-container"
   >
     <img
       alt="Test Movie poster"
-      class="movie-card__image"
+      class="image"
       loading="lazy"
       src="mocked-image-url"
     />
   </figure>
   <section
-    class="movie-card__content"
+    class="content"
   >
     <header
-      class="movie-card__header"
+      class="header"
     >
       <h2
-        class="movie-card__title"
+        class="title"
       >
         Test Movie
       </h2>
       <aside
-        class="movie-card__meta"
+        class="meta"
       >
         <time
-          class="movie-card__year"
+          class="year"
           datetime="2023-12-25"
         >
           2023
         </time>
         <span
           aria-label="Rating: 8.5 out of 10"
-          class="movie-card__rating"
+          class="rating"
         >
           ★ 
           8.5
@@ -45,10 +45,10 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with complete movi
       </aside>
     </header>
     <section
-      class="movie-card__overview-container"
+      class="overview-container"
     >
       <p
-        class="movie-card__overview "
+        class="overview "
       >
         A test movie description
       </p>
@@ -62,36 +62,36 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing data 
   class="movie-card movie-card--medium"
 >
   <figure
-    class="movie-card__image-container"
+    class="image-container"
   >
     <img
       alt="Movie poster placeholder"
-      class="movie-card__image"
+      class="image"
       src="/placeholder-movie.jpg"
     />
   </figure>
   <section
-    class="movie-card__content"
+    class="content"
   >
     <header
-      class="movie-card__header"
+      class="header"
     >
       <h2
-        class="movie-card__title"
+        class="title"
       >
         Title Missing
       </h2>
       <aside
-        class="movie-card__meta"
+        class="meta"
       >
         <time
-          class="movie-card__year"
+          class="year"
         >
           Missing year
         </time>
         <span
           aria-label="Rating: N/A out of 10"
-          class="movie-card__rating"
+          class="rating"
         >
           ★ 
           N/A
@@ -100,10 +100,10 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing data 
       </aside>
     </header>
     <section
-      class="movie-card__overview-container"
+      class="overview-container"
     >
       <p
-        class="movie-card__overview "
+        class="overview "
       >
         A test movie description
       </p>
@@ -117,37 +117,37 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing poste
   class="movie-card movie-card--medium"
 >
   <figure
-    class="movie-card__image-container"
+    class="image-container"
   >
     <img
       alt="Movie poster placeholder"
-      class="movie-card__image"
+      class="image"
       src="/placeholder-movie.jpg"
     />
   </figure>
   <section
-    class="movie-card__content"
+    class="content"
   >
     <header
-      class="movie-card__header"
+      class="header"
     >
       <h2
-        class="movie-card__title"
+        class="title"
       >
         Test Movie
       </h2>
       <aside
-        class="movie-card__meta"
+        class="meta"
       >
         <time
-          class="movie-card__year"
+          class="year"
           datetime="2023-12-25"
         >
           2023
         </time>
         <span
           aria-label="Rating: 8.5 out of 10"
-          class="movie-card__rating"
+          class="rating"
         >
           ★ 
           8.5
@@ -156,10 +156,10 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing poste
       </aside>
     </header>
     <section
-      class="movie-card__overview-container"
+      class="overview-container"
     >
       <p
-        class="movie-card__overview "
+        class="overview "
       >
         A test movie description
       </p>

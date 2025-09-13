@@ -113,12 +113,14 @@ Uses [The Movie Database (TMDB) API](https://developers.themoviedb.org/3) for mo
 This project implements comprehensive testing using Vitest and React Testing Library.
 
 ### Testing Framework
+
 - **Vitest** - Fast unit testing framework
 - **React Testing Library** - Component testing utilities
 - **jsdom** - Browser environment simulation
 - **@testing-library/jest-dom** - Additional matchers
 
 ### Test Coverage
+
 - **46 tests** across all components
 - **Snapshot tests** - Verify component rendering consistency
 - **Component tests** - Props, state, and behavior validation
@@ -129,32 +131,38 @@ This project implements comprehensive testing using Vitest and React Testing Lib
 ### Test Types Implemented
 
 #### Snapshot Tests
+
 - Component rendering with different props
 - State variations (empty data, missing images, etc.)
 - Responsive layout changes
 
 #### Component Prop Testing
+
 - Required and optional props validation
 - Default prop behavior
 - Error handling with missing data
 
 #### State Testing
+
 - Movie navigation index tracking
 - Expand/collapse text functionality
 - Session storage persistence
 
 #### User Interaction Testing
+
 - Button clicks (next/previous navigation)
 - Keyboard navigation (arrow keys)
 - Dropdown selection changes
 - Image error handling
 
 #### API Mocking
+
 - TMDB API calls intercepted with `vi.mock()`
 - No real HTTP requests during tests
 - Predictable test data for consistency
 
 ### Running Tests
+
 ```bash
 pnpm run test        # Watch mode
 pnpm run test:run    # Single run
@@ -162,12 +170,15 @@ pnpm run test:ui     # Interactive UI
 ```
 
 ### Browser Testing
-*To be documented when manual testing is completed*
+
+_To be documented when manual testing is completed_
 
 ### Mobile Device Testing
-*To be documented when device testing is completed*
+
+_To be documented when device testing is completed_
 
 ### Test File Organization
+
 ```
 src/components/__tests__/
 ├── MovieCard.test.tsx      # 16 tests - Component props, state, accessibility
@@ -175,10 +186,10 @@ src/components/__tests__/
 ```
 
 ### Future Testing Areas (To be implemented with remaining features)
+
 - **Favorites functionality** - localStorage persistence, click interactions
 - **Filtering/sorting** - UI controls, state persistence, data transformation
 - **Enhanced accessibility** - Screen reader compatibility, keyboard navigation patterns
-
 
 ## Contributing
 

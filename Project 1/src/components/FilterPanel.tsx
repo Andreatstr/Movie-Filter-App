@@ -19,7 +19,6 @@ export default function FilterPanel({
   reset,
   hasActiveFilters,
 }: FilterPanelProps) {
-
   const availableYears = useMemo(() => {
     const years = new Set<number>();
     for (const m of movies) {
@@ -32,20 +31,18 @@ export default function FilterPanel({
   const ratingMin = filters.minRating ?? 0;
   const ratingMax = filters.maxRating ?? 10;
   
-  // Track if we're on mobile
   const [isMobile, setIsMobile] = useState(false);
-  
+
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 1024);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Handle min/max changes with validation
   const handleMinChange = (value: number) => {
     const newMin = Math.min(value, ratingMax);
     setFilters({minRating: newMin});
@@ -83,7 +80,9 @@ export default function FilterPanel({
             className="filter-select"
             value={filters.genre ?? ''}
             onChange={(e) =>
-              setFilters({genre: e.target.value ? Number(e.target.value) : undefined})
+              setFilters({
+                genre: e.target.value ? Number(e.target.value) : undefined,
+              })
             }
           >
             <option value="">Any</option>
@@ -104,7 +103,9 @@ export default function FilterPanel({
             className="filter-select"
             value={filters.year ?? ''}
             onChange={(e) =>
-              setFilters({year: e.target.value ? Number(e.target.value) : undefined})
+              setFilters({
+                year: e.target.value ? Number(e.target.value) : undefined,
+              })
             }
           >
             <option value="">Any</option>
@@ -122,11 +123,11 @@ export default function FilterPanel({
             // Mobile: Dual-handle slider
             <div className="dual-range-slider">
               <div className="slider-track"></div>
-              <div 
-                className="slider-range" 
+              <div
+                className="slider-range"
                 style={{
                   left: `calc(22px + (100% - 44px) * ${ratingMin / 10})`,
-                  width: `calc((100% - 44px) * ${(ratingMax - ratingMin) / 10})`
+                  width: `calc((100% - 44px) * ${(ratingMax - ratingMin) / 10})`,
                 }}
               />
               <input
@@ -168,7 +169,9 @@ export default function FilterPanel({
                   max={10}
                   step={0.5}
                   value={ratingMin}
-                  onChange={(e) => setFilters({minRating: Number(e.target.value)})}
+                  onChange={(e) =>
+                    setFilters({minRating: Number(e.target.value)})
+                  }
                 />
                 <span className="rating-value">{ratingMin.toFixed(1)}</span>
               </section>
@@ -184,7 +187,9 @@ export default function FilterPanel({
                   max={10}
                   step={0.5}
                   value={ratingMax}
-                  onChange={(e) => setFilters({maxRating: Number(e.target.value)})}
+                  onChange={(e) =>
+                    setFilters({maxRating: Number(e.target.value)})
+                  }
                 />
                 <span className="rating-value">{ratingMax.toFixed(1)}</span>
               </section>
@@ -200,7 +205,9 @@ export default function FilterPanel({
             id="sort-by"
             className="filter-select"
             value={filters.sortBy}
-            onChange={(e) => setFilters({sortBy: e.target.value as MovieFilters['sortBy']})}
+            onChange={(e) =>
+              setFilters({sortBy: e.target.value as MovieFilters['sortBy']})
+            }
           >
             <option value="popularity">Popularity</option>
             <option value="rating">Rating</option>
@@ -236,7 +243,11 @@ export default function FilterPanel({
         {hasActiveFilters ? (
           <section className="chips">
             {filters.genre !== undefined && (
-              <span className="chip">Genre: {genres.find((g) => g.id === filters.genre)?.name ?? filters.genre}</span>
+              <span className="chip">
+                Genre:{' '}
+                {genres.find((g) => g.id === filters.genre)?.name ??
+                  filters.genre}
+              </span>
             )}
             {filters.year !== undefined && (
               <span className="chip">Year: {filters.year}</span>
