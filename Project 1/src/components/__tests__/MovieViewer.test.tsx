@@ -187,7 +187,9 @@ describe('MovieViewer', () => {
     it('should update dropdown value when navigating with buttons', () => {
       renderWithQuery(<MovieViewer movies={mockMovies} />);
 
-      const dropdown = screen.getByLabelText('Jump to movie:') as HTMLSelectElement;
+      const dropdown = screen.getByLabelText(
+        'Jump to movie:'
+      ) as HTMLSelectElement;
 
       // Initially at index 0
       expect(dropdown.value).toBe('0');
@@ -205,7 +207,9 @@ describe('MovieViewer', () => {
       renderWithQuery(<MovieViewer movies={mockMovies} />);
 
       // Navigate to last movie
-      fireEvent.change(screen.getByLabelText('Jump to movie:'), {target: {value: '2'}});
+      fireEvent.change(screen.getByLabelText('Jump to movie:'), {
+        target: {value: '2'},
+      });
       expect(screen.getByText('Second Movie')).toBeInTheDocument();
       expect(screen.getByText('3 of 3')).toBeInTheDocument();
 
@@ -415,9 +419,11 @@ describe('MovieViewer', () => {
     });
   });
 });
-  const renderWithQuery = (ui: React.ReactNode) => {
-    const client = new QueryClient({
-      defaultOptions: {queries: {retry: false, staleTime: 0}},
-    });
-    return render(<QueryClientProvider client={client}>{ui}</QueryClientProvider>);
-  };
+const renderWithQuery = (ui: React.ReactNode) => {
+  const client = new QueryClient({
+    defaultOptions: {queries: {retry: false, staleTime: 0}},
+  });
+  return render(
+    <QueryClientProvider client={client}>{ui}</QueryClientProvider>
+  );
+};

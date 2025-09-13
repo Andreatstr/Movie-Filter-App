@@ -40,7 +40,9 @@ describe('useFilters', () => {
     });
 
     // First call can be initial persist of defaults; use the last call
-    expect(mockSessionStorage.setItem.mock.calls.length).toBeGreaterThanOrEqual(1);
+    expect(mockSessionStorage.setItem.mock.calls.length).toBeGreaterThanOrEqual(
+      1
+    );
     const [key, value] = mockSessionStorage.setItem.mock.calls.at(-1)!;
     expect(key).toBe(STORAGE_KEY);
     const parsed = JSON.parse(value);

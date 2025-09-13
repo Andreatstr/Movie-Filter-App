@@ -205,20 +205,20 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
       </small>
     </aside>
   </section>
-  <div
+  <section
     class="search-container"
   >
-    <div
+    <form
       class="search-bar"
     >
       <input
         class="input-field"
         placeholder="Search for movies..."
-        type="text"
+        type="search"
         value=""
       />
-    </div>
-  </div>
+    </form>
+  </section>
   <aside
     class="movie-jump-controls"
   >
@@ -551,16 +551,16 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies
       </small>
     </aside>
   </section>
-  <div
+  <form
     class="search-bar"
   >
     <input
       class="input-field"
       placeholder="Search for movies..."
-      type="text"
+      type="search"
       value=""
     />
-  </div>
+  </form>
   <p
     class="no-movies"
   >
@@ -774,20 +774,20 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
       </small>
     </aside>
   </section>
-  <div
+  <section
     class="search-container"
   >
-    <div
+    <form
       class="search-bar"
     >
       <input
         class="input-field"
         placeholder="Search for movies..."
-        type="text"
+        type="search"
         value=""
       />
-    </div>
-  </div>
+    </form>
+  </section>
   <aside
     class="movie-jump-controls"
   >

@@ -28,9 +28,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
     const checkTruncation = () => {
       const element = overviewRef.current;
       if (element) {
-        const wasExpanded = element.classList.contains(
-          'overview--expanded'
-        );
+        const wasExpanded = element.classList.contains('overview--expanded');
         if (wasExpanded) {
           element.classList.remove('overview--expanded');
         }
@@ -98,16 +96,10 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
         <header className="header">
           <h2 className="title">{title}</h2>
           <aside className="meta">
-            <time
-              className="year"
-              dateTime={movie?.release_date || undefined}
-            >
+            <time className="year" dateTime={movie?.release_date || undefined}>
               {year}
             </time>
-            <span
-              className="rating"
-              aria-label={`Rating: ${rating} out of 10`}
-            >
+            <span className="rating" aria-label={`Rating: ${rating} out of 10`}>
               ★ {rating}/10
             </span>
           </aside>
@@ -115,9 +107,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
         <section className="overview-container">
           <p
             ref={overviewRef}
-            className={`overview ${
-              isExpanded ? 'overview--expanded' : ''
-            }`}
+            className={`overview ${isExpanded ? 'overview--expanded' : ''}`}
           >
             {movie?.overview || 'No description available.'}
           </p>

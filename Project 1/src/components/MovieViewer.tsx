@@ -1,34 +1,40 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import type { Movie } from '../types/movie';
+import {useState, useEffect, useCallback, useMemo, useRef} from 'react';
+import {useQuery} from '@tanstack/react-query';
+import type {Movie} from '../types/movie';
 import MovieCard from './MovieCard';
 import './../styles/MovieViewer.css';
 import FilterPanel from './FilterPanel';
-import { useFilters } from '../hooks/useFilters';
+import {useFilters} from '../hooks/useFilters';
 import SearchBar from './SearchBar';
-import { tmdbApi } from '../services/tmdbApi';
+import {tmdbApi} from '../services/tmdbApi';
 
 interface MovieViewerProps {
   movies: Movie[];
 }
 
-export const MovieViewer = ({ movies }: MovieViewerProps) => {
+export const MovieViewer = ({movies}: MovieViewerProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { filters, setFilters, reset, hasActiveFilters, applyFilters } = useFilters();
+  const {filters, setFilters, reset, hasActiveFilters, applyFilters} =
+    useFilters();
 
   const [searchResults, setSearchResults] = useState<Movie[] | null>(null);
-  const [searchTerm, setSearchTerm] = useState(sessionStorage.getItem('searchTerm') || '');
+  const [searchTerm, setSearchTerm] = useState(
+    sessionStorage.getItem('searchTerm') || ''
+  );
   const [loadingSearch, setLoadingSearch] = useState(false);
-  const [searchActive, setSearchActive] = useState(!!sessionStorage.getItem('searchTerm'));
+  const [searchActive, setSearchActive] = useState(
+    !!sessionStorage.getItem('searchTerm')
+  );
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [viewerSource, setViewerSource] = useState<Movie[]>(applyFilters(movies));
+  const [viewerSource, setViewerSource] = useState<Movie[]>(
+    applyFilters(movies)
+  );
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
   const filteredMovies = useMemo(() => {
     const source = searchActive && searchResults ? searchResults : movies;
     return applyFilters(source);
   }, [searchActive, searchResults, applyFilters, movies]);
-
 
   const handleSearch = useCallback(async (query: string) => {
     setSearchTerm(query);
@@ -53,7 +59,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   }, []);
 
   // Fetch genres for FilterPanel
-  const { data: genresData } = useQuery({
+  const {data: genresData} = useQuery({
     queryKey: ['genres'],
     queryFn: () => tmdbApi.getGenres(),
     staleTime: 24 * 60 * 60 * 1000,
@@ -79,7 +85,6 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     }
   }, [filters, movies, searchResults, applyFilters, searchActive]);
 
-
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === 'ArrowLeft') {
@@ -98,7 +103,10 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   // Handle click outside to close suggestions
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+      if (
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(event.target as Node)
+      ) {
         setShowSuggestions(false);
       }
     };
@@ -182,44 +190,52 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
         hasActiveFilters={hasActiveFilters}
       />
 
-
-      <div className="search-container" ref={searchContainerRef}>
-          <SearchBar
-            onSearch={handleSearch}
-            initialValue={searchTerm}
-            onTyping={() => setShowSuggestions(true)}
-          />
+      <section className="search-container" ref={searchContainerRef}>
+        <SearchBar
+          onSearch={handleSearch}
+          initialValue={searchTerm}
+          onTyping={() => setShowSuggestions(true)}
+        />
 
         {loadingSearch && (
-          <div className="search-loading">
+          <aside className="search-loading">
             <p>Loading search results...</p>
-          </div>
+          </aside>
         )}
 
-        {searchTerm && showSuggestions && !loadingSearch && filteredMovies.length > 0 && (
-          <ul className="search-suggestions">
-            {filteredMovies.slice(0, 5).map((movie, index) => (
-              <li key={movie.id}>
-                <button
-                  className="suggestion-button"
-                  onClick={() => {
-                    jumpToMovie(index, filteredMovies);
-                    setShowSuggestions(false);
-                  }}
-                  title={`${movie.title} (${movie.release_date?.split('-')[0] || 'N/A'})`}
-                >
-                  <span>{movie.title}</span>
-                  {movie.release_date && (
-                    <span style={{ fontSize: '12px', color: '#666', marginLeft: '8px' }}>
-                      ({movie.release_date.split('-')[0]})
-                    </span>
-                  )}
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+        {searchTerm &&
+          showSuggestions &&
+          !loadingSearch &&
+          filteredMovies.length > 0 && (
+            <ul className="search-suggestions">
+              {filteredMovies.slice(0, 5).map((movie, index) => (
+                <li key={movie.id}>
+                  <button
+                    className="suggestion-button"
+                    onClick={() => {
+                      jumpToMovie(index, filteredMovies);
+                      setShowSuggestions(false);
+                    }}
+                    title={`${movie.title} (${movie.release_date?.split('-')[0] || 'N/A'})`}
+                  >
+                    <span>{movie.title}</span>
+                    {movie.release_date && (
+                      <span
+                        style={{
+                          fontSize: '12px',
+                          color: '#666',
+                          marginLeft: '8px',
+                        }}
+                      >
+                        ({movie.release_date.split('-')[0]})
+                      </span>
+                    )}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+      </section>
 
       <aside className="movie-jump-controls">
         <label htmlFor="movie-select" className="jump-label">
@@ -229,7 +245,9 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
           id="movie-select"
           className="movie-select"
           value={currentIndex}
-          onChange={(e) => jumpToMovie(parseInt(e.target.value, 10), viewerSource)}
+          onChange={(e) =>
+            jumpToMovie(parseInt(e.target.value, 10), viewerSource)
+          }
           disabled={totalMovies <= 1}
         >
           {filteredMovies.map((movie, index) => (
