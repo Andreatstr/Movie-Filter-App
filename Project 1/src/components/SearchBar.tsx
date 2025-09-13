@@ -15,16 +15,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, initialValue = '', onTy
 	const previousSearchTerm = useRef<string | null>(null);
 
 	useEffect(() => {
-		sessionStorage.setItem('searchTerm', debouncedInput);
-		onSearch(debouncedInput);
+		if (debouncedInput !== previousSearchTerm.current) {
+			sessionStorage.setItem('searchTerm', debouncedInput);
+			previousSearchTerm.current = debouncedInput;
+			onSearch(debouncedInput);
+		}
 	}, [debouncedInput, onSearch]);
-
-	// useEffect(() => {
-  //       if (debouncedInput !== previousSearchTerm.current) {
-  //           previousSearchTerm.current = debouncedInput;
-  //           onSearch(debouncedInput);
-  //       }
-  //   }, [debouncedInput, onSearch]);
 
 	const clearSearch = () => {
 		setInput('');
@@ -35,6 +31,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, initialValue = '', onTy
 	return (
 		<div className="search-bar">
 			<input
+				className="input-field"
 				type="text"
 				placeholder="Search for movies..."
 				value={input}
@@ -43,7 +40,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, initialValue = '', onTy
 					onTyping?.();
 				}}
 			/>
-			{input && <button onClick={clearSearch}>Clear</button>}
+			{input && <button className="clear-button" onClick={clearSearch}>Clear</button>}
 		</div>
 	);
 };
