@@ -58,8 +58,7 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
     }
   }, []);
 
-  // Fetch genres for FilterPanel
-  const {data: genresData} = useQuery({
+  const { data: genresData } = useQuery({
     queryKey: ['genres'],
     queryFn: () => tmdbApi.getGenres(),
     staleTime: 24 * 60 * 60 * 1000,
@@ -100,7 +99,6 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [goToNext, goToPrevious]);
 
-  // Handle click outside to close suggestions
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -115,12 +113,10 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Save current position to sessionStorage
   useEffect(() => {
     sessionStorage.setItem('movieViewerIndex', currentIndex.toString());
   }, [currentIndex]);
 
-  // Load position from sessionStorage on mount
   useEffect(() => {
     const savedIndex = sessionStorage.getItem('movieViewerIndex');
     if (savedIndex && filteredMovies.length > 0) {
@@ -131,7 +127,6 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
     }
   }, [filteredMovies.length]);
 
-  // Clamp index when filtered list changes
   useEffect(() => {
     if (currentIndex >= filteredMovies.length) {
       setCurrentIndex(filteredMovies.length > 0 ? 0 : 0);

@@ -1,6 +1,5 @@
-// src/components/SearchBar.tsx
-import React, {useState, useEffect, useRef} from 'react';
-import {useDebounce} from '../hooks/useDebounce';
+import React, { useState, useEffect, useRef } from 'react';
+import { useDebounce } from '../hooks/useDebounce';
 import './../styles/SearchBar.css';
 
 interface SearchBarProps {

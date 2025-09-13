@@ -30,8 +30,7 @@ export default function FilterPanel({
 
   const ratingMin = filters.minRating ?? 0;
   const ratingMax = filters.maxRating ?? 10;
-
-  // Track if we're on mobile
+  
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -44,7 +43,6 @@ export default function FilterPanel({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Handle min/max changes with validation
   const handleMinChange = (value: number) => {
     const newMin = Math.min(value, ratingMax);
     setFilters({minRating: newMin});
