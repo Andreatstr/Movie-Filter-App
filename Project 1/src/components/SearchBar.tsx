@@ -39,6 +39,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, initialValue = '', onTy
 					setInput(e.target.value)
 					onTyping?.();
 				}}
+				onFocus={() => onTyping?.()}
 			/>
 			{input && <button className="clear-button" onClick={clearSearch}>Clear</button>}
 		</div>

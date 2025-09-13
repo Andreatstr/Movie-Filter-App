@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { Movie } from '../types/movie';
 import MovieCard from './MovieCard';
@@ -22,6 +22,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   const [searchActive, setSearchActive] = useState(!!sessionStorage.getItem('searchTerm'));
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [viewerSource, setViewerSource] = useState<Movie[]>(applyFilters(movies));
+  const searchContainerRef = useRef<HTMLDivElement>(null);
 
   const filteredMovies = useMemo(() => {
     const source = searchActive && searchResults ? searchResults : movies;
@@ -93,6 +94,18 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [goToNext, goToPrevious]);
+
+  // Handle click outside to close suggestions
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Save current position to sessionStorage
   useEffect(() => {
@@ -170,7 +183,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
       />
 
 
-      <div className="search-container">
+      <div className="search-container" ref={searchContainerRef}>
           <SearchBar
             onSearch={handleSearch}
             initialValue={searchTerm}
