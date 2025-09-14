@@ -7,6 +7,8 @@ import FilterPanel from './FilterPanel';
 import {useFilters} from '../hooks/useFilters';
 import SearchBar from './SearchBar';
 import {tmdbApi} from '../services/tmdbApi';
+import {useFavorites} from '../hooks/useFavorites';
+import {storage} from '../utils/localStorage';
 
 interface MovieViewerProps {
   movies: Movie[];
@@ -16,6 +18,11 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const {filters, setFilters, reset, hasActiveFilters, applyFilters} =
     useFilters();
+  const {ids: favoriteIds, count: favoritesCount} = useFavorites();
+  const SHOW_FAVORITES_KEY = 'favorites:showOnly';
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState<boolean>(() =>
+    storage.get<boolean>(SHOW_FAVORITES_KEY, false)
+  );
 
   const [searchResults, setSearchResults] = useState<Movie[] | null>(null);
   const [searchTerm, setSearchTerm] = useState(
@@ -33,8 +40,10 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
 
   const filteredMovies = useMemo(() => {
     const source = searchActive && searchResults ? searchResults : movies;
-    return applyFilters(source);
-  }, [searchActive, searchResults, applyFilters, movies]);
+    const base = applyFilters(source);
+    if (!showFavoritesOnly) return base;
+    return base.filter((m) => favoriteIds.has(m.id));
+  }, [searchActive, searchResults, applyFilters, movies, showFavoritesOnly, favoriteIds]);
 
   const handleSearch = useCallback(async (query: string) => {
     setSearchTerm(query);
@@ -78,11 +87,15 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
 
   useEffect(() => {
     if (!searchActive) {
-      setViewerSource(applyFilters(movies));
+      setViewerSource(filteredMovies);
     } else if (searchResults) {
-      setViewerSource(applyFilters(searchResults));
+      setViewerSource(filteredMovies);
     }
-  }, [filters, movies, searchResults, applyFilters, searchActive]);
+  }, [filters, movies, searchResults, applyFilters, searchActive, filteredMovies]);
+
+  useEffect(() => {
+    storage.set(SHOW_FAVORITES_KEY, showFavoritesOnly);
+  }, [showFavoritesOnly]);
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -148,6 +161,9 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
           setFilters={setFilters}
           reset={reset}
           hasActiveFilters={hasActiveFilters}
+          showFavoritesOnly={showFavoritesOnly}
+          onToggleFavoritesOnly={setShowFavoritesOnly}
+          favoritesCount={favoritesCount}
         />
         <SearchBar onSearch={handleSearch} initialValue={searchTerm} />
         <p className="no-movies">No movies available</p>
@@ -183,7 +199,11 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
         setFilters={setFilters}
         reset={reset}
         hasActiveFilters={hasActiveFilters}
+        showFavoritesOnly={showFavoritesOnly}
+        onToggleFavoritesOnly={setShowFavoritesOnly}
+        favoritesCount={favoritesCount}
       />
+
 
       <section className="search-container" ref={searchContainerRef}>
         <SearchBar

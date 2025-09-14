@@ -67,6 +67,7 @@
   overflow: hidden;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .image {
@@ -303,4 +304,34 @@
   .rating {
     font-size: 0.75rem;
   }
+}
+
+/* Favorites button */
+.favorite-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 8px;
+  cursor: pointer;
+  line-height: 1;
+  font-size: 16px;
+  transition: transform 120ms ease, background 120ms ease, opacity 120ms ease;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.05);
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.favorite-btn:active {
+  transform: scale(0.96);
+}
+
+.favorite-btn.is-favorited {
+  background: rgba(220, 20, 60, 0.85);
 }
