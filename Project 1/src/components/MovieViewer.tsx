@@ -38,7 +38,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
 
   const [filterDropdown, setFilterDropdown] = useState(false);
 
-  const toggleDropdown = () => {
+  const toggleFilterDropdown = () => {
     setFilterDropdown(prev => !prev);
   };
 
@@ -205,25 +205,13 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
 
   return (
     <section className="movie-viewer" aria-label="Movie Viewer">
-      <button
-        onClick={toggleDropdown}
-        className='filter-dropdown-button'
-      >
-        Filter
-      </button>
-      {filterDropdown && (
-        <FilterPanel
-          movies={movies}
-          genres={genresData?.genres ?? []}
-          filters={filters}
-          setFilters={setFilters}
-          reset={reset}
-          hasActiveFilters={hasActiveFilters}
-        />
-      )}
-
-
-      <section className="search-container" ref={searchContainerRef}>
+      <section className='dropdown-container'>
+        <button
+          onClick={toggleFilterDropdown}
+          className='dropdown-button'
+        >
+          Filter
+        </button>
         <SearchBar
           onSearch={handleSearch}
           initialValue={searchTerm}
@@ -231,7 +219,9 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
           onSelectSuggestion={handleSelectSuggestion}
           suggestions={searchResults?.map((movie) => movie.title) || []}
         />
+      </section>
 
+      <section className='suggestion-container'>
         {loadingSearch && (
           <aside className="search-loading">
             <p>Loading search results...</p>
@@ -242,7 +232,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
           showSuggestions &&
           !loadingSearch &&
           filteredMovies.length > 0 && (
-            <ul className="search-suggestions">
+            <section className="search-suggestions">
               {filteredMovies.slice(0, 5).map((movie, index) => (
                 <li key={movie.id}>
                   <button
@@ -268,9 +258,24 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
                   </button>
                 </li>
               ))}
-            </ul>
+            </section>
           )}
       </section>
+
+      {filterDropdown && (
+        <FilterPanel
+          movies={movies}
+          genres={genresData?.genres ?? []}
+          filters={filters}
+          setFilters={setFilters}
+          reset={reset}
+          hasActiveFilters={hasActiveFilters}
+        />
+      )}
+
+      <main className="movie-display">
+        <MovieCard movie={currentMovie} size="large" />
+      </main>
 
       <aside className="movie-jump-controls">
         <label htmlFor="movie-select" className="jump-label">
@@ -293,9 +298,6 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
         </select>
       </aside>
 
-      <main className="movie-display">
-        <MovieCard movie={currentMovie} size="large" />
-      </main>
       <aside className="keyboard-hint">
         <p>Use ← → arrow keys to navigate</p>
       </aside>

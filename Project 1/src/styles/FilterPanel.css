@@ -11,25 +11,6 @@
   margin: 0 auto;
 }
 
-.filter-dropdown-button {
-  background-color: #ffffff;
-  color: #000;
-  margin-bottom: 1rem;
-  height: 48px;
-  font-size: 16px;
-  cursor: pointer;
-  border: 1px solid #dfe3f0;
-  border-radius: 6px;
-
-  &:focus {
-    outline: none;
-  }
-  &:focus-visible {
-    outline: 2px solid #0077cc;
-    outline-offset: 2px;
-  }
-}
-
 .filter-header {
   display: flex;
   align-items: center;

@@ -34,7 +34,7 @@ function App() {
   return (
     <main className="app">
       <header className="app-header">
-        <h1>Movie Card Demo</h1>
+        <h1>Movies</h1>
         <p>Displaying popular movies from TMDB</p>
       </header>
 

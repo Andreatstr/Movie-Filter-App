@@ -1,22 +1,15 @@
-.search-container {
-  position: relative;
-  margin-top: 1rem;
-  margin-bottom: -16px;
-}
-
 .search-bar {
-  display: flex;
   align-items: center;
   user-select: none;
-  gap: 8px;
-  padding: 10px;
+  position: relative;
+  display: flex;
 }
 
 .search-bar input {
   box-sizing: border-box;
   flex: 1;
   height: 48px;
-  padding: 8px;
+  padding: 0.5rem 1rem 0.5rem 0.75rem;
   font-size: 16px;
   background-color: #fff;
   color: black;
@@ -29,6 +22,15 @@
   }
 }
 
+.input-field {
+  width: 300px;
+}
+
+.suggestion-container {
+  width: 390px;
+  padding: 0;
+}
+
 .search-loading {
   font-size: 14px;
   color: #000000;
@@ -37,10 +39,9 @@
 }
 
 .search-suggestions {
+  max-width: 800px;
   max-height: 200px;
   overflow-y: auto;
-  margin-top: 2px;
-  padding: 0;
   list-style: none;
   background-color: #fff;
   border: 1px solid #ccc;
@@ -64,28 +65,43 @@
   text-decoration: underline;
 }
 
-.clear-button {
-  padding: 8px 12px;
-  font-size: 16px;
-  background-color: #ffffff;
-  color: #000;
+.clear-icon {
+  position: absolute;
+  right: 0.1rem;
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 1.2rem;
   cursor: pointer;
-  height: 48px;
-  width: 90px;
-  border: 1px solid #dfe3f0;
-  border-radius: 6px;
 
-  &:focus {
-    outline: none;
-  }
-  &:focus-visible {
-    outline: 2px solid #0077cc;
-    outline-offset: 2px;
+  &:hover {
+    color: #000;
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .input-field {
     width: 350px;
+  }
+  .suggestion-container {
+    width: 440px;
+  }
+}
+
+@media (max-width: 768px) {
+  .input-field {
+    width: 250px;
+  }
+  .suggestion-container {
+    width: 340px;
+  }
+}
+
+@media (max-width: 480px) {
+  .input-field {
+    width: 150px;
+  }
+  .suggestion-container {
+    width: 240px;
   }
 }

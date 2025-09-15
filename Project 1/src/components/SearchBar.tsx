@@ -57,10 +57,15 @@ const SearchBar: React.FC<SearchBarProps> = ({
         onKeyDown={handleKeyDown}
       />
       {input && (
-        <button type="button" className="clear-button" onClick={clearSearch}>
-          Clear
-        </button>
-      )}
+          <button
+            type="button"
+            className="clear-icon"
+            onClick={clearSearch}
+            aria-label="Clear search"
+          >
+            ✕
+          </button>
+        )}
     </form>
   );
 };
