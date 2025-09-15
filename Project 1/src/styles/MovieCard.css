@@ -24,7 +24,7 @@
   flex-shrink: 0;
 }
 
-.movie-card--large .content {
+.movie-card--large .movie-content {
   flex: 1;
   padding: 0;
 }
@@ -83,6 +83,10 @@
   flex-direction: column;
   gap: 0.125rem;
 }
+
+/* .movie-content {
+  width: 600px;
+} */
 
 .title {
   font-size: 1.2rem;
@@ -178,9 +182,9 @@
 
 @media (min-width: 1024px) {
   .movie-card--large {
-    width: 700px;
+    width: 950px;
     flex-direction: row;
-    gap: 2rem;
+    gap: 4rem;
   }
 
   .movie-card--large .image-container {
@@ -188,9 +192,10 @@
     flex-shrink: 0;
   }
 
-  .movie-card--large .content {
+  .movie-card--large .movie-content {
   flex: 1;
   padding: 0;
+  width: 500px;
   }
 
   .movie-card--large .title {
@@ -251,8 +256,9 @@
     width: 100%;
   }
 
-  .movie-card--large .content {
+  .movie-card--large .movie-content {
     padding: 0.75rem 0 0 0;
+    width: 270px;
   }
 
   .movie-card--large .title {
@@ -310,9 +316,10 @@
     width: 100%;
   }
 
-  .movie-card--large .content {
+  .movie-card--large .movie-content {
     padding: 0.5rem 0 0 0;
     gap: 0.25rem;
+    width: 250px;
   }
 
   .movie-card--large .title {

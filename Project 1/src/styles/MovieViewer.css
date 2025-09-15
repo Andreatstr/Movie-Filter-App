@@ -17,7 +17,6 @@
   padding: 1rem;
   width: 80%;
   gap: 1rem;
-  margin-bottom: 1rem;
 }
 
 .dropdown-button {
@@ -32,6 +31,7 @@
   &:focus {
     outline: none;
   }
+
   &:focus-visible {
     outline: 2px solid #0077cc;
     outline-offset: 2px;
@@ -100,12 +100,14 @@
   align-items: stretch;
   text-align: center;
   gap: 0.75rem;
-  margin: 1.5rem 0;
+  margin: 1rem 0 0 0;
+  width: 350px;
 }
 
 .jump-label {
   font-weight: 500;
   color: #333;
+  font-size: 16px;
 }
 
 .movie-select {
@@ -148,7 +150,35 @@
   padding: 2rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
+  .movie-viewer {
+    padding: 2rem;
+  }
+
+  .nav-btn {
+    min-width: 120px;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .movie-jump-controls {
+    width: 450px;
+  }
+
+  .movie-position {
+    min-width: 120px;
+  }
+
+  .position-text {
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .jump-label {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
   .movie-viewer {
     padding: 1.5rem;
   }
@@ -174,17 +204,7 @@
   }
 
   .movie-jump-controls {
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    margin: 2rem 0;
-  }
-
-  .movie-select {
-    min-width: 200px;
-    max-width: 300px;
-    width: auto;
+    width: 200px;
   }
 
   .keyboard-hint {
@@ -194,24 +214,18 @@
   .keyboard-hint p {
     font-size: 0.9rem;
   }
+
+  .jump-label {
+    font-size: 14px;
+  }
 }
 
-@media (min-width: 1024px) {
-  .movie-viewer {
-    padding: 2rem;
+@media (max-width: 480px) {
+  .movie-jump-controls {
+    width: 180px;
   }
 
-  .nav-btn {
-    min-width: 120px;
-    padding: 0.75rem 1.5rem;
-  }
-
-  .movie-position {
-    min-width: 120px;
-  }
-
-  .position-text {
-    font-size: 1.1rem;
-    padding: 0.5rem 1rem;
+  .jump-label {
+    font-size: 12px;
   }
 }

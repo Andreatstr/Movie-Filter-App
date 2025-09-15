@@ -206,12 +206,6 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   return (
     <section className="movie-viewer" aria-label="Movie Viewer">
       <section className='dropdown-container'>
-        <button
-          onClick={toggleFilterDropdown}
-          className='dropdown-button'
-        >
-          Filter
-        </button>
         <SearchBar
           onSearch={handleSearch}
           initialValue={searchTerm}
@@ -219,6 +213,12 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
           onSelectSuggestion={handleSelectSuggestion}
           suggestions={searchResults?.map((movie) => movie.title) || []}
         />
+        <button
+          onClick={toggleFilterDropdown}
+          className='dropdown-button'
+        >
+          Filter
+        </button>
       </section>
 
       <section className='suggestion-container'>

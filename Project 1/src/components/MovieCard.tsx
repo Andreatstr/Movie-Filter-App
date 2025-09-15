@@ -90,7 +90,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
           />
         )}
       </figure>
-      <section className="content">
+      <section className="movie-content">
         <header className="header">
           <h2 className="title">{title}</h2>
           <aside className="meta">
