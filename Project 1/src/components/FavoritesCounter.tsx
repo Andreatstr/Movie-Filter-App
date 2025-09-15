@@ -15,7 +15,7 @@ const FavoritesCounter: React.FC<FavoritesCounterProps> = ({onClick}) => {
       onClick={onClick}
       title="Show favorites"
     >
-      ❤ {count}
+      ♡ {count}
     </button>
   );
 };

@@ -258,7 +258,7 @@ export default function FilterPanel({
               aria-label="Show favorites only"
             />
             <span className="favorites-label">Favorites only</span>
-            <span className="favorites-chip" title="Favorites count">❤ {favoritesCount}</span>
+            <span className="favorites-chip" title="Favorites count">♡ {favoritesCount}</span>
           </label>
         </fieldset>
       </form>

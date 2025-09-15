@@ -1,7 +1,7 @@
-import {useState, useRef, useEffect} from 'react';
-import type {Movie} from '../types/movie';
-import {tmdbApi} from '../services/tmdbApi';
-import {useFavorites} from '../hooks/useFavorites';
+import { useState, useRef, useEffect } from 'react';
+import type { Movie } from '../types/movie';
+import { tmdbApi } from '../services/tmdbApi';
+import { useFavorites } from '../hooks/useFavorites';
 import '../styles/MovieCard.css';
 
 interface MovieCardProps {
@@ -9,12 +9,12 @@ interface MovieCardProps {
   size?: 'small' | 'medium' | 'large';
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium' }) => {
   const [imageError, setImageError] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTruncated, setIsTruncated] = useState(false);
   const overviewRef = useRef<HTMLParagraphElement>(null);
-  const {isFavorite, toggle} = useFavorites();
+  const { isFavorite, toggle } = useFavorites();
 
   const year = movie?.release_date
     ? new Date(movie.release_date).getFullYear()
@@ -76,18 +76,6 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
   return (
     <article className={`movie-card movie-card--${size}`}>
       <figure className="image-container">
-        <button
-          type="button"
-          aria-label={isFavorite(movie.id) ? 'Unfavorite' : 'Favorite'}
-          className={`favorite-btn ${isFavorite(movie.id) ? 'is-favorited' : ''}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            toggle(movie);
-          }}
-          title={isFavorite(movie.id) ? 'Remove from favorites' : 'Add to favorites'}
-        >
-          {isFavorite(movie.id) ? '❤' : '♡'}
-        </button>
         {showPlaceholder ? (
           <img
             src="/placeholder-movie.jpg"
@@ -106,6 +94,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
       </figure>
       <section className="content">
         <header className="header">
+
           <h2 className="title">{title}</h2>
           <aside className="meta">
             <time className="year" dateTime={movie?.release_date || undefined}>
@@ -114,6 +103,18 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
             <span className="rating" aria-label={`Rating: ${rating} out of 10`}>
               ★ {rating}/10
             </span>
+            <button
+              type="button"
+              aria-label={isFavorite(movie.id) ? 'Unfavorite' : 'Favorite'}
+              className={`favorite-btn ${isFavorite(movie.id) ? 'is-favorited' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggle(movie);
+              }}
+              title={isFavorite(movie.id) ? 'Remove from favorites' : 'Add to favorites'}
+            >
+              {isFavorite(movie.id) ? '♡' : '♡'}
+            </button>
           </aside>
         </header>
         <section className="overview-container">

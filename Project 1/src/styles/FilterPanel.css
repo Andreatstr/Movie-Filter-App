@@ -388,7 +388,6 @@
   }
 }
 
-/* Favorites control */
 .favorites-control {
   align-items: flex-start;
 }
@@ -406,7 +405,7 @@
   -webkit-appearance: none;
   width: 38px;
   height: 22px;
-  background: #e5e7eb;
+  background: rgb(255, 208, 208);
   border-radius: 999px;
   position: relative;
   outline: none;
@@ -421,14 +420,14 @@
   left: 2px;
   width: 18px;
   height: 18px;
-  background: #fff;
+  background: rgb(255, 230, 230);
   border-radius: 50%;
   box-shadow: 0 1px 2px rgba(0,0,0,0.15);
   transition: transform 0.2s ease;
 }
 
 .favorites-switch:checked {
-  background: #ef476f;
+  background: red;
 }
 
 .favorites-switch:checked::after {
@@ -436,13 +435,14 @@
 }
 
 .favorites-chip {
-  background: #f2f4ff;
-  color: #2f36c0;
+  background: red;
+  color: rgb(255, 255, 255);
   border: 1px solid #d0d4f7;
   border-radius: 9999px;
   padding: 2px 8px;
   font-size: 0.85rem;
   line-height: 1.2;
+  height: 20px;
 }
 
 .favorites-label {
