@@ -1,20 +1,20 @@
-import {useState, useEffect, useCallback, useMemo, useRef} from 'react';
-import {useQuery} from '@tanstack/react-query';
-import type {Movie} from '../types/movie';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import type { Movie } from '../types/movie';
 import MovieCard from './MovieCard';
 import './../styles/MovieViewer.css';
 import FilterPanel from './FilterPanel';
-import {useFilters} from '../hooks/useFilters';
+import { useFilters } from '../hooks/useFilters';
 import SearchBar from './SearchBar';
-import {tmdbApi} from '../services/tmdbApi';
+import { tmdbApi } from '../services/tmdbApi';
 
 interface MovieViewerProps {
   movies: Movie[];
 }
 
-export const MovieViewer = ({movies}: MovieViewerProps) => {
+export const MovieViewer = ({ movies }: MovieViewerProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const {filters, setFilters, reset, hasActiveFilters, applyFilters} =
+  const { filters, setFilters, reset, hasActiveFilters, applyFilters } =
     useFilters();
 
   const [searchResults, setSearchResults] = useState<Movie[] | null>(null);
@@ -35,6 +35,12 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
     const source = searchActive && searchResults ? searchResults : movies;
     return applyFilters(source);
   }, [searchActive, searchResults, applyFilters, movies]);
+
+  const [filterDropdown, setFilterDropdown] = useState(false);
+
+  const toggleDropdown = () => {
+    setFilterDropdown(prev => !prev);
+  };
 
   const handleSearch = useCallback(async (query: string) => {
     setSearchTerm(query);
@@ -176,14 +182,23 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
 
   return (
     <section className="movie-viewer" aria-label="Movie Viewer">
-      <FilterPanel
-        movies={movies}
-        genres={genresData?.genres ?? []}
-        filters={filters}
-        setFilters={setFilters}
-        reset={reset}
-        hasActiveFilters={hasActiveFilters}
-      />
+      <button
+        onClick={toggleDropdown}
+        className='filter-dropdown-button'
+      >
+        Filter
+      </button>
+      {filterDropdown && (
+        <FilterPanel
+          movies={movies}
+          genres={genresData?.genres ?? []}
+          filters={filters}
+          setFilters={setFilters}
+          reset={reset}
+          hasActiveFilters={hasActiveFilters}
+        />
+      )}
+
 
       <section className="search-container" ref={searchContainerRef}>
         <SearchBar
