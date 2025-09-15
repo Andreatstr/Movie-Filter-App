@@ -49,6 +49,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
 
     if (!query) {
       setSearchResults(null);
+      setViewerSource(applyFilters(movies));
       setLoadingSearch(false);
       return;
     }
@@ -56,13 +57,23 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     try {
       const response = await tmdbApi.searchMovies(query);
       setSearchResults(response.results);
+      setViewerSource(response.results);
+      setCurrentIndex(0);
     } catch (error) {
       console.error('Search error:', error);
       setSearchResults([]);
+      setViewerSource([]);
     } finally {
       setLoadingSearch(false);
     }
-  }, []);
+  }, [movies]);
+
+  const handleSelectSuggestion = (suggestion: string) => {
+    setSearchTerm(suggestion);
+    setSearchActive(true);
+    setShowSuggestions(false);
+    handleSearch(suggestion);
+  };
 
   const { data: genresData } = useQuery({
     queryKey: ['genres'],
@@ -155,8 +166,13 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
           reset={reset}
           hasActiveFilters={hasActiveFilters}
         />
-        <SearchBar onSearch={handleSearch} initialValue={searchTerm} />
-        <p className="no-movies">No movies available</p>
+        <SearchBar
+          onSearch={handleSearch}
+          initialValue={searchTerm}
+          onTyping={() => setShowSuggestions(true)}
+          onSelectSuggestion={handleSelectSuggestion}
+          suggestions={searchResults?.map((movie) => movie.title) || []}
+        />        <p className="no-movies">No movies available</p>
       </section>
     );
   }
@@ -174,6 +190,13 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
           setFilters={setFilters}
           reset={reset}
           hasActiveFilters={hasActiveFilters}
+        />
+        <SearchBar
+          onSearch={handleSearch}
+          initialValue={searchTerm}
+          onTyping={() => setShowSuggestions(true)}
+          onSelectSuggestion={handleSelectSuggestion}
+          suggestions={searchResults?.map((movie) => movie.title) || []}
         />
         <p className="no-movies">No movies available</p>
       </section>
@@ -205,6 +228,8 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
           onSearch={handleSearch}
           initialValue={searchTerm}
           onTyping={() => setShowSuggestions(true)}
+          onSelectSuggestion={handleSelectSuggestion}
+          suggestions={searchResults?.map((movie) => movie.title) || []}
         />
 
         {loadingSearch && (
