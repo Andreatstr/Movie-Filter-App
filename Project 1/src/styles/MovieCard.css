@@ -139,7 +139,6 @@
   line-clamp: 3;
 }
 
-/* New styles for expanded overview */
 .overview-container {
   position: relative;
 }
@@ -173,9 +172,72 @@
   border-radius: 2px;
 }
 
-/* For large cards */
 .movie-card--large .expand-btn {
   font-size: 0.9rem;
+}
+
+@media (min-width: 1024px) {
+  .movie-card--large {
+    width: 700px;
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .movie-card--large .image-container {
+    width: 320px;
+    flex-shrink: 0;
+  }
+
+  .movie-card--large .content {
+  flex: 1;
+  padding: 0;
+  }
+
+  .movie-card--large .title {
+    font-size: 1.8rem;
+    line-height: 1.4;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    max-height: 4em;
+  }
+
+  .movie-card--large .meta {
+    font-size: 1.2rem;
+    gap: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .movie-card--large .year,
+  .movie-card--large .rating {
+    font-size: 1.2rem;
+  }
+
+  .movie-card--large .overview {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    margin: 0;
+    height: 14em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+  }
+
+  .title {
+    font-size: 1.8rem;
+    line-height: 1.4;
+  }
+
+  .meta {
+    font-size: 1.2rem;
+    gap: 1.2rem;
+  }
+
+  .year,
+  .rating {
+    font-size: 1.2rem;
+  }
 }
 
 @media (max-width: 768px) {
