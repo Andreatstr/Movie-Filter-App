@@ -279,7 +279,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
 
       <aside className="movie-jump-controls">
         <label htmlFor="movie-select" className="jump-label">
-          Jump to movie:
+          Go to movie
         </label>
         <select
           id="movie-select"
