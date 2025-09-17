@@ -91,6 +91,18 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium' }) => {
             onError={() => setImageError(true)}
           />
         )}
+        <button
+          type="button"
+          aria-label={isFavorite(movie.id) ? 'Unfavorite' : 'Favorite'}
+          className={`favorite-btn ${isFavorite(movie.id) ? 'is-favorited' : ''}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggle(movie);
+          }}
+          title={isFavorite(movie.id) ? 'Remove from favorites' : 'Add to favorites'}
+        >
+          {isFavorite(movie.id) ? '♥' : '♡'}
+        </button>
       </figure>
       <section className="content">
         <header className="header">
@@ -103,18 +115,6 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium' }) => {
             <span className="rating" aria-label={`Rating: ${rating} out of 10`}>
               ★ {rating}/10
             </span>
-            <button
-              type="button"
-              aria-label={isFavorite(movie.id) ? 'Unfavorite' : 'Favorite'}
-              className={`favorite-btn ${isFavorite(movie.id) ? 'is-favorited' : ''}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                toggle(movie);
-              }}
-              title={isFavorite(movie.id) ? 'Remove from favorites' : 'Add to favorites'}
-            >
-              {isFavorite(movie.id) ? '♡' : '♡'}
-            </button>
           </aside>
         </header>
         <section className="overview-container">

@@ -36,14 +36,19 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
   const [viewerSource, setViewerSource] = useState<Movie[]>(
     applyFilters(movies)
   );
+  const [favoritesMovies, setFavoritesMovies] = useState<Movie[]>([]);
+  const [loadingFavorites, setLoadingFavorites] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
   const filteredMovies = useMemo(() => {
+    if (showFavoritesOnly && favoritesMovies.length > 0) {
+      return applyFilters(favoritesMovies);
+    }
     const source = searchActive && searchResults ? searchResults : movies;
     const base = applyFilters(source);
     if (!showFavoritesOnly) return base;
     return base.filter((m) => favoriteIds.has(m.id));
-  }, [searchActive, searchResults, applyFilters, movies, showFavoritesOnly, favoriteIds]);
+  }, [searchActive, searchResults, applyFilters, movies, showFavoritesOnly, favoriteIds, favoritesMovies]);
 
   const handleSearch = useCallback(async (query: string) => {
     setSearchTerm(query);
@@ -96,6 +101,29 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
   useEffect(() => {
     storage.set(SHOW_FAVORITES_KEY, showFavoritesOnly);
   }, [showFavoritesOnly]);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (!showFavoritesOnly || favoriteIds.size === 0) {
+        setFavoritesMovies([]);
+        return;
+      }
+
+      setLoadingFavorites(true);
+      try {
+        const favoriteMovieIds = Array.from(favoriteIds);
+        const movies = await tmdbApi.getMoviesByIds(favoriteMovieIds);
+        setFavoritesMovies(movies);
+      } catch (error) {
+        console.error('Failed to fetch favorite movies:', error);
+        setFavoritesMovies([]);
+      } finally {
+        setLoadingFavorites(false);
+      }
+    };
+
+    fetchFavorites();
+  }, [showFavoritesOnly, favoritesCount]);
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -151,6 +179,26 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
     setCurrentIndex(index);
   };
 
+  if (showFavoritesOnly && loadingFavorites) {
+    return (
+      <section className="movie-viewer" aria-label="Movie Viewer">
+        <FilterPanel
+          movies={movies}
+          genres={genresData?.genres ?? []}
+          filters={filters}
+          setFilters={setFilters}
+          reset={reset}
+          hasActiveFilters={hasActiveFilters}
+          showFavoritesOnly={showFavoritesOnly}
+          onToggleFavoritesOnly={setShowFavoritesOnly}
+          favoritesCount={favoritesCount}
+        />
+        <SearchBar onSearch={handleSearch} initialValue={searchTerm} />
+        <p className="loading-favorites">Loading favorite movies...</p>
+      </section>
+    );
+  }
+
   if (!filteredMovies || filteredMovies.length === 0) {
     return (
       <section className="movie-viewer" aria-label="Movie Viewer">
@@ -166,7 +214,9 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
           favoritesCount={favoritesCount}
         />
         <SearchBar onSearch={handleSearch} initialValue={searchTerm} />
-        <p className="no-movies">No movies available</p>
+        <p className="no-movies">
+          {showFavoritesOnly ? 'No favorite movies found' : 'No movies available'}
+        </p>
       </section>
     );
   }
