@@ -322,9 +322,16 @@
   align-items: center;
   justify-content: center;
   transition: transform 120ms ease, background 120ms ease, opacity 120ms ease;
-  
-  &:focus {
-    outline: none;
+}
+
+.favorite-btn:focus {
+  outline: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .favorite-btn:focus-visible {
+    outline: 2px solid #646cff;
+    outline-offset: 2px;
   }
 }
 

@@ -99,6 +99,10 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium' }) => {
           onClick={(e) => {
             e.stopPropagation();
             toggle(movie);
+            // Remove focus on touch devices to prevent blue outline
+            if ('ontouchstart' in window) {
+              (e.target as HTMLButtonElement).blur();
+            }
           }}
           title={isFavorite(movie.id) ? 'Remove from favorites' : 'Add to favorites'}
         >
