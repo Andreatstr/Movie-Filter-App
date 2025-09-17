@@ -109,7 +109,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium' }) => {
           <Heart fill={isFavorite(movie.id) ? 'currentColor' : 'none'} size={20} />
         </button>
       </figure>
-      <section className="content">
+      <section className="movie-content">
         <header className="header">
 
           <h2 className="title">{title}</h2>

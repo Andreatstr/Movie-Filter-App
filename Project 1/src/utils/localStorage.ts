@@ -1,6 +1,6 @@
 // Safe localStorage helpers with JSON handling and graceful fallbacks
 
-type JSONValue = any;
+type JSONValue = string | number | boolean | null | JSONValue[] | {[key: string]: JSONValue};
 
 const isBrowser = typeof window !== 'undefined' && !!window.localStorage;
 

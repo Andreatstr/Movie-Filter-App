@@ -6,12 +6,16 @@ interface SearchBarProps {
   onSearch: (query: string) => void;
   initialValue?: string;
   onTyping?: () => void;
+  onSelectSuggestion?: (suggestion: string) => void;
+  suggestions: string[];
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
   onSearch,
   initialValue = '',
   onTyping,
+  onSelectSuggestion,
+  suggestions,
 }) => {
   const [input, setInput] = useState(initialValue);
   const debouncedInput = useDebounce(input, 400);
@@ -31,6 +35,13 @@ const SearchBar: React.FC<SearchBarProps> = ({
     onSearch('');
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && suggestions.length > 0) {
+      e.preventDefault();
+      onSelectSuggestion?.(suggestions[0]);
+    }
+  };
+
   return (
     <form className="search-bar" onSubmit={(e) => e.preventDefault()}>
       <input
@@ -43,12 +54,18 @@ const SearchBar: React.FC<SearchBarProps> = ({
           onTyping?.();
         }}
         onFocus={() => onTyping?.()}
+        onKeyDown={handleKeyDown}
       />
       {input && (
-        <button type="button" className="clear-button" onClick={clearSearch}>
-          Clear
-        </button>
-      )}
+          <button
+            type="button"
+            className="clear-icon"
+            onClick={clearSearch}
+            aria-label="Clear search"
+          >
+            ✕
+          </button>
+        )}
     </form>
   );
 };

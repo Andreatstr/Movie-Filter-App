@@ -99,14 +99,16 @@ export function useFavorites() {
   const remove = useCallback((id: number) => {
     ensureInit();
     if (!(id in favoritesState!)) return;
-    const {[id]: _, ...rest} = favoritesState!;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const {[id]: _removed, ...rest} = favoritesState!;
     setFavorites(rest as FavoritesMap);
   }, []);
 
   const toggle = useCallback((movie: Movie) => {
     ensureInit();
     if (favoritesState![movie.id]) {
-      const {[movie.id]: _, ...rest} = favoritesState!;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const {[movie.id]: _removed, ...rest} = favoritesState!;
       setFavorites(rest as FavoritesMap);
     } else {
       setFavorites({...favoritesState!, [movie.id]: toFavorite(movie)});

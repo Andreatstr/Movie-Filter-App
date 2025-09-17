@@ -1,10 +1,10 @@
-import {useState, useEffect, useCallback, useMemo, useRef} from 'react';
-import {useQuery} from '@tanstack/react-query';
-import type {Movie} from '../types/movie';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import type { Movie } from '../types/movie';
 import MovieCard from './MovieCard';
 import './../styles/MovieViewer.css';
 import FilterPanel from './FilterPanel';
-import {useFilters} from '../hooks/useFilters';
+import { useFilters } from '../hooks/useFilters';
 import SearchBar from './SearchBar';
 import {tmdbApi} from '../services/tmdbApi';
 import {useFavorites} from '../hooks/useFavorites';
@@ -14,9 +14,9 @@ interface MovieViewerProps {
   movies: Movie[];
 }
 
-export const MovieViewer = ({movies}: MovieViewerProps) => {
+export const MovieViewer = ({ movies }: MovieViewerProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const {filters, setFilters, reset, hasActiveFilters, applyFilters} =
+  const { filters, setFilters, reset, hasActiveFilters, applyFilters } =
     useFilters();
   const {ids: favoriteIds, count: favoritesCount} = useFavorites();
   const SHOW_FAVORITES_KEY = 'favorites:showOnly';
@@ -36,19 +36,20 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
   const [viewerSource, setViewerSource] = useState<Movie[]>(
     applyFilters(movies)
   );
-  const [favoritesMovies, setFavoritesMovies] = useState<Movie[]>([]);
-  const [loadingFavorites, setLoadingFavorites] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
   const filteredMovies = useMemo(() => {
-    if (showFavoritesOnly && favoritesMovies.length > 0) {
-      return applyFilters(favoritesMovies);
-    }
     const source = searchActive && searchResults ? searchResults : movies;
     const base = applyFilters(source);
     if (!showFavoritesOnly) return base;
     return base.filter((m) => favoriteIds.has(m.id));
-  }, [searchActive, searchResults, applyFilters, movies, showFavoritesOnly, favoriteIds, favoritesMovies]);
+  }, [searchActive, searchResults, applyFilters, movies, showFavoritesOnly, favoriteIds]);
+
+  const [filterDropdown, setFilterDropdown] = useState(false);
+
+  const toggleFilterDropdown = () => {
+    setFilterDropdown(prev => !prev);
+  };
 
   const handleSearch = useCallback(async (query: string) => {
     setSearchTerm(query);
@@ -57,6 +58,7 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
 
     if (!query) {
       setSearchResults(null);
+      setViewerSource(applyFilters(movies));
       setLoadingSearch(false);
       return;
     }
@@ -64,13 +66,23 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
     try {
       const response = await tmdbApi.searchMovies(query);
       setSearchResults(response.results);
+      setViewerSource(response.results);
+      setCurrentIndex(0);
     } catch (error) {
       console.error('Search error:', error);
       setSearchResults([]);
+      setViewerSource([]);
     } finally {
       setLoadingSearch(false);
     }
-  }, []);
+  }, [movies, applyFilters]);
+
+  const handleSelectSuggestion = (suggestion: string) => {
+    setSearchTerm(suggestion);
+    setSearchActive(true);
+    setShowSuggestions(false);
+    handleSearch(suggestion);
+  };
 
   const { data: genresData } = useQuery({
     queryKey: ['genres'],
@@ -101,29 +113,6 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
   useEffect(() => {
     storage.set(SHOW_FAVORITES_KEY, showFavoritesOnly);
   }, [showFavoritesOnly]);
-
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      if (!showFavoritesOnly || favoriteIds.size === 0) {
-        setFavoritesMovies([]);
-        return;
-      }
-
-      setLoadingFavorites(true);
-      try {
-        const favoriteMovieIds = Array.from(favoriteIds);
-        const movies = await tmdbApi.getMoviesByIds(favoriteMovieIds);
-        setFavoritesMovies(movies);
-      } catch (error) {
-        console.error('Failed to fetch favorite movies:', error);
-        setFavoritesMovies([]);
-      } finally {
-        setLoadingFavorites(false);
-      }
-    };
-
-    fetchFavorites();
-  }, [showFavoritesOnly, favoritesCount]);
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -179,26 +168,6 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
     setCurrentIndex(index);
   };
 
-  if (showFavoritesOnly && loadingFavorites) {
-    return (
-      <section className="movie-viewer" aria-label="Movie Viewer">
-        <FilterPanel
-          movies={movies}
-          genres={genresData?.genres ?? []}
-          filters={filters}
-          setFilters={setFilters}
-          reset={reset}
-          hasActiveFilters={hasActiveFilters}
-          showFavoritesOnly={showFavoritesOnly}
-          onToggleFavoritesOnly={setShowFavoritesOnly}
-          favoritesCount={favoritesCount}
-        />
-        <SearchBar onSearch={handleSearch} initialValue={searchTerm} />
-        <p className="loading-favorites">Loading favorite movies...</p>
-      </section>
-    );
-  }
-
   if (!filteredMovies || filteredMovies.length === 0) {
     return (
       <section className="movie-viewer" aria-label="Movie Viewer">
@@ -213,7 +182,13 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
           onToggleFavoritesOnly={setShowFavoritesOnly}
           favoritesCount={favoritesCount}
         />
-        <SearchBar onSearch={handleSearch} initialValue={searchTerm} />
+        <SearchBar
+          onSearch={handleSearch}
+          initialValue={searchTerm}
+          onTyping={() => setShowSuggestions(true)}
+          onSelectSuggestion={handleSelectSuggestion}
+          suggestions={searchResults?.map((movie) => movie.title) || []}
+        />
         <p className="no-movies">
           {showFavoritesOnly ? 'No favorite movies found' : 'No movies available'}
         </p>
@@ -234,6 +209,16 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
           setFilters={setFilters}
           reset={reset}
           hasActiveFilters={hasActiveFilters}
+          showFavoritesOnly={showFavoritesOnly}
+          onToggleFavoritesOnly={setShowFavoritesOnly}
+          favoritesCount={favoritesCount}
+        />
+        <SearchBar
+          onSearch={handleSearch}
+          initialValue={searchTerm}
+          onTyping={() => setShowSuggestions(true)}
+          onSelectSuggestion={handleSelectSuggestion}
+          suggestions={searchResults?.map((movie) => movie.title) || []}
         />
         <p className="no-movies">No movies available</p>
       </section>
@@ -242,26 +227,23 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
 
   return (
     <section className="movie-viewer" aria-label="Movie Viewer">
-      <FilterPanel
-        movies={movies}
-        genres={genresData?.genres ?? []}
-        filters={filters}
-        setFilters={setFilters}
-        reset={reset}
-        hasActiveFilters={hasActiveFilters}
-        showFavoritesOnly={showFavoritesOnly}
-        onToggleFavoritesOnly={setShowFavoritesOnly}
-        favoritesCount={favoritesCount}
-      />
-
-
-      <section className="search-container" ref={searchContainerRef}>
+      <section className='dropdown-container' ref={searchContainerRef}>
         <SearchBar
           onSearch={handleSearch}
           initialValue={searchTerm}
           onTyping={() => setShowSuggestions(true)}
+          onSelectSuggestion={handleSelectSuggestion}
+          suggestions={searchResults?.map((movie) => movie.title) || []}
         />
+        <button
+          onClick={toggleFilterDropdown}
+          className='dropdown-button'
+        >
+          Filter
+        </button>
+      </section>
 
+      <section className='suggestion-container'>
         {loadingSearch && (
           <aside className="search-loading">
             <p>Loading search results...</p>
@@ -272,7 +254,7 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
           showSuggestions &&
           !loadingSearch &&
           filteredMovies.length > 0 && (
-            <ul className="search-suggestions">
+            <section className="search-suggestions">
               {filteredMovies.slice(0, 5).map((movie, index) => (
                 <li key={movie.id}>
                   <button
@@ -298,13 +280,31 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
                   </button>
                 </li>
               ))}
-            </ul>
+            </section>
           )}
       </section>
 
+      {filterDropdown && (
+        <FilterPanel
+          movies={movies}
+          genres={genresData?.genres ?? []}
+          filters={filters}
+          setFilters={setFilters}
+          reset={reset}
+          hasActiveFilters={hasActiveFilters}
+          showFavoritesOnly={showFavoritesOnly}
+          onToggleFavoritesOnly={setShowFavoritesOnly}
+          favoritesCount={favoritesCount}
+        />
+      )}
+
+      <main className="movie-display">
+        <MovieCard movie={currentMovie} size="large" />
+      </main>
+
       <aside className="movie-jump-controls">
         <label htmlFor="movie-select" className="jump-label">
-          Jump to movie:
+          Go to movie
         </label>
         <select
           id="movie-select"
@@ -323,9 +323,6 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
         </select>
       </aside>
 
-      <main className="movie-display">
-        <MovieCard movie={currentMovie} size="large" />
-      </main>
       <aside className="keyboard-hint">
         <p>Use ← → arrow keys to navigate</p>
       </aside>
@@ -337,7 +334,7 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
           aria-label="Previous movie"
           disabled={totalMovies <= 1}
         >
-          ← Previous
+          ← Prev
         </button>
 
         <aside className="movie-position">

@@ -1,3 +1,4 @@
+/* Mobile-first base styles */
 .movie-card {
   display: flex;
   flex-direction: column;
@@ -13,51 +14,48 @@
   width: 300px;
 }
 
+/* Mobile: Large cards are stacked vertically */
 .movie-card--large {
-  width: 700px;
-  flex-direction: row;
-  gap: 2rem;
+  width: 280px;
+  flex-direction: column;
+  gap: 0;
 }
 
 .movie-card--large .image-container {
-  width: 280px;
-  flex-shrink: 0;
+  width: 100%;
 }
 
-.movie-card--large .content {
-  flex: 1;
-  padding: 0;
+.movie-card--large .movie-content {
+  padding: 0.75rem 0 0 0;
+  width: 270px;
 }
 
 .movie-card--large .title {
-  font-size: 1.5rem;
-  line-height: 1.3;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  max-height: 3.9em;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  max-height: 2.4em;
 }
 
 .movie-card--large .meta {
-  font-size: 1rem;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .movie-card--large .year,
 .movie-card--large .rating {
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .movie-card--large .overview {
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.5;
   margin: 0;
-  height: 8em;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 5;
-  line-clamp: 5;
+  height: 6em;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
 }
 
 .image-container {
@@ -86,11 +84,11 @@
 }
 
 .title {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 700;
   margin: 0;
   color: #1a1a1a;
-  line-height: 1.3;
+  line-height: 1.2;
   word-wrap: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
@@ -177,52 +175,11 @@
   font-size: 0.9rem;
 }
 
-@media (max-width: 768px) {
-  .movie-card--large {
-    width: 280px;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .movie-card--large .image-container {
-    width: 100%;
-  }
-
-  .movie-card--large .content {
-    padding: 0.75rem 0 0 0;
-  }
-
-  .movie-card--large .title {
-    font-size: 1.2rem;
-    line-height: 1.2;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    max-height: 2.4em;
-  }
-
-  .movie-card--large .meta {
-    font-size: 0.9rem;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .movie-card--large .year,
-  .movie-card--large .rating {
-    font-size: 0.9rem;
-  }
-
-  .movie-card--large .overview {
-    font-size: 1rem;
-    line-height: 1.5;
-    margin: 0;
-    height: 6em;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
-  }
-
+/* Tablet and up (min-width: 768px) */
+@media (min-width: 768px) {
   .title {
-    font-size: 1rem;
-    line-height: 1.2;
+    font-size: 1.2rem;
+    line-height: 1.3;
   }
 
   .meta {
@@ -236,71 +193,74 @@
   }
 }
 
-@media (max-width: 480px) {
+/* Desktop and up (min-width: 1024px) */
+@media (min-width: 1024px) {
+  /* Desktop: Large cards are horizontal */
   .movie-card--large {
-    width: 250px;
-    flex-direction: column;
-    gap: 0;
+    width: 700px;
+    flex-direction: row;
+    gap: 2rem;
   }
 
   .movie-card--large .image-container {
-    width: 100%;
+    width: 280px;
+    flex-shrink: 0;
   }
 
-  .movie-card--large .content {
-    padding: 0.5rem 0 0 0;
-    gap: 0.25rem;
+  .movie-card--large .movie-content {
+    flex: 1;
+    padding: 0;
+    width: auto;
   }
 
   .movie-card--large .title {
-    font-size: 1.1rem;
-    line-height: 1.2;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    max-height: 2.4em;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    max-height: 3.9em;
   }
 
   .movie-card--large .meta {
-    font-size: 0.85rem;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    gap: 1rem;
+    margin-bottom: 1rem;
   }
 
   .movie-card--large .year,
   .movie-card--large .rating {
-    font-size: 0.85rem;
+    font-size: 1rem;
   }
 
   .movie-card--large .overview {
-    font-size: 0.95rem;
-    line-height: 1.4;
+    font-size: 1.1rem;
+    line-height: 1.6;
     margin: 0;
-    height: 4.2em;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
+    height: 8em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
   }
 
-  .content {
-    padding: 0.5rem 0 0 0;
-    gap: 0.25rem;
+  .movie-card--large .expand-btn {
+    font-size: 0.9rem;
   }
 
   .title {
-    font-size: 0.9rem;
-    line-height: 1.2;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    max-height: 2.4em;
+    font-size: 1.2rem;
+    line-height: 1.3;
   }
 
   .meta {
-    font-size: 0.75rem;
-    gap: 0.5rem;
+    font-size: 0.8rem;
+    gap: 0.75rem;
   }
 
   .year,
   .rating {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
   }
 }
 

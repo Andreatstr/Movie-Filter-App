@@ -1,22 +1,16 @@
-.search-container {
-  position: relative;
-  margin-top: 10px;
-  margin-bottom: -16px;
-}
-
 .search-bar {
-  display: flex;
   align-items: center;
   user-select: none;
-  gap: 8px;
-  padding: 10px;
+  position: relative;
+  display: flex;
+  width: 100%;
 }
 
 .search-bar input {
   box-sizing: border-box;
   flex: 1;
   height: 48px;
-  padding: 8px;
+  padding: 0.5rem 1rem 0.5rem 0.75rem;
   font-size: 16px;
   background-color: #fff;
   color: black;
@@ -29,6 +23,15 @@
   }
 }
 
+.input-field {
+  width: 100%;
+}
+
+.suggestion-container {
+  width: 390px;
+  padding: 0;
+}
+
 .search-loading {
   font-size: 14px;
   color: #000000;
@@ -37,10 +40,9 @@
 }
 
 .search-suggestions {
+  max-width: 800px;
   max-height: 200px;
   overflow-y: auto;
-  margin-top: 2px;
-  padding: 0;
   list-style: none;
   background-color: #fff;
   border: 1px solid #ccc;
@@ -48,6 +50,7 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   z-index: 10;
   transition: opacity 0.2s ease-in-out;
+  margin-bottom: 1rem;
 }
 
 .suggestion-button {
@@ -64,17 +67,31 @@
   text-decoration: underline;
 }
 
-.clear-button {
-  box-sizing: border-box;
-  padding: 8px 12px;
-  font-size: 16px;
+.clear-icon {
+  position: absolute;
+  right: 0.1rem;
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 1.2rem;
   cursor: pointer;
-  height: 48px;
-  width: 90px;
+
+  &:hover {
+    color: #000;
+  }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
+  .search-bar {
+    flex: 1;
+  }
+}
+
+@media (max-width: 1023px) {
   .input-field {
-    width: 350px;
+    width: 100%;
+  }
+  .suggestion-container {
+    width: 100%;
   }
 }

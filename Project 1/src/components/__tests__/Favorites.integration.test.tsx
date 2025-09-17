@@ -39,48 +39,52 @@ describe('Favorites Integration', () => {
   const movies: Movie[] = [
     {
       id: 1,
-      title: 'Fav One',
-      overview: 'A',
-      poster_path: '/a.jpg',
-      release_date: '2023-01-01',
-      vote_average: 7.1,
-      genre_ids: [1],
+      title: 'Fav Two',
+      poster_path: '/path/poster.jpg',
+      backdrop_path: '/path/backdrop.jpg',
+      overview: 'B',
+      release_date: '2022-01-01',
+      vote_average: 6.2,
+      vote_count: 100,
+      popularity: 50.5,
       adult: false,
-      backdrop_path: '/a-b.jpg',
       original_language: 'en',
-      original_title: 'Fav One',
-      popularity: 10,
-      vote_count: 10,
+      original_title: 'Fav Two',
+      genre_ids: [123],
     },
     {
       id: 2,
-      title: 'Fav Two',
-      overview: 'B',
-      poster_path: '/b.jpg',
-      release_date: '2022-01-01',
-      vote_average: 6.2,
-      genre_ids: [2],
+      title: 'Fav One',
+      poster_path: '/path/poster.jpg',
+      backdrop_path: '/path/backdrop.jpg',
+      overview: 'A',
+      release_date: '2021-01-01',
+      vote_average: 7.1,
+      vote_count: 200,
+      popularity: 75.5,
       adult: false,
-      backdrop_path: '/b-b.jpg',
       original_language: 'en',
-      original_title: 'Fav Two',
-      popularity: 20,
-      vote_count: 20,
+      original_title: 'Fav One',
+      genre_ids: [456],
     },
   ];
 
   beforeEach(() => {
-    vi.clearAllMocks();
-    mockLocalStorage.getItem.mockImplementation((key: string) => {
-      // Start with empty favorites and favorites-only disabled
-      if (key === 'favorites:v1') return null;
-      if (key === 'favorites:showOnly') return 'false';
-      return null;
-    });
+    // Reset localStorage before each test
+    mockLocalStorage.getItem.mockReturnValue(null);
+    mockLocalStorage.setItem.mockClear();
+    mockLocalStorage.removeItem.mockClear();
   });
 
+  // TODO: These tests require FavoritesCounter and favorites filtering features
+  // that haven't been implemented yet. Re-enable when those features are added.
+  
   it('toggles favorite on MovieCard and updates count immediately', () => {
     renderWithQuery(<MovieViewer movies={movies} />);
+
+    // Open the filter dropdown to access favorites count
+    const filterButton = screen.getByRole('button', {name: /filter/i});
+    fireEvent.click(filterButton);
 
     // Initially, counter is 0
     const counter = screen.getByTitle('Favorites count');
@@ -101,6 +105,10 @@ describe('Favorites Integration', () => {
 
   it('filters to show only favorites when checkbox is enabled', () => {
     renderWithQuery(<MovieViewer movies={movies} />);
+
+    // Open the filter dropdown to access favorites controls
+    const filterButton = screen.getByRole('button', {name: /filter/i});
+    fireEvent.click(filterButton);
 
     // Favorite current visible movie
     fireEvent.click(screen.getByRole('button', {name: /favorite/i}));

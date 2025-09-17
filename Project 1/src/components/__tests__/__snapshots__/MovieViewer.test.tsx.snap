@@ -6,240 +6,7 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
   class="movie-viewer"
 >
   <section
-    aria-label="Filters"
-    class="filter-panel"
-  >
-    <header
-      class="filter-header"
-    >
-      <h2
-        class="filter-title"
-      >
-        Filters
-      </h2>
-      <section
-        class="filter-actions"
-      >
-        <button
-          aria-disabled="true"
-          class="filter-reset-btn"
-          disabled=""
-          type="button"
-        >
-          Clear filters
-        </button>
-      </section>
-    </header>
-    <form
-      class="filter-grid"
-    >
-      <fieldset
-        class="filter-control"
-      >
-        <label
-          class="filter-label"
-          for="genre-select"
-        >
-          Genre
-        </label>
-        <select
-          class="filter-select"
-          id="genre-select"
-        >
-          <option
-            value=""
-          >
-            Any
-          </option>
-        </select>
-      </fieldset>
-      <fieldset
-        class="filter-control"
-      >
-        <label
-          class="filter-label"
-          for="year-select"
-        >
-          Year
-        </label>
-        <select
-          class="filter-select"
-          id="year-select"
-        >
-          <option
-            value=""
-          >
-            Any
-          </option>
-          <option
-            value="2023"
-          >
-            2023
-          </option>
-        </select>
-      </fieldset>
-      <fieldset
-        class="filter-control filter-control-rating"
-      >
-        <label
-          class="filter-label"
-        >
-          Rating
-        </label>
-        <div
-          class="dual-range-slider"
-        >
-          <div
-            class="slider-track"
-          />
-          <div
-            class="slider-range"
-            style="left: calc(22px + 0 * (100% - 44px)); width: calc(1 * (100% - 44px));"
-          />
-          <input
-            aria-label="Minimum rating"
-            class="range-min"
-            max="10"
-            min="0"
-            step="0.5"
-            type="range"
-            value="0"
-          />
-          <input
-            aria-label="Maximum rating"
-            class="range-max"
-            max="10"
-            min="0"
-            step="0.5"
-            type="range"
-            value="10"
-          />
-          <div
-            class="range-values"
-          >
-            <span
-              class="range-value"
-            >
-              Min: 
-              0.0
-            </span>
-            <span
-              class="range-value"
-            >
-              Max: 
-              10.0
-            </span>
-          </div>
-        </div>
-      </fieldset>
-      <fieldset
-        class="filter-control"
-      >
-        <label
-          class="filter-label"
-          for="sort-by"
-        >
-          Sort by
-        </label>
-        <select
-          class="filter-select"
-          id="sort-by"
-        >
-          <option
-            value="popularity"
-          >
-            Popularity
-          </option>
-          <option
-            value="rating"
-          >
-            Rating
-          </option>
-          <option
-            value="release_date"
-          >
-            Release date
-          </option>
-          <option
-            value="title"
-          >
-            Title
-          </option>
-        </select>
-      </fieldset>
-      <fieldset
-        class="filter-control"
-      >
-        <label
-          class="filter-label"
-        >
-          Order
-        </label>
-        <section
-          class="order-toggle"
-        >
-          <button
-            aria-pressed="false"
-            class="order-btn "
-            type="button"
-          >
-            Asc
-          </button>
-          <button
-            aria-pressed="true"
-            class="order-btn is-active"
-            type="button"
-          >
-            Desc
-          </button>
-        </section>
-      </fieldset>
-      <fieldset
-        class="filter-control favorites-control"
-      >
-        <label
-          class="filter-label"
-          for="favorites-only"
-        >
-          Favorites
-        </label>
-        <label
-          class="favorites-row"
-          for="favorites-only"
-        >
-          <input
-            aria-label="Show favorites only"
-            class="favorites-switch"
-            id="favorites-only"
-            type="checkbox"
-          />
-          <span
-            class="favorites-label"
-          >
-            Favorites only
-          </span>
-          <span
-            class="favorites-chip"
-            title="Favorites count"
-          >
-            ❤ 
-            0
-          </span>
-        </label>
-      </fieldset>
-    </form>
-    <aside
-      class="filter-active"
-    >
-      <small
-        class="filter-hint"
-      >
-        No active filters
-      </small>
-    </aside>
-  </section>
-  <section
-    class="search-container"
+    class="dropdown-container"
   >
     <form
       class="search-bar"
@@ -251,43 +18,15 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
         value=""
       />
     </form>
+    <button
+      class="dropdown-button"
+    >
+      Filter
+    </button>
   </section>
-  <aside
-    class="movie-jump-controls"
-  >
-    <label
-      class="jump-label"
-      for="movie-select"
-    >
-      Jump to movie:
-    </label>
-    <select
-      class="movie-select"
-      id="movie-select"
-    >
-      <option
-        value="0"
-      >
-        1
-        . 
-        Third Movie
-      </option>
-      <option
-        value="1"
-      >
-        2
-        . 
-        First Movie
-      </option>
-      <option
-        value="2"
-      >
-        3
-        . 
-        Second Movie
-      </option>
-    </select>
-  </aside>
+  <section
+    class="suggestion-container"
+  />
   <main
     class="movie-display"
   >
@@ -297,23 +36,39 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
       <figure
         class="image-container"
       >
-        <button
-          aria-label="Favorite"
-          class="favorite-btn "
-          title="Add to favorites"
-          type="button"
-        >
-          ♡
-        </button>
         <img
           alt="Third Movie poster"
           class="image"
           loading="lazy"
           src="mocked-image-url"
         />
+        <button
+          aria-label="Favorite"
+          class="favorite-btn "
+          title="Add to favorites"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-heart"
+            fill="none"
+            height="20"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"
+            />
+          </svg>
+        </button>
       </figure>
       <section
-        class="content"
+        class="movie-content"
       >
         <header
           class="header"
@@ -354,6 +109,42 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
       </section>
     </article>
   </main>
+  <aside
+    class="movie-jump-controls"
+  >
+    <label
+      class="jump-label"
+      for="movie-select"
+    >
+      Go to movie
+    </label>
+    <select
+      class="movie-select"
+      id="movie-select"
+    >
+      <option
+        value="0"
+      >
+        1
+        . 
+        Third Movie
+      </option>
+      <option
+        value="1"
+      >
+        2
+        . 
+        First Movie
+      </option>
+      <option
+        value="2"
+      >
+        3
+        . 
+        Second Movie
+      </option>
+    </select>
+  </aside>
   <aside
     class="keyboard-hint"
   >
@@ -473,51 +264,56 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies
         >
           Rating
         </label>
-        <div
-          class="dual-range-slider"
+        <section
+          class="rating-range"
         >
-          <div
-            class="slider-track"
-          />
-          <div
-            class="slider-range"
-            style="left: calc(22px + 0 * (100% - 44px)); width: calc(1 * (100% - 44px));"
-          />
-          <input
-            aria-label="Minimum rating"
-            class="range-min"
-            max="10"
-            min="0"
-            step="0.5"
-            type="range"
-            value="0"
-          />
-          <input
-            aria-label="Maximum rating"
-            class="range-max"
-            max="10"
-            min="0"
-            step="0.5"
-            type="range"
-            value="10"
-          />
-          <div
-            class="range-values"
+          <section
+            class="rating-field"
           >
-            <span
-              class="range-value"
+            <label
+              class="sub-label"
+              for="min-rating"
             >
-              Min: 
+              Min rating
+            </label>
+            <input
+              id="min-rating"
+              max="10"
+              min="0"
+              step="0.5"
+              type="range"
+              value="0"
+            />
+            <span
+              class="rating-value"
+            >
               0.0
             </span>
-            <span
-              class="range-value"
+          </section>
+          <section
+            class="rating-field"
+          >
+            <label
+              class="sub-label"
+              for="max-rating"
             >
-              Max: 
+              Max rating
+            </label>
+            <input
+              id="max-rating"
+              max="10"
+              min="0"
+              step="0.5"
+              type="range"
+              value="10"
+            />
+            <span
+              class="rating-value"
+            >
               10.0
             </span>
-          </div>
-        </div>
+          </section>
+        </section>
       </fieldset>
       <fieldset
         class="filter-control"
@@ -649,240 +445,7 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
   class="movie-viewer"
 >
   <section
-    aria-label="Filters"
-    class="filter-panel"
-  >
-    <header
-      class="filter-header"
-    >
-      <h2
-        class="filter-title"
-      >
-        Filters
-      </h2>
-      <section
-        class="filter-actions"
-      >
-        <button
-          aria-disabled="true"
-          class="filter-reset-btn"
-          disabled=""
-          type="button"
-        >
-          Clear filters
-        </button>
-      </section>
-    </header>
-    <form
-      class="filter-grid"
-    >
-      <fieldset
-        class="filter-control"
-      >
-        <label
-          class="filter-label"
-          for="genre-select"
-        >
-          Genre
-        </label>
-        <select
-          class="filter-select"
-          id="genre-select"
-        >
-          <option
-            value=""
-          >
-            Any
-          </option>
-        </select>
-      </fieldset>
-      <fieldset
-        class="filter-control"
-      >
-        <label
-          class="filter-label"
-          for="year-select"
-        >
-          Year
-        </label>
-        <select
-          class="filter-select"
-          id="year-select"
-        >
-          <option
-            value=""
-          >
-            Any
-          </option>
-          <option
-            value="2023"
-          >
-            2023
-          </option>
-        </select>
-      </fieldset>
-      <fieldset
-        class="filter-control filter-control-rating"
-      >
-        <label
-          class="filter-label"
-        >
-          Rating
-        </label>
-        <div
-          class="dual-range-slider"
-        >
-          <div
-            class="slider-track"
-          />
-          <div
-            class="slider-range"
-            style="left: calc(22px + 0 * (100% - 44px)); width: calc(1 * (100% - 44px));"
-          />
-          <input
-            aria-label="Minimum rating"
-            class="range-min"
-            max="10"
-            min="0"
-            step="0.5"
-            type="range"
-            value="0"
-          />
-          <input
-            aria-label="Maximum rating"
-            class="range-max"
-            max="10"
-            min="0"
-            step="0.5"
-            type="range"
-            value="10"
-          />
-          <div
-            class="range-values"
-          >
-            <span
-              class="range-value"
-            >
-              Min: 
-              0.0
-            </span>
-            <span
-              class="range-value"
-            >
-              Max: 
-              10.0
-            </span>
-          </div>
-        </div>
-      </fieldset>
-      <fieldset
-        class="filter-control"
-      >
-        <label
-          class="filter-label"
-          for="sort-by"
-        >
-          Sort by
-        </label>
-        <select
-          class="filter-select"
-          id="sort-by"
-        >
-          <option
-            value="popularity"
-          >
-            Popularity
-          </option>
-          <option
-            value="rating"
-          >
-            Rating
-          </option>
-          <option
-            value="release_date"
-          >
-            Release date
-          </option>
-          <option
-            value="title"
-          >
-            Title
-          </option>
-        </select>
-      </fieldset>
-      <fieldset
-        class="filter-control"
-      >
-        <label
-          class="filter-label"
-        >
-          Order
-        </label>
-        <section
-          class="order-toggle"
-        >
-          <button
-            aria-pressed="false"
-            class="order-btn "
-            type="button"
-          >
-            Asc
-          </button>
-          <button
-            aria-pressed="true"
-            class="order-btn is-active"
-            type="button"
-          >
-            Desc
-          </button>
-        </section>
-      </fieldset>
-      <fieldset
-        class="filter-control favorites-control"
-      >
-        <label
-          class="filter-label"
-          for="favorites-only"
-        >
-          Favorites
-        </label>
-        <label
-          class="favorites-row"
-          for="favorites-only"
-        >
-          <input
-            aria-label="Show favorites only"
-            class="favorites-switch"
-            id="favorites-only"
-            type="checkbox"
-          />
-          <span
-            class="favorites-label"
-          >
-            Favorites only
-          </span>
-          <span
-            class="favorites-chip"
-            title="Favorites count"
-          >
-            ❤ 
-            0
-          </span>
-        </label>
-      </fieldset>
-    </form>
-    <aside
-      class="filter-active"
-    >
-      <small
-        class="filter-hint"
-      >
-        No active filters
-      </small>
-    </aside>
-  </section>
-  <section
-    class="search-container"
+    class="dropdown-container"
   >
     <form
       class="search-bar"
@@ -894,30 +457,15 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
         value=""
       />
     </form>
+    <button
+      class="dropdown-button"
+    >
+      Filter
+    </button>
   </section>
-  <aside
-    class="movie-jump-controls"
-  >
-    <label
-      class="jump-label"
-      for="movie-select"
-    >
-      Jump to movie:
-    </label>
-    <select
-      class="movie-select"
-      disabled=""
-      id="movie-select"
-    >
-      <option
-        value="0"
-      >
-        1
-        . 
-        First Movie
-      </option>
-    </select>
-  </aside>
+  <section
+    class="suggestion-container"
+  />
   <main
     class="movie-display"
   >
@@ -927,23 +475,39 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
       <figure
         class="image-container"
       >
-        <button
-          aria-label="Favorite"
-          class="favorite-btn "
-          title="Add to favorites"
-          type="button"
-        >
-          ♡
-        </button>
         <img
           alt="First Movie poster"
           class="image"
           loading="lazy"
           src="mocked-image-url"
         />
+        <button
+          aria-label="Favorite"
+          class="favorite-btn "
+          title="Add to favorites"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-heart"
+            fill="none"
+            height="20"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"
+            />
+          </svg>
+        </button>
       </figure>
       <section
-        class="content"
+        class="movie-content"
       >
         <header
           class="header"
@@ -984,6 +548,29 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
       </section>
     </article>
   </main>
+  <aside
+    class="movie-jump-controls"
+  >
+    <label
+      class="jump-label"
+      for="movie-select"
+    >
+      Go to movie
+    </label>
+    <select
+      class="movie-select"
+      disabled=""
+      id="movie-select"
+    >
+      <option
+        value="0"
+      >
+        1
+        . 
+        First Movie
+      </option>
+    </select>
+  </aside>
   <aside
     class="keyboard-hint"
   >
