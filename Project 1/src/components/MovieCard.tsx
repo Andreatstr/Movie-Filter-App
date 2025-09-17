@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { Heart } from 'lucide-react';
 import type { Movie } from '../types/movie';
 import { tmdbApi } from '../services/tmdbApi';
 import { useFavorites } from '../hooks/useFavorites';
@@ -101,7 +102,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium' }) => {
           }}
           title={isFavorite(movie.id) ? 'Remove from favorites' : 'Add to favorites'}
         >
-          {isFavorite(movie.id) ? '♥' : '♡'}
+          <Heart fill={isFavorite(movie.id) ? 'currentColor' : 'none'} size={20} />
         </button>
       </figure>
       <section className="content">

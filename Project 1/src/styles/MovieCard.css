@@ -318,7 +318,6 @@
   padding: 0;
   cursor: pointer;
   line-height: 1;
-  font-size: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -329,9 +328,11 @@
   }
 }
 
-.favorite-btn:hover {
-  background: rgba(0, 0, 0, 0.8);
-  color: #ff4757;
+@media (hover: hover) and (pointer: fine) {
+  .favorite-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    color: #ff4757;
+  }
 }
 
 .favorite-btn:active {
