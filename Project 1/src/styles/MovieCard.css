@@ -312,11 +312,16 @@
   background: rgba(0, 0, 0, 0.6);
   color: white;
   border: 1px solid white;
-  border-radius: 50%;
-  padding: 12px;
+  border-radius: var(--favorite-btn-radius);
+  width: var(--favorite-btn-size);
+  height: var(--favorite-btn-size);
+  padding: 0;
   cursor: pointer;
   line-height: 1;
   font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 120ms ease, background 120ms ease, opacity 120ms ease;
   
   &:focus {
