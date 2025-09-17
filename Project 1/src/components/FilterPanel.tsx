@@ -35,7 +35,7 @@ export default function FilterPanel({
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 1024);
+      setIsMobile(window.innerWidth < 1024);
     };
 
     checkMobile();
