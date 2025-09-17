@@ -67,6 +67,7 @@
   overflow: hidden;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .image {
@@ -139,7 +140,6 @@
   line-clamp: 3;
 }
 
-/* New styles for expanded overview */
 .overview-container {
   position: relative;
 }
@@ -173,7 +173,6 @@
   border-radius: 2px;
 }
 
-/* For large cards */
 .movie-card--large .expand-btn {
   font-size: 0.9rem;
 }
@@ -303,4 +302,51 @@
   .rating {
     font-size: 0.75rem;
   }
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: 1px solid white;
+  border-radius: var(--favorite-btn-radius);
+  width: var(--favorite-btn-size);
+  height: var(--favorite-btn-size);
+  padding: 0;
+  cursor: pointer;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 120ms ease, background 120ms ease, opacity 120ms ease;
+}
+
+.favorite-btn:focus {
+  outline: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .favorite-btn:focus-visible {
+    outline: 2px solid #646cff;
+    outline-offset: 2px;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .favorite-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    color: #ff4757;
+  }
+}
+
+.favorite-btn:active {
+  transform: scale(0.96);
+  border: none;
+}
+
+.favorite-btn.is-favorited {
+  color: #ff4757;
 }

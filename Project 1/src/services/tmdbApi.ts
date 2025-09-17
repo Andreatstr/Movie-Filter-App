@@ -69,6 +69,15 @@ export const tmdbApi = {
     return response.json();
   },
 
+  async getMoviesByIds(movieIds: number[]): Promise<Movie[]> {
+    const promises = movieIds.map(id => this.getMovieDetails(id));
+    const results = await Promise.allSettled(promises);
+    
+    return results
+      .filter((result): result is PromiseFulfilledResult<Movie> => result.status === 'fulfilled')
+      .map(result => result.value);
+  },
+
   getImageUrl(
     path: string | null,
     size: 'w200' | 'w500' | 'original' = 'w500'

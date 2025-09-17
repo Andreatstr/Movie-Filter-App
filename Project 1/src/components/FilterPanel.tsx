@@ -9,6 +9,9 @@ interface FilterPanelProps {
   setFilters: (patch: Partial<MovieFilters>) => void;
   reset: () => void;
   hasActiveFilters: boolean;
+  showFavoritesOnly?: boolean;
+  onToggleFavoritesOnly?: (value: boolean) => void;
+  favoritesCount?: number;
 }
 
 export default function FilterPanel({
@@ -18,6 +21,9 @@ export default function FilterPanel({
   setFilters,
   reset,
   hasActiveFilters,
+  showFavoritesOnly = false,
+  onToggleFavoritesOnly,
+  favoritesCount = 0,
 }: FilterPanelProps) {
   const availableYears = useMemo(() => {
     const years = new Set<number>();
@@ -236,6 +242,24 @@ export default function FilterPanel({
               Desc
             </button>
           </section>
+        </fieldset>
+
+        <fieldset className="filter-control favorites-control">
+          <label className="filter-label" htmlFor="favorites-only">
+            Favorites
+          </label>
+          <label className="favorites-row" htmlFor="favorites-only">
+            <input
+              id="favorites-only"
+              type="checkbox"
+              className="favorites-switch"
+              checked={showFavoritesOnly}
+              onChange={(e) => onToggleFavoritesOnly?.(e.target.checked)}
+              aria-label="Show favorites only"
+            />
+            <span className="favorites-label">Favorites only</span>
+            <span className="favorites-chip" title="Favorites count">♡ {favoritesCount}</span>
+          </label>
         </fieldset>
       </form>
 

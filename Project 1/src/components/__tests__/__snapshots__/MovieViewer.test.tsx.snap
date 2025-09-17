@@ -194,6 +194,39 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
           </button>
         </section>
       </fieldset>
+      <fieldset
+        class="filter-control favorites-control"
+      >
+        <label
+          class="filter-label"
+          for="favorites-only"
+        >
+          Favorites
+        </label>
+        <label
+          class="favorites-row"
+          for="favorites-only"
+        >
+          <input
+            aria-label="Show favorites only"
+            class="favorites-switch"
+            id="favorites-only"
+            type="checkbox"
+          />
+          <span
+            class="favorites-label"
+          >
+            Favorites only
+          </span>
+          <span
+            class="favorites-chip"
+            title="Favorites count"
+          >
+            ❤ 
+            0
+          </span>
+        </label>
+      </fieldset>
     </form>
     <aside
       class="filter-active"
@@ -264,6 +297,14 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
       <figure
         class="image-container"
       >
+        <button
+          aria-label="Favorite"
+          class="favorite-btn "
+          title="Add to favorites"
+          type="button"
+        >
+          ♡
+        </button>
         <img
           alt="Third Movie poster"
           class="image"
@@ -540,6 +581,39 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies
           </button>
         </section>
       </fieldset>
+      <fieldset
+        class="filter-control favorites-control"
+      >
+        <label
+          class="filter-label"
+          for="favorites-only"
+        >
+          Favorites
+        </label>
+        <label
+          class="favorites-row"
+          for="favorites-only"
+        >
+          <input
+            aria-label="Show favorites only"
+            class="favorites-switch"
+            id="favorites-only"
+            type="checkbox"
+          />
+          <span
+            class="favorites-label"
+          >
+            Favorites only
+          </span>
+          <span
+            class="favorites-chip"
+            title="Favorites count"
+          >
+            ❤ 
+            0
+          </span>
+        </label>
+      </fieldset>
     </form>
     <aside
       class="filter-active"
@@ -763,6 +837,39 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
           </button>
         </section>
       </fieldset>
+      <fieldset
+        class="filter-control favorites-control"
+      >
+        <label
+          class="filter-label"
+          for="favorites-only"
+        >
+          Favorites
+        </label>
+        <label
+          class="favorites-row"
+          for="favorites-only"
+        >
+          <input
+            aria-label="Show favorites only"
+            class="favorites-switch"
+            id="favorites-only"
+            type="checkbox"
+          />
+          <span
+            class="favorites-label"
+          >
+            Favorites only
+          </span>
+          <span
+            class="favorites-chip"
+            title="Favorites count"
+          >
+            ❤ 
+            0
+          </span>
+        </label>
+      </fieldset>
     </form>
     <aside
       class="filter-active"
@@ -820,6 +927,14 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
       <figure
         class="image-container"
       >
+        <button
+          aria-label="Favorite"
+          class="favorite-btn "
+          title="Add to favorites"
+          type="button"
+        >
+          ♡
+        </button>
         <img
           alt="First Movie poster"
           class="image"

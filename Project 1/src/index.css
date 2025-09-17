@@ -11,6 +11,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Perfect circle variables for favorite button */
+  --favorite-btn-size: 48px;
+  --favorite-btn-radius: 50%;
 }
 
 a {

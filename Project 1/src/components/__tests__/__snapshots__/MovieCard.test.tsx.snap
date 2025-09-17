@@ -7,6 +7,14 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with complete movi
   <figure
     class="image-container"
   >
+    <button
+      aria-label="Favorite"
+      class="favorite-btn "
+      title="Add to favorites"
+      type="button"
+    >
+      ♡
+    </button>
     <img
       alt="Test Movie poster"
       class="image"
@@ -64,6 +72,14 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing data 
   <figure
     class="image-container"
   >
+    <button
+      aria-label="Favorite"
+      class="favorite-btn "
+      title="Add to favorites"
+      type="button"
+    >
+      ♡
+    </button>
     <img
       alt="Movie poster placeholder"
       class="image"
@@ -119,6 +135,14 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing poste
   <figure
     class="image-container"
   >
+    <button
+      aria-label="Favorite"
+      class="favorite-btn "
+      title="Add to favorites"
+      type="button"
+    >
+      ♡
+    </button>
     <img
       alt="Movie poster placeholder"
       class="image"
