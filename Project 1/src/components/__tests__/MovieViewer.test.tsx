@@ -1,4 +1,4 @@
-import {render, screen, fireEvent, within} from '@testing-library/react';
+import {render, screen, fireEvent, within, act} from '@testing-library/react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {describe, it, expect, vi, beforeEach, afterEach} from 'vitest';
 import {MovieViewer} from '../MovieViewer';
@@ -87,18 +87,18 @@ describe('MovieViewer', () => {
   });
 
   describe('Snapshot Tests', () => {
-    it('should render MovieViewer with multiple movies', () => {
-      const {container} = renderWithQuery(<MovieViewer movies={mockMovies} />);
+    it('should render MovieViewer with multiple movies', async () => {
+      const {container} = await renderWithQuery(<MovieViewer movies={mockMovies} />);
       expect(container.firstChild).toMatchSnapshot();
     });
 
-    it('should render MovieViewer with single movie', () => {
-      const {container} = renderWithQuery(<MovieViewer movies={singleMovie} />);
+    it('should render MovieViewer with single movie', async () => {
+      const {container} = await renderWithQuery(<MovieViewer movies={singleMovie} />);
       expect(container.firstChild).toMatchSnapshot();
     });
 
-    it('should render MovieViewer with no movies', () => {
-      const {container} = renderWithQuery(<MovieViewer movies={[]} />);
+    it('should render MovieViewer with no movies', async () => {
+      const {container} = await renderWithQuery(<MovieViewer movies={[]} />);
       expect(container.firstChild).toMatchSnapshot();
     });
   });
@@ -423,7 +423,9 @@ const renderWithQuery = (ui: React.ReactNode) => {
   const client = new QueryClient({
     defaultOptions: {queries: {retry: false, staleTime: 0}},
   });
-  return render(
-    <QueryClientProvider client={client}>{ui}</QueryClientProvider>
-  );
+  return act(() => {
+    return render(
+      <QueryClientProvider client={client}>{ui}</QueryClientProvider>
+    );
+  });
 };

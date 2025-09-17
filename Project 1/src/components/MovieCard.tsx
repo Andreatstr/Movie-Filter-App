@@ -1,6 +1,8 @@
-import {useState, useRef, useEffect} from 'react';
-import type {Movie} from '../types/movie';
-import {tmdbApi} from '../services/tmdbApi';
+import { useState, useRef, useEffect } from 'react';
+import { Heart } from 'lucide-react';
+import type { Movie } from '../types/movie';
+import { tmdbApi } from '../services/tmdbApi';
+import { useFavorites } from '../hooks/useFavorites';
 import '../styles/MovieCard.css';
 
 interface MovieCardProps {
@@ -8,11 +10,12 @@ interface MovieCardProps {
   size?: 'small' | 'medium' | 'large';
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium' }) => {
   const [imageError, setImageError] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTruncated, setIsTruncated] = useState(false);
   const overviewRef = useRef<HTMLParagraphElement>(null);
+  const { isFavorite, toggle } = useFavorites();
 
   const year = movie?.release_date
     ? new Date(movie.release_date).getFullYear()
@@ -89,9 +92,26 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, size = 'medium'}) => {
             onError={() => setImageError(true)}
           />
         )}
+        <button
+          type="button"
+          aria-label={isFavorite(movie.id) ? 'Unfavorite' : 'Favorite'}
+          className={`favorite-btn ${isFavorite(movie.id) ? 'is-favorited' : ''}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggle(movie);
+            // Remove focus on touch devices to prevent blue outline
+            if ('ontouchstart' in window) {
+              (e.target as HTMLButtonElement).blur();
+            }
+          }}
+          title={isFavorite(movie.id) ? 'Remove from favorites' : 'Add to favorites'}
+        >
+          <Heart fill={isFavorite(movie.id) ? 'currentColor' : 'none'} size={20} />
+        </button>
       </figure>
       <section className="movie-content">
         <header className="header">
+
           <h2 className="title">{title}</h2>
           <aside className="meta">
             <time className="year" dateTime={movie?.release_date || undefined}>
