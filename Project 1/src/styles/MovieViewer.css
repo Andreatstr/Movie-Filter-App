@@ -1,4 +1,11 @@
+/* Mobile-first base styles */
 .movie-viewer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.dropdown-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -6,16 +13,6 @@
   max-width: 800px;
   padding: 1rem;
   width: 100%;
-}
-
-.dropdown-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  max-width: 800px;
-  padding: 1rem;
-  width: 80%;
   gap: 1rem;
 }
 
@@ -27,15 +24,16 @@
   cursor: pointer;
   border: 1px solid #dfe3f0;
   border-radius: 6px;
+  width: 100%;
+}
 
-  &:focus {
-    outline: none;
-  }
+.dropdown-button:focus {
+  outline: none;
+}
 
-  &:focus-visible {
-    outline: 2px solid #0077cc;
-    outline-offset: 2px;
-  }
+.dropdown-button:focus-visible {
+  outline: 2px solid #0077cc;
+  outline-offset: 2px;
 }
 
 .movie-nav-controls {
@@ -54,6 +52,7 @@
   border-radius: 8px;
   font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s ease;
   min-width: 80px;
   font-size: 0.9rem;
 }
@@ -100,15 +99,16 @@
   align-items: stretch;
   text-align: center;
   gap: 0.75rem;
-  margin: 1rem 0 0 0;
-  width: 350px;
+  margin: 1.5rem 0;
+  width: 100%;
+  max-width: 300px;
 }
 
 .jump-label {
   font-weight: 500;
   color: #333;
   text-align: left;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .movie-select {
@@ -151,37 +151,20 @@
   padding: 2rem;
 }
 
-@media (min-width: 1024px) {
-  .movie-viewer {
-    padding: 2rem;
-  }
-
-  .nav-btn {
-    min-width: 120px;
-    padding: 0.75rem 1.5rem;
-  }
-
-  .movie-jump-controls {
-    width: 450px;
-  }
-
-  .movie-position {
-    min-width: 120px;
-  }
-
-  .position-text {
-    font-size: 1.1rem;
-    padding: 0.5rem 1rem;
-  }
-
-  .jump-label {
-    font-size: 18px;
-  }
-}
-
-@media (max-width: 768px) {
+/* Tablet and up (min-width: 768px) */
+@media (min-width: 768px) {
   .movie-viewer {
     padding: 1.5rem;
+  }
+
+  .dropdown-container {
+    flex-direction: row;
+    width: 80%;
+  }
+
+  .dropdown-button {
+    width: auto;
+    min-width: 200px;
   }
 
   .movie-nav-controls {
@@ -205,7 +188,22 @@
   }
 
   .movie-jump-controls {
-    width: 200px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+    max-width: 400px;
+  }
+
+  .movie-select {
+    min-width: 200px;
+    max-width: 300px;
+    width: auto;
+  }
+
+  .jump-label {
+    font-size: 16px;
   }
 
   .keyboard-hint {
@@ -215,18 +213,33 @@
   .keyboard-hint p {
     font-size: 0.9rem;
   }
-
-  .jump-label {
-    font-size: 14px;
-  }
 }
 
-@media (max-width: 480px) {
+/* Desktop and up (min-width: 1024px) */
+@media (min-width: 1024px) {
+  .movie-viewer {
+    padding: 2rem;
+  }
+
+  .nav-btn {
+    min-width: 120px;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .movie-position {
+    min-width: 120px;
+  }
+
+  .position-text {
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+  }
+
   .movie-jump-controls {
-    width: 180px;
+    max-width: 450px;
   }
 
   .jump-label {
-    font-size: 12px;
+    font-size: 18px;
   }
 }

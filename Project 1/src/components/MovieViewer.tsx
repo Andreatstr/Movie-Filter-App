@@ -66,7 +66,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     } finally {
       setLoadingSearch(false);
     }
-  }, [movies]);
+  }, [movies, applyFilters]);
 
   const handleSelectSuggestion = (suggestion: string) => {
     setSearchTerm(suggestion);

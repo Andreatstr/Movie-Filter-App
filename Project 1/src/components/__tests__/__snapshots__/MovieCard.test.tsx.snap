@@ -15,7 +15,7 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with complete movi
     />
   </figure>
   <section
-    class="content"
+    class="movie-content"
   >
     <header
       class="header"
@@ -71,7 +71,7 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing data 
     />
   </figure>
   <section
-    class="content"
+    class="movie-content"
   >
     <header
       class="header"
@@ -126,7 +126,7 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing poste
     />
   </figure>
   <section
-    class="content"
+    class="movie-content"
   >
     <header
       class="header"

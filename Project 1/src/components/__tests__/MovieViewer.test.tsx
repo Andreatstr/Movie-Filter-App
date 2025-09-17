@@ -120,7 +120,7 @@ describe('MovieViewer', () => {
       expect(
         screen.getByRole('button', {name: /next movie/i})
       ).toBeInTheDocument();
-      expect(screen.getByLabelText('Jump to movie:')).toBeInTheDocument();
+      expect(screen.getByLabelText('Go to movie')).toBeInTheDocument();
     });
 
     it('should display keyboard navigation hint', () => {
@@ -175,7 +175,7 @@ describe('MovieViewer', () => {
     it('should jump to specific movie using dropdown', () => {
       renderWithQuery(<MovieViewer movies={mockMovies} />);
 
-      const dropdown = screen.getByLabelText('Jump to movie:');
+      const dropdown = screen.getByLabelText('Go to movie');
 
       // Jump to last movie (index 2)
       fireEvent.change(dropdown, {target: {value: '2'}});
@@ -188,7 +188,7 @@ describe('MovieViewer', () => {
       renderWithQuery(<MovieViewer movies={mockMovies} />);
 
       const dropdown = screen.getByLabelText(
-        'Jump to movie:'
+        'Go to movie'
       ) as HTMLSelectElement;
 
       // Initially at index 0
@@ -207,7 +207,7 @@ describe('MovieViewer', () => {
       renderWithQuery(<MovieViewer movies={mockMovies} />);
 
       // Navigate to last movie
-      fireEvent.change(screen.getByLabelText('Jump to movie:'), {
+      fireEvent.change(screen.getByLabelText('Go to movie'), {
         target: {value: '2'},
       });
       expect(screen.getByText('Second Movie')).toBeInTheDocument();
@@ -304,7 +304,7 @@ describe('MovieViewer', () => {
 
       const prevButton = screen.getByRole('button', {name: /previous movie/i});
       const nextButton = screen.getByRole('button', {name: /next movie/i});
-      const dropdown = screen.getByLabelText('Jump to movie:');
+      const dropdown = screen.getByLabelText('Go to movie');
 
       expect(prevButton).toBeDisabled();
       expect(nextButton).toBeDisabled();
@@ -332,7 +332,7 @@ describe('MovieViewer', () => {
     it('should populate dropdown options correctly', () => {
       renderWithQuery(<MovieViewer movies={mockMovies} />);
 
-      const jump = screen.getByLabelText('Jump to movie:');
+      const jump = screen.getByLabelText('Go to movie');
       const options = within(jump).getAllByRole('option');
 
       expect(options).toHaveLength(3);
@@ -396,7 +396,7 @@ describe('MovieViewer', () => {
     it('should have proper ARIA label on dropdown', () => {
       renderWithQuery(<MovieViewer movies={mockMovies} />);
 
-      expect(screen.getByLabelText('Jump to movie:')).toBeInTheDocument();
+      expect(screen.getByLabelText('Go to movie')).toBeInTheDocument();
     });
 
     it('should update button text when movie changes', () => {
@@ -415,7 +415,7 @@ describe('MovieViewer', () => {
       expect(screen.getByRole('article')).toBeInTheDocument(); // MovieCard
       const nav = screen.getByRole('navigation', {name: /movie navigation/i});
       expect(within(nav).getAllByRole('button')).toHaveLength(2); // Prev/Next only
-      expect(screen.getByLabelText('Jump to movie:')).toBeInTheDocument(); // Dropdown
+      expect(screen.getByLabelText('Go to movie')).toBeInTheDocument(); // Dropdown
     });
   });
 });
