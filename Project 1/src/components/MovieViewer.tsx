@@ -334,7 +334,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
           aria-label="Previous movie"
           disabled={totalMovies <= 1}
         >
-          ← Previous
+          ← Prev
         </button>
 
         <aside className="movie-position">

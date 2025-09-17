@@ -3,6 +3,7 @@
   user-select: none;
   position: relative;
   display: flex;
+  width: 100%;
 }
 
 .search-bar input {
@@ -23,7 +24,7 @@
 }
 
 .input-field {
-  width: 300px;
+  width: 100%;
 }
 
 .suggestion-container {
@@ -81,28 +82,16 @@
 }
 
 @media (min-width: 1024px) {
-  .input-field {
-    width: 350px;
-  }
-  .suggestion-container {
-    width: 440px;
+  .search-bar {
+    flex: 1;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .input-field {
-    width: 250px;
+    width: 100%;
   }
   .suggestion-container {
-    width: 340px;
-  }
-}
-
-@media (max-width: 480px) {
-  .input-field {
-    width: 150px;
-  }
-  .suggestion-container {
-    width: 240px;
+    width: 100%;
   }
 }
