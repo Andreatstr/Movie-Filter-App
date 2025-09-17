@@ -35,7 +35,7 @@ function App() {
     <main className="app">
       <header className="app-header">
         <h1>Movies</h1>
-        <p>Displaying popular movies from TMDB</p>
+        <p>Browse popular movies from TMDB</p>
       </header>
 
       <MovieViewer movies={movies} />
