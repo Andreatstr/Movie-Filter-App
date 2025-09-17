@@ -82,6 +82,10 @@ describe('Favorites Integration', () => {
   it('toggles favorite on MovieCard and updates count immediately', () => {
     renderWithQuery(<MovieViewer movies={movies} />);
 
+    // Open the filter dropdown to access favorites count
+    const filterButton = screen.getByRole('button', {name: /filter/i});
+    fireEvent.click(filterButton);
+
     // Initially, counter is 0
     const counter = screen.getByTitle('Favorites count');
     expect(counter).toHaveTextContent('0');
@@ -101,6 +105,10 @@ describe('Favorites Integration', () => {
 
   it('filters to show only favorites when checkbox is enabled', () => {
     renderWithQuery(<MovieViewer movies={movies} />);
+
+    // Open the filter dropdown to access favorites controls
+    const filterButton = screen.getByRole('button', {name: /filter/i});
+    fireEvent.click(filterButton);
 
     // Favorite current visible movie
     fireEvent.click(screen.getByRole('button', {name: /favorite/i}));
