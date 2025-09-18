@@ -1,4 +1,5 @@
 import {useMemo, useState, useEffect} from 'react';
+import { Heart } from 'lucide-react';
 import type {Genre, Movie, MovieFilters} from '../types/movie';
 import '../styles/FilterPanel.css';
 
@@ -258,7 +259,9 @@ export default function FilterPanel({
               aria-label="Show favorites only"
             />
             <span className="favorites-label">Favorites only</span>
-            <span className="favorites-chip" title="Favorites count">❤ {favoritesCount}</span>
+            <span className="favorites-chip" title="Favorites count">
+              <Heart size={16} fill="currentColor" /> {favoritesCount}
+            </span>
           </label>
         </fieldset>
       </form>
