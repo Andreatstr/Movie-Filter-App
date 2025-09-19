@@ -1,25 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`SearchBar Component > Snapshot Tests > should render SearchBar with clear button when has value 1`] = `
-<form
-  class="search-bar"
->
-  <input
-    class="input-field"
-    placeholder="Search for movies..."
-    type="search"
-    value="Batman"
-  />
-  <button
-    aria-label="Clear search"
-    class="clear-icon"
-    type="button"
-  >
-    ✕
-  </button>
-</form>
-`;
-
 exports[`SearchBar Component > Snapshot Tests > should render SearchBar with default state 1`] = `
 <form
   class="search-bar"

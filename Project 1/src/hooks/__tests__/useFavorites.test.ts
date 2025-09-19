@@ -67,7 +67,15 @@ describe('useFavorites', () => {
   });
 
   it('restores from localStorage on init', () => {
-    const favs = {3: {id: 3, title: 'Restored', poster_path: null, vote_average: 8, timestamp: Date.now()}};
+    const favs = {
+      3: {
+        id: 3,
+        title: 'Restored',
+        poster_path: null,
+        vote_average: 8,
+        timestamp: Date.now(),
+      },
+    };
     mockLocalStorage.getItem.mockReturnValueOnce(JSON.stringify(favs));
     const {result} = renderHook(() => useFavorites());
     expect(result.current.isFavorite(3)).toBe(true);
@@ -88,4 +96,3 @@ describe('useFavorites', () => {
     expect(result.current.count).toBe(50);
   });
 });
-

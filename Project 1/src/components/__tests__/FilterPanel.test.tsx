@@ -1,13 +1,12 @@
-import { render, screen, fireEvent, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import {render, screen, fireEvent, within} from '@testing-library/react';
+import {describe, it, expect, vi, beforeEach} from 'vitest';
 import FilterPanel from '../FilterPanel';
-import type { MovieFilters, Movie, Genre } from '../../types/movie';
+import type {MovieFilters, Movie, Genre} from '../../types/movie';
 
 const mockGenres: Genre[] = [
-  { id: 28, name: 'Action' },
-  { id: 35, name: 'Comedy' },
-  { id: 18, name: 'Drama' },
+  {id: 28, name: 'Action'},
+  {id: 35, name: 'Comedy'},
+  {id: 18, name: 'Drama'},
 ];
 
 const mockMovies: Movie[] = [
@@ -80,7 +79,7 @@ describe('FilterPanel', () => {
 
   describe('Snapshot Tests', () => {
     it('should render FilterPanel with default state', () => {
-      const { container } = render(<FilterPanel {...defaultProps} />);
+      const {container} = render(<FilterPanel {...defaultProps} />);
       expect(container.firstChild).toMatchSnapshot();
     });
 
@@ -91,7 +90,7 @@ describe('FilterPanel', () => {
         minRating: 7,
         year: 2023,
       };
-      const { container } = render(
+      const {container} = render(
         <FilterPanel
           {...defaultProps}
           filters={filtersWithActive}
@@ -107,13 +106,12 @@ describe('FilterPanel', () => {
         configurable: true,
         value: 768,
       });
-      const { container } = render(<FilterPanel {...defaultProps} />);
+      const {container} = render(<FilterPanel {...defaultProps} />);
       expect(container.firstChild).toMatchSnapshot();
     });
   });
 
   describe('Component Rendering', () => {
-
     it('should populate genre dropdown with options', () => {
       render(<FilterPanel {...defaultProps} />);
 
@@ -139,7 +137,6 @@ describe('FilterPanel', () => {
       expect(options[2]).toHaveTextContent('2022');
     });
 
-
     it('should show mobile dual-range slider on small screens', () => {
       Object.defineProperty(window, 'innerWidth', {
         writable: true,
@@ -157,7 +154,6 @@ describe('FilterPanel', () => {
   });
 
   describe('Props and State Changes', () => {
-
     it('should show active filter chips when filters are applied', () => {
       const activeFilters = {
         ...defaultFilters,
@@ -192,42 +188,38 @@ describe('FilterPanel', () => {
       render(<FilterPanel {...defaultProps} />);
 
       const genreSelect = screen.getByLabelText('Genre');
-      fireEvent.change(genreSelect, { target: { value: '28' } });
+      fireEvent.change(genreSelect, {target: {value: '28'}});
 
-      expect(mockSetFilters).toHaveBeenCalledWith({ genre: 28 });
+      expect(mockSetFilters).toHaveBeenCalledWith({genre: 28});
     });
 
     it('should call setFilters when order buttons are clicked', () => {
       render(<FilterPanel {...defaultProps} />);
 
-      const ascButton = screen.getByRole('button', { name: 'Asc' });
+      const ascButton = screen.getByRole('button', {name: 'Asc'});
       fireEvent.click(ascButton);
 
-      expect(mockSetFilters).toHaveBeenCalledWith({ sortOrder: 'asc' });
+      expect(mockSetFilters).toHaveBeenCalledWith({sortOrder: 'asc'});
     });
 
     it('should disable clear filters button when no active filters', () => {
       render(<FilterPanel {...defaultProps} />);
 
-      const clearButton = screen.getByRole('button', { name: 'Clear filters' });
+      const clearButton = screen.getByRole('button', {name: 'Clear filters'});
       expect(clearButton).toBeDisabled();
     });
   });
 
   describe('Favorites Toggle', () => {
     it('should show favorites toggle with count', () => {
-      render(
-        <FilterPanel {...defaultProps} favoritesCount={5} />
-      );
+      render(<FilterPanel {...defaultProps} favoritesCount={5} />);
 
       expect(screen.getByLabelText('Show favorites only')).toBeInTheDocument();
       expect(screen.getByText('5')).toBeInTheDocument();
     });
 
     it('should reflect showFavoritesOnly state in checkbox', () => {
-      render(
-        <FilterPanel {...defaultProps} showFavoritesOnly={true} />
-      );
+      render(<FilterPanel {...defaultProps} showFavoritesOnly={true} />);
 
       const favoritesCheckbox = screen.getByLabelText('Show favorites only');
       expect(favoritesCheckbox).toBeChecked();
@@ -250,16 +242,14 @@ describe('FilterPanel', () => {
     });
   });
 
-
   describe('Accessibility', () => {
-
     it('should have proper ARIA attributes on controls', () => {
       render(<FilterPanel {...defaultProps} hasActiveFilters={true} />);
 
-      const clearButton = screen.getByRole('button', { name: 'Clear filters' });
+      const clearButton = screen.getByRole('button', {name: 'Clear filters'});
       expect(clearButton).toHaveAttribute('aria-disabled', 'false');
 
-      const orderButtons = screen.getAllByRole('button', { pressed: true });
+      const orderButtons = screen.getAllByRole('button', {pressed: true});
       expect(orderButtons.length).toBeGreaterThan(0);
     });
 
@@ -286,8 +276,8 @@ describe('FilterPanel', () => {
 
     it('should handle movies with missing release dates', () => {
       const moviesWithMissingDates = [
-        { ...mockMovies[0], release_date: '' },
-        { ...mockMovies[1] },
+        {...mockMovies[0], release_date: ''},
+        {...mockMovies[1]},
       ];
 
       render(<FilterPanel {...defaultProps} movies={moviesWithMissingDates} />);

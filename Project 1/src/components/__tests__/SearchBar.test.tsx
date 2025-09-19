@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import {render, screen, fireEvent, act} from '@testing-library/react';
+import {describe, it, expect, vi, beforeEach, afterEach} from 'vitest';
 import SearchBar from '../SearchBar';
 
 describe('SearchBar Component', () => {
@@ -38,12 +37,14 @@ describe('SearchBar Component', () => {
 
   describe('Snapshot Tests', () => {
     it('should render SearchBar with default state', () => {
-      const { container } = render(<SearchBar {...defaultProps} />);
+      const {container} = render(<SearchBar {...defaultProps} />);
       expect(container.firstChild).toMatchSnapshot();
     });
 
     it('should render SearchBar with initial value', () => {
-      const { container } = render(<SearchBar {...defaultProps} initialValue="Batman" />);
+      const {container} = render(
+        <SearchBar {...defaultProps} initialValue="Batman" />
+      );
       expect(container.firstChild).toMatchSnapshot();
     });
   });
@@ -69,7 +70,7 @@ describe('SearchBar Component', () => {
       const input = screen.getByPlaceholderText('Search for movies...');
 
       await act(async () => {
-        fireEvent.change(input, { target: { value: 'Inception' } });
+        fireEvent.change(input, {target: {value: 'Inception'}});
       });
 
       await act(async () => {
@@ -90,7 +91,7 @@ describe('SearchBar Component', () => {
     it('clears the input field when the "X" button is clicked', () => {
       render(<SearchBar {...defaultProps} initialValue="Inception" />);
       const input = screen.getByPlaceholderText('Search for movies...');
-      const clearButton = screen.getByRole('button', { name: /clear search/i });
+      const clearButton = screen.getByRole('button', {name: /clear search/i});
 
       expect(input).toHaveValue('Inception');
       fireEvent.click(clearButton);
@@ -102,8 +103,8 @@ describe('SearchBar Component', () => {
       render(<SearchBar {...defaultProps} />);
       const input = screen.getByPlaceholderText('Search for movies...');
 
-      fireEvent.change(input, { target: { value: 'Movie' } });
-      fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+      fireEvent.change(input, {target: {value: 'Movie'}});
+      fireEvent.keyDown(input, {key: 'Enter', code: 'Enter'});
 
       expect(mockOnSelectSuggestion).toHaveBeenCalledWith('Movie 1');
     });
@@ -112,8 +113,8 @@ describe('SearchBar Component', () => {
       render(<SearchBar {...defaultProps} suggestions={[]} />);
       const input = screen.getByPlaceholderText('Search for movies...');
 
-      fireEvent.change(input, { target: { value: 'Movie' } });
-      fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+      fireEvent.change(input, {target: {value: 'Movie'}});
+      fireEvent.keyDown(input, {key: 'Enter', code: 'Enter'});
 
       expect(mockOnSelectSuggestion).not.toHaveBeenCalled();
     });
@@ -125,7 +126,7 @@ describe('SearchBar Component', () => {
       const input = screen.getByPlaceholderText('Search for movies...');
 
       await act(async () => {
-        fireEvent.change(input, { target: { value: 'Batman' } });
+        fireEvent.change(input, {target: {value: 'Batman'}});
       });
 
       await act(async () => {
@@ -134,39 +135,46 @@ describe('SearchBar Component', () => {
 
       expect(mockOnSearch).toHaveBeenCalledWith('Batman');
     });
-
   });
 
   describe('State Management', () => {
-
     it('should update input value when typing', () => {
       render(<SearchBar {...defaultProps} />);
       const input = screen.getByPlaceholderText('Search for movies...');
 
-      fireEvent.change(input, { target: { value: 'Superman' } });
+      fireEvent.change(input, {target: {value: 'Superman'}});
       expect(input).toHaveValue('Superman');
     });
   });
 
   describe('Session Storage Integration', () => {
     it('should save search term to sessionStorage when searching', async () => {
-      const mockSessionStorage = window.sessionStorage as any;
+      const mockSessionStorage = window.sessionStorage as Storage & {
+        setItem: ReturnType<typeof vi.fn>;
+        removeItem: ReturnType<typeof vi.fn>;
+      };
       render(<SearchBar {...defaultProps} />);
       const input = screen.getByPlaceholderText('Search for movies...');
 
       await act(async () => {
-        fireEvent.change(input, { target: { value: 'Avatar' } });
+        fireEvent.change(input, {target: {value: 'Avatar'}});
         vi.advanceTimersByTime(400);
       });
 
-      expect(mockSessionStorage.setItem).toHaveBeenCalledWith('searchTerm', 'Avatar');
+      expect(mockSessionStorage.setItem).toHaveBeenCalledWith(
+        'searchTerm',
+        'Avatar'
+      );
     });
 
     it('should remove search term from sessionStorage when cleared', () => {
-      const mockSessionStorage = window.sessionStorage as any;
+      const mockSessionStorage = window.sessionStorage as Storage & {
+        setItem: ReturnType<typeof vi.fn>;
+        removeItem: ReturnType<typeof vi.fn>;
+      };
       render(<SearchBar {...defaultProps} initialValue="Avatar" />);
 
-      const clearButton = screen.getByRole('button', { name: /clear search/i });
+      const clearButton = screen.getByRole('button', {name: /clear search/i});
       fireEvent.click(clearButton);
 
       expect(mockSessionStorage.removeItem).toHaveBeenCalledWith('searchTerm');
@@ -185,18 +193,20 @@ describe('SearchBar Component', () => {
     it('should have accessible clear button', () => {
       render(<SearchBar {...defaultProps} initialValue="Batman" />);
 
-      const clearButton = screen.getByRole('button', { name: /clear search/i });
+      const clearButton = screen.getByRole('button', {name: /clear search/i});
       expect(clearButton).toHaveAttribute('aria-label', 'Clear search');
       expect(clearButton).toHaveAttribute('type', 'button');
     });
 
     it('should support keyboard navigation', () => {
-      render(<SearchBar {...defaultProps} suggestions={['Batman', 'Superman']} />);
+      render(
+        <SearchBar {...defaultProps} suggestions={['Batman', 'Superman']} />
+      );
 
       const input = screen.getByPlaceholderText('Search for movies...');
 
-      fireEvent.change(input, { target: { value: 'Bat' } });
-      fireEvent.keyDown(input, { key: 'Enter' });
+      fireEvent.change(input, {target: {value: 'Bat'}});
+      fireEvent.keyDown(input, {key: 'Enter'});
 
       expect(mockOnSelectSuggestion).toHaveBeenCalledWith('Batman');
     });
@@ -211,7 +221,7 @@ describe('SearchBar Component', () => {
       expect(form).toHaveClass('search-bar');
 
       const preventDefault = vi.fn();
-      fireEvent.submit(form!, { preventDefault });
+      fireEvent.submit(form!, {preventDefault});
     });
   });
 
@@ -224,7 +234,12 @@ describe('SearchBar Component', () => {
 
     it('should handle undefined suggestions', () => {
       expect(() => {
-        render(<SearchBar {...defaultProps} suggestions={undefined as any} />);
+        render(
+          <SearchBar
+            {...defaultProps}
+            suggestions={undefined as string[] | undefined}
+          />
+        );
       }).not.toThrow();
     });
 
@@ -232,12 +247,12 @@ describe('SearchBar Component', () => {
       render(<SearchBar {...defaultProps} initialValue="Initial" />);
 
       const input = screen.getByPlaceholderText('Search for movies...');
-      const clearButton = screen.getByRole('button', { name: /clear search/i });
+      const clearButton = screen.getByRole('button', {name: /clear search/i});
 
       fireEvent.click(clearButton);
       expect(input).toHaveValue('');
 
-      fireEvent.change(input, { target: { value: 'New Search' } });
+      fireEvent.change(input, {target: {value: 'New Search'}});
       expect(input).toHaveValue('New Search');
     });
 
@@ -246,7 +261,7 @@ describe('SearchBar Component', () => {
       const input = screen.getByPlaceholderText('Search for movies...');
 
       const specialChars = '!@#$%^&*()_+-=[]{}|;:,.<>?';
-      fireEvent.change(input, { target: { value: specialChars } });
+      fireEvent.change(input, {target: {value: specialChars}});
       expect(input).toHaveValue(specialChars);
     });
   });
@@ -264,7 +279,7 @@ describe('SearchBar Component', () => {
       render(<SearchBar {...defaultProps} />);
       const input = screen.getByPlaceholderText('Search for movies...');
 
-      fireEvent.change(input, { target: { value: 'B' } });
+      fireEvent.change(input, {target: {value: 'B'}});
       expect(mockOnTyping).toHaveBeenCalled();
     });
 

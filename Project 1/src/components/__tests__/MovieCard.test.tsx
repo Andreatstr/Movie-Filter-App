@@ -1,5 +1,4 @@
 import {render, screen, fireEvent, waitFor} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import {describe, it, expect, vi, beforeEach} from 'vitest';
 import MovieCard from '../MovieCard';
 import type {Movie} from '../../types/movie';
@@ -145,58 +144,70 @@ describe('MovieCard', () => {
 
   describe('User Interactions with user-event', () => {
     it('should handle favorite button click with user-event', async () => {
-      const user = userEvent.setup();
       const mockOnAnnouncement = vi.fn();
 
-      render(<MovieCard movie={mockMovie} onAnnouncement={mockOnAnnouncement} />);
+      render(
+        <MovieCard movie={mockMovie} onAnnouncement={mockOnAnnouncement} />
+      );
 
-      const favoriteButton = screen.getByRole('button', { name: /add to favorites/i });
-      await user.click(favoriteButton);
+      const favoriteButton = screen.getByRole('button', {
+        name: /add to favorites/i,
+      });
+      fireEvent.click(favoriteButton);
 
-      expect(favoriteButton).toHaveAttribute('aria-label', 'Remove from favorites: Test Movie');
+      await waitFor(() => {
+        expect(favoriteButton).toHaveAttribute(
+          'aria-label',
+          'Remove from favorites: Test Movie'
+        );
+      });
     });
 
-
     it('should handle expand/collapse functionality', async () => {
-      const user = userEvent.setup();
-      const longOverview = 'This is a very long movie description that should be truncated and show an expand button. '.repeat(10);
-      const movieWithLongOverview = { ...mockMovie, overview: longOverview };
+      const longOverview =
+        'This is a very long movie description that should be truncated and show an expand button. '.repeat(
+          10
+        );
+      const movieWithLongOverview = {...mockMovie, overview: longOverview};
 
       render(<MovieCard movie={movieWithLongOverview} />);
 
       await waitFor(() => {
-        const expandButton = screen.queryByRole('button', { name: /show more/i });
+        const expandButton = screen.queryByRole('button', {name: /show more/i});
         if (expandButton) {
           expect(expandButton).toBeInTheDocument();
         }
       });
 
-      const expandButton = screen.queryByRole('button', { name: /show more/i });
+      const expandButton = screen.queryByRole('button', {name: /show more/i});
       if (expandButton) {
-        await user.click(expandButton);
+        fireEvent.click(expandButton);
 
         await waitFor(() => {
-          expect(screen.getByRole('button', { name: /show less/i })).toBeInTheDocument();
+          expect(
+            screen.getByRole('button', {name: /show less/i})
+          ).toBeInTheDocument();
         });
       }
     });
   });
 
   describe('Component State Management', () => {
-
     it('should handle image error state', () => {
       render(<MovieCard movie={mockMovie} />);
 
       const posterImage = screen.getByAltText('Test Movie poster');
       fireEvent.error(posterImage);
 
-      expect(screen.getByAltText('Movie poster placeholder')).toBeInTheDocument();
+      expect(
+        screen.getByAltText('Movie poster placeholder')
+      ).toBeInTheDocument();
     });
   });
 
   describe('Props Variations', () => {
     it('should render different sizes correctly', () => {
-      const { rerender } = render(<MovieCard movie={mockMovie} size="small" />);
+      const {rerender} = render(<MovieCard movie={mockMovie} size="small" />);
       expect(screen.getByRole('article')).toHaveClass('movie-card--small');
 
       rerender(<MovieCard movie={mockMovie} size="medium" />);
@@ -206,9 +217,8 @@ describe('MovieCard', () => {
       expect(screen.getByRole('article')).toHaveClass('movie-card--large');
     });
 
-
     it('should handle null movie gracefully', () => {
-      render(<MovieCard movie={null as any} />);
+      render(<MovieCard movie={null as unknown as Movie} />);
 
       expect(screen.getByText('No movie data available')).toBeInTheDocument();
     });
@@ -219,13 +229,15 @@ describe('MovieCard', () => {
       const observeMock = vi.fn();
       const disconnectMock = vi.fn();
 
-      global.ResizeObserver = vi.fn().mockImplementation(() => ({
+      (
+        globalThis as typeof globalThis & {ResizeObserver: unknown}
+      ).ResizeObserver = vi.fn().mockImplementation(() => ({
         observe: observeMock,
         disconnect: disconnectMock,
         unobserve: vi.fn(),
       }));
 
-      const { unmount } = render(<MovieCard movie={mockMovie} />);
+      const {unmount} = render(<MovieCard movie={mockMovie} />);
 
       expect(observeMock).toHaveBeenCalled();
 
@@ -234,9 +246,9 @@ describe('MovieCard', () => {
     });
 
     it('should handle movie changes and reset expand state', () => {
-      const { rerender } = render(<MovieCard movie={mockMovie} />);
+      const {rerender} = render(<MovieCard movie={mockMovie} />);
 
-      const differentMovie = { ...mockMovie, id: 999, title: 'Different Movie' };
+      const differentMovie = {...mockMovie, id: 999, title: 'Different Movie'};
       rerender(<MovieCard movie={differentMovie} />);
 
       expect(screen.getByText('Different Movie')).toBeInTheDocument();
@@ -245,37 +257,44 @@ describe('MovieCard', () => {
 
   describe('Conditional Rendering', () => {
     it('should conditionally show expand button based on content length', async () => {
-      const shortMovie = { ...mockMovie, overview: 'Short description' };
-      const { rerender } = render(<MovieCard movie={shortMovie} />);
+      const shortMovie = {...mockMovie, overview: 'Short description'};
+      const {rerender} = render(<MovieCard movie={shortMovie} />);
 
       await waitFor(() => {
-        expect(screen.queryByRole('button', { name: /show more/i })).not.toBeInTheDocument();
+        expect(
+          screen.queryByRole('button', {name: /show more/i})
+        ).not.toBeInTheDocument();
       });
 
       const longMovie = {
         ...mockMovie,
-        overview: 'This is a very long description that should definitely be truncated and show an expand button. '.repeat(20)
+        overview:
+          'This is a very long description that should definitely be truncated and show an expand button. '.repeat(
+            20
+          ),
       };
       rerender(<MovieCard movie={longMovie} />);
 
       await waitFor(() => {
-        const expandButton = screen.queryByRole('button', { name: /show more/i });
+        screen.queryByRole('button', {name: /show more/i});
         // Button may or may not appear depending on actual truncation logic
         // The test ensures the component handles both cases gracefully
       });
     });
 
     it('should show different content based on poster availability', () => {
-      const { rerender } = render(<MovieCard movie={mockMovie} />);
+      const {rerender} = render(<MovieCard movie={mockMovie} />);
 
       // With poster
       expect(screen.getByAltText('Test Movie poster')).toBeInTheDocument();
 
       // Without poster
-      const movieNoPoster = { ...mockMovie, poster_path: null };
+      const movieNoPoster = {...mockMovie, poster_path: null};
       rerender(<MovieCard movie={movieNoPoster} />);
 
-      expect(screen.getByAltText('Movie poster placeholder')).toBeInTheDocument();
+      expect(
+        screen.getByAltText('Movie poster placeholder')
+      ).toBeInTheDocument();
     });
   });
 
@@ -295,7 +314,6 @@ describe('MovieCard', () => {
       expect(ratingElement).toBeInTheDocument();
     });
 
-
     it('should have proper time element for release date', () => {
       render(<MovieCard movie={mockMovie} />);
 
@@ -306,9 +324,8 @@ describe('MovieCard', () => {
   });
 
   describe('Edge Cases and Error Handling', () => {
-
     it('should handle missing vote_average', () => {
-      const movieNoRating = { ...mockMovie, vote_average: 0 };
+      const movieNoRating = {...mockMovie, vote_average: 0};
 
       render(<MovieCard movie={movieNoRating} />);
       expect(screen.getByText('★ N/A/10')).toBeInTheDocument();
@@ -316,11 +333,10 @@ describe('MovieCard', () => {
 
     it('should handle very long titles', () => {
       const longTitle = 'A'.repeat(100);
-      const movieLongTitle = { ...mockMovie, title: longTitle };
+      const movieLongTitle = {...mockMovie, title: longTitle};
 
       render(<MovieCard movie={movieLongTitle} />);
       expect(screen.getByText(longTitle)).toBeInTheDocument();
     });
-
   });
 });

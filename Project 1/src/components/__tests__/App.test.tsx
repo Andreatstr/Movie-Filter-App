@@ -1,9 +1,8 @@
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import {render, screen, waitFor, fireEvent} from '@testing-library/react';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {describe, it, expect, vi, beforeEach} from 'vitest';
 import App from '../../App';
-import type { MovieResponse } from '../../types/movie';
+import type {MovieResponse} from '../../types/movie';
 
 // Mock the TMDB API
 const mockMovieResponse: MovieResponse = {
@@ -48,12 +47,19 @@ vi.mock('../../services/tmdbApi', () => ({
   tmdbApi: {
     getPopularMovies: vi.fn(),
     getImageUrl: vi.fn(() => 'mocked-image-url'),
-    getGenres: vi.fn(async () => ({ genres: [] })),
-    searchMovies: vi.fn(async () => ({ results: [] })),
+    getGenres: vi.fn(async () => ({genres: []})),
+    searchMovies: vi.fn(async () => ({results: []})),
   },
 }));
 
-import { tmdbApi } from '../../services/tmdbApi';
+import {tmdbApi} from '../../services/tmdbApi';
+
+const mockTmdbApi = tmdbApi as {
+  getPopularMovies: ReturnType<typeof vi.fn>;
+  getImageUrl: ReturnType<typeof vi.fn>;
+  getGenres: ReturnType<typeof vi.fn>;
+  searchMovies: ReturnType<typeof vi.fn>;
+};
 
 describe('App Component', () => {
   let queryClient: QueryClient;
@@ -80,18 +86,18 @@ describe('App Component', () => {
 
   describe('Snapshot Tests', () => {
     it('should render App with loading state', () => {
-      (tmdbApi.getPopularMovies as any).mockImplementation(
+      mockTmdbApi.getPopularMovies.mockImplementation(
         () => new Promise(() => {}) // Never resolves to keep loading state
       );
 
-      const { container } = renderApp();
+      const {container} = renderApp();
       expect(container.firstChild).toMatchSnapshot();
     });
 
     it('should render App with movies loaded', async () => {
-      (tmdbApi.getPopularMovies as any).mockResolvedValue(mockMovieResponse);
+      mockTmdbApi.getPopularMovies.mockResolvedValue(mockMovieResponse);
 
-      const { container } = renderApp();
+      const {container} = renderApp();
 
       await waitFor(() => {
         expect(screen.getByText('Test Movie 1')).toBeInTheDocument();
@@ -101,9 +107,9 @@ describe('App Component', () => {
     });
 
     it('should render App with error state', async () => {
-      (tmdbApi.getPopularMovies as any).mockRejectedValue(new Error('API Error'));
+      mockTmdbApi.getPopularMovies.mockRejectedValue(new Error('API Error'));
 
-      const { container } = renderApp();
+      const {container} = renderApp();
 
       await waitFor(() => {
         expect(screen.getByText(/error: api error/i)).toBeInTheDocument();
@@ -115,7 +121,7 @@ describe('App Component', () => {
 
   describe('Loading State', () => {
     it('should show loading message while fetching movies', () => {
-      (tmdbApi.getPopularMovies as any).mockImplementation(
+      mockTmdbApi.getPopularMovies.mockImplementation(
         () => new Promise(() => {}) // Never resolves
       );
 
@@ -126,13 +132,15 @@ describe('App Component', () => {
     });
 
     it('should have proper ARIA attributes in loading state', () => {
-      (tmdbApi.getPopularMovies as any).mockImplementation(
+      mockTmdbApi.getPopularMovies.mockImplementation(
         () => new Promise(() => {})
       );
 
       renderApp();
 
-      const loadingSection = screen.getByText('Loading movies...').closest('section');
+      const loadingSection = screen
+        .getByText('Loading movies...')
+        .closest('section');
       expect(loadingSection).toHaveAttribute('aria-live', 'polite');
       expect(loadingSection).toHaveClass('loading');
     });
@@ -141,7 +149,7 @@ describe('App Component', () => {
   describe('Error State', () => {
     it('should show error message when API fails', async () => {
       const errorMessage = 'Failed to fetch movies';
-      (tmdbApi.getPopularMovies as any).mockRejectedValue(new Error(errorMessage));
+      mockTmdbApi.getPopularMovies.mockRejectedValue(new Error(errorMessage));
 
       renderApp();
 
@@ -151,12 +159,14 @@ describe('App Component', () => {
     });
 
     it('should have proper ARIA attributes in error state', async () => {
-      (tmdbApi.getPopularMovies as any).mockRejectedValue(new Error('API Error'));
+      mockTmdbApi.getPopularMovies.mockRejectedValue(new Error('API Error'));
 
       renderApp();
 
       await waitFor(() => {
-        const errorSection = screen.getByText(/error: api error/i).closest('section');
+        const errorSection = screen
+          .getByText(/error: api error/i)
+          .closest('section');
         expect(errorSection).toHaveAttribute('role', 'alert');
         expect(errorSection).toHaveClass('error');
       });
@@ -164,7 +174,7 @@ describe('App Component', () => {
 
     it('should handle different error types', async () => {
       const networkError = new Error('Network Error');
-      (tmdbApi.getPopularMovies as any).mockRejectedValue(networkError);
+      mockTmdbApi.getPopularMovies.mockRejectedValue(networkError);
 
       renderApp();
 
@@ -176,9 +186,8 @@ describe('App Component', () => {
 
   describe('Success State', () => {
     beforeEach(() => {
-      (tmdbApi.getPopularMovies as any).mockResolvedValue(mockMovieResponse);
+      mockTmdbApi.getPopularMovies.mockResolvedValue(mockMovieResponse);
     });
-
 
     it('should pass movies to MovieViewer component', async () => {
       renderApp();
@@ -188,12 +197,16 @@ describe('App Component', () => {
       });
 
       // MovieViewer should be rendered with navigation controls
-      expect(screen.getByRole('button', { name: /previous movie/i })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /next movie/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', {name: /previous movie/i})
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', {name: /next movie/i})
+      ).toBeInTheDocument();
     });
 
     it('should handle empty movie results', async () => {
-      (tmdbApi.getPopularMovies as any).mockResolvedValue({
+      mockTmdbApi.getPopularMovies.mockResolvedValue({
         ...mockMovieResponse,
         results: [],
       });
@@ -206,17 +219,15 @@ describe('App Component', () => {
     });
   });
 
-
-
   describe('Integration with React Query', () => {
     it('should call getPopularMovies with correct parameters', () => {
       renderApp();
 
-      expect(tmdbApi.getPopularMovies).toHaveBeenCalledWith(1);
+      expect(mockTmdbApi.getPopularMovies).toHaveBeenCalledWith(1);
     });
 
     it('should handle query key correctly', async () => {
-      (tmdbApi.getPopularMovies as any).mockResolvedValue(mockMovieResponse);
+      mockTmdbApi.getPopularMovies.mockResolvedValue(mockMovieResponse);
 
       renderApp();
 
@@ -230,7 +241,7 @@ describe('App Component', () => {
     });
 
     it('should handle query refetch', async () => {
-      (tmdbApi.getPopularMovies as any).mockResolvedValue(mockMovieResponse);
+      mockTmdbApi.getPopularMovies.mockResolvedValue(mockMovieResponse);
 
       renderApp();
 
@@ -241,13 +252,13 @@ describe('App Component', () => {
       // Trigger refetch
       await queryClient.refetchQueries(['popularMovies']);
 
-      expect(tmdbApi.getPopularMovies).toHaveBeenCalledTimes(2);
+      expect(mockTmdbApi.getPopularMovies).toHaveBeenCalledTimes(2);
     });
   });
 
   describe('User Interactions', () => {
     beforeEach(() => {
-      (tmdbApi.getPopularMovies as any).mockResolvedValue(mockMovieResponse);
+      mockTmdbApi.getPopularMovies.mockResolvedValue(mockMovieResponse);
     });
 
     it('should allow navigation between movies', async () => {
@@ -257,7 +268,7 @@ describe('App Component', () => {
         expect(screen.getByText('Test Movie 1')).toBeInTheDocument();
       });
 
-      const nextButton = screen.getByRole('button', { name: /next movie/i });
+      const nextButton = screen.getByRole('button', {name: /next movie/i});
       fireEvent.click(nextButton);
 
       await waitFor(() => {
@@ -268,7 +279,7 @@ describe('App Component', () => {
 
   describe('Accessibility', () => {
     beforeEach(() => {
-      (tmdbApi.getPopularMovies as any).mockResolvedValue(mockMovieResponse);
+      mockTmdbApi.getPopularMovies.mockResolvedValue(mockMovieResponse);
     });
 
     it('should support screen readers with live regions', async () => {
@@ -287,10 +298,12 @@ describe('App Component', () => {
   describe('Error Boundaries', () => {
     it('should handle component errors gracefully', async () => {
       // Mock console.error to avoid error output in tests
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
 
       // Force a rendering error
-      (tmdbApi.getPopularMovies as any).mockResolvedValue({
+      mockTmdbApi.getPopularMovies.mockResolvedValue({
         ...mockMovieResponse,
         results: [null], // Invalid movie data
       });
@@ -305,9 +318,9 @@ describe('App Component', () => {
 
   describe('Performance', () => {
     it('should not refetch data unnecessarily', async () => {
-      (tmdbApi.getPopularMovies as any).mockResolvedValue(mockMovieResponse);
+      mockTmdbApi.getPopularMovies.mockResolvedValue(mockMovieResponse);
 
-      const { rerender } = renderApp();
+      const {rerender} = renderApp();
 
       await waitFor(() => {
         expect(screen.getByText('Test Movie 1')).toBeInTheDocument();
@@ -321,20 +334,20 @@ describe('App Component', () => {
       );
 
       // Should not trigger additional API calls
-      expect(tmdbApi.getPopularMovies).toHaveBeenCalledTimes(1);
+      expect(mockTmdbApi.getPopularMovies).toHaveBeenCalledTimes(1);
     });
 
     it('should handle large movie datasets', async () => {
       const largeMovieResponse = {
         ...mockMovieResponse,
-        results: Array.from({ length: 100 }, (_, i) => ({
+        results: Array.from({length: 100}, (_, i) => ({
           ...mockMovieResponse.results[0],
           id: i + 1,
           title: `Movie ${i + 1}`,
         })),
       };
 
-      (tmdbApi.getPopularMovies as any).mockResolvedValue(largeMovieResponse);
+      mockTmdbApi.getPopularMovies.mockResolvedValue(largeMovieResponse);
 
       renderApp();
 

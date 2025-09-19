@@ -88,12 +88,16 @@ describe('MovieViewer', () => {
 
   describe('Snapshot Tests', () => {
     it('should render MovieViewer with multiple movies', async () => {
-      const {container} = await renderWithQuery(<MovieViewer movies={mockMovies} />);
+      const {container} = await renderWithQuery(
+        <MovieViewer movies={mockMovies} />
+      );
       expect(container.firstChild).toMatchSnapshot();
     });
 
     it('should render MovieViewer with single movie', async () => {
-      const {container} = await renderWithQuery(<MovieViewer movies={singleMovie} />);
+      const {container} = await renderWithQuery(
+        <MovieViewer movies={singleMovie} />
+      );
       expect(container.firstChild).toMatchSnapshot();
     });
 
