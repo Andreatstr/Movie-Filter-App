@@ -62,7 +62,8 @@ textarea:focus-visible,
   position: relative;
 }
 
-.focus-trap-active::before {
+/* Only show backdrop for true modals, not dropdowns */
+.focus-trap-active.modal::before {
   content: '';
   position: fixed;
   top: 0;

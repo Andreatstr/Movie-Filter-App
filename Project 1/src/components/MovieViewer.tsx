@@ -58,6 +58,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   // Focus trap for filter dropdown accessibility
   const filterPanelRef = useFocusTrap({
     isActive: filterDropdown,
+    initialFocus: false, // Don't auto-focus, just trap tab navigation
     onEscape: () => setFilterDropdown(false),
   });
 
