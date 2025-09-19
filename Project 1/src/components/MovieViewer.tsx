@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import type { Movie } from '../types/movie';
+import type { Movie, MovieFilters } from '../types/movie';
 import MovieCard from './MovieCard';
 import './../styles/MovieViewer.css';
 import FilterPanel from './FilterPanel';
@@ -65,6 +65,25 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     setFilterDropdown(prev => !prev);
   };
 
+  // Enhanced setFilters with announcements
+  const setFiltersWithAnnouncement = useCallback((patch: Partial<MovieFilters>) => {
+    setFilters(patch);
+    
+    // Announce filter changes
+    const filterDescriptions = [];
+    if (patch.genre) filterDescriptions.push(`Genre: ${patch.genre}`);
+    if (patch.year) filterDescriptions.push(`Year: ${patch.year}`);
+    if (patch.minRating !== undefined) filterDescriptions.push(`Min rating: ${patch.minRating}`);
+    if (patch.maxRating !== undefined) filterDescriptions.push(`Max rating: ${patch.maxRating}`);
+    if (patch.sortBy) filterDescriptions.push(`Sort by: ${patch.sortBy}`);
+    
+    if (filterDescriptions.length > 0) {
+      setAnnouncement(getStatusAnnouncement('filter', {
+        filterApplied: filterDescriptions.join(', ')
+      }));
+    }
+  }, [setFilters]);
+
   const handleSearch = useCallback(async (query: string) => {
     setSearchTerm(query);
     setSearchActive(!!query);
@@ -82,10 +101,16 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
       setSearchResults(response.results);
       setViewerSource(response.results);
       setCurrentIndex(0);
+      
+      // Announce search results
+      setAnnouncement(getStatusAnnouncement('search', {
+        searchResults: response.results.length
+      }));
     } catch (error) {
       console.error('Search error:', error);
       setSearchResults([]);
       setViewerSource([]);
+      setAnnouncement(getStatusAnnouncement('search', { searchResults: 0 }));
     } finally {
       setLoadingSearch(false);
     }
@@ -205,7 +230,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
           movies={movies}
           genres={genresData?.genres ?? []}
           filters={filters}
-          setFilters={setFilters}
+          setFilters={setFiltersWithAnnouncement}
           reset={reset}
           hasActiveFilters={hasActiveFilters}
           showFavoritesOnly={showFavoritesOnly}
@@ -236,7 +261,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
           movies={movies}
           genres={genresData?.genres ?? []}
           filters={filters}
-          setFilters={setFilters}
+          setFilters={setFiltersWithAnnouncement}
           reset={reset}
           hasActiveFilters={hasActiveFilters}
           showFavoritesOnly={showFavoritesOnly}
@@ -320,7 +345,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
             movies={movies}
             genres={genresData?.genres ?? []}
             filters={filters}
-            setFilters={setFilters}
+            setFilters={setFiltersWithAnnouncement}
             reset={reset}
             hasActiveFilters={hasActiveFilters}
             showFavoritesOnly={showFavoritesOnly}
@@ -331,7 +356,11 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
       )}
 
       <main className="movie-display">
-        <MovieCard movie={currentMovie} size="large" />
+        <MovieCard 
+          movie={currentMovie} 
+          size="large" 
+          onAnnouncement={setAnnouncement}
+        />
       </main>
 
       <aside className="movie-jump-controls">

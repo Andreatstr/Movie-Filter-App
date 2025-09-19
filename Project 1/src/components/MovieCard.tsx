@@ -3,15 +3,16 @@ import { Heart } from 'lucide-react';
 import type { Movie } from '../types/movie';
 import { tmdbApi } from '../services/tmdbApi';
 import { useFavorites } from '../hooks/useFavorites';
-import { getFavoriteButtonLabel, getRatingLabel, getOverviewLabel } from '../utils/aria';
+import { getFavoriteButtonLabel, getRatingLabel, getOverviewLabel, getStatusAnnouncement } from '../utils/aria';
 import '../styles/MovieCard.css';
 
 interface MovieCardProps {
   movie: Movie;
   size?: 'small' | 'medium' | 'large';
+  onAnnouncement?: (message: string) => void;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium' }) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium', onAnnouncement }) => {
   const [imageError, setImageError] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTruncated, setIsTruncated] = useState(false);
@@ -99,7 +100,18 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium' }) => {
           className={`favorite-btn ${isFavorite(movie.id) ? 'is-favorited' : ''}`}
           onClick={(e) => {
             e.stopPropagation();
+            const wasLiked = isFavorite(movie.id);
             toggle(movie);
+            
+            // Announce the favorite action
+            if (onAnnouncement) {
+              const newCount = wasLiked ? -1 : 1; // Approximate change for announcement
+              onAnnouncement(getStatusAnnouncement('favorite', {
+                movieTitle: title,
+                favoritesCount: newCount,
+              }));
+            }
+            
             // Remove focus on touch devices to prevent blue outline
             if ('ontouchstart' in window) {
               (e.target as HTMLButtonElement).blur();
