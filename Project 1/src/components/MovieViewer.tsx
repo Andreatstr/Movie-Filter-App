@@ -54,11 +54,10 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
 
   const [filterDropdown, setFilterDropdown] = useState(false);
 
-  // Focus trap for filter dropdown accessibility
   const filterPanelRef = useFocusTrap({
     isActive: filterDropdown,
-    initialFocus: false, // Don't auto-focus, just trap tab navigation
-    restoreFocus: false, // Don't restore focus when interacting with controls
+    initialFocus: false,
+    restoreFocus: false,
     onEscape: () => setFilterDropdown(false),
   });
 
@@ -66,11 +65,8 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     setFilterDropdown(prev => !prev);
   };
 
-  // Immediate announcement that cancels previous ones to prevent screen reader queuing
   const throttledAnnouncement = useCallback((message: string) => {
-    // Aggressive interruption technique for stubborn screen readers like Orca
-    // Unfortunately still doesn't seem to work..
-    setAnnouncement('​'); // Zero-width space character
+    setAnnouncement('​');
     requestAnimationFrame(() => {
       setAnnouncement('');
       requestAnimationFrame(() => {
@@ -79,18 +75,16 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     });
   }, []);
 
-  // Enhanced setFilters with announcements
   const setFiltersWithAnnouncement = useCallback((patch: Partial<MovieFilters>) => {
     setFilters(patch);
-    
-    // Announce filter changes
+
     const filterDescriptions = [];
     if (patch.genre) filterDescriptions.push(`Genre: ${patch.genre}`);
     if (patch.year) filterDescriptions.push(`Year: ${patch.year}`);
     if (patch.minRating !== undefined) filterDescriptions.push(`Min rating: ${patch.minRating}`);
     if (patch.maxRating !== undefined) filterDescriptions.push(`Max rating: ${patch.maxRating}`);
     if (patch.sortBy) filterDescriptions.push(`Sort by: ${patch.sortBy}`);
-    
+
     if (filterDescriptions.length > 0) {
       throttledAnnouncement(getStatusAnnouncement('filter', {
         filterApplied: filterDescriptions.join(', ')
@@ -115,8 +109,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
       setSearchResults(response.results);
       setViewerSource(response.results);
       setCurrentIndex(0);
-      
-      // Announce search results
+
       throttledAnnouncement(getStatusAnnouncement('search', {
         searchResults: response.results.length
       }));
@@ -146,8 +139,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   const goToNext = useCallback(() => {
     const newIndex = currentIndex === viewerSource.length - 1 ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
-    
-    // Announce navigation change
+
     const movieTitle = viewerSource[newIndex]?.title;
     if (movieTitle) {
       throttledAnnouncement(getStatusAnnouncement('navigation', {
@@ -160,8 +152,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   const goToPrevious = useCallback(() => {
     const newIndex = currentIndex === 0 ? viewerSource.length - 1 : currentIndex - 1;
     setCurrentIndex(newIndex);
-    
-    // Announce navigation change
+
     const movieTitle = viewerSource[newIndex]?.title;
     if (movieTitle) {
       throttledAnnouncement(getStatusAnnouncement('navigation', {

@@ -102,17 +102,15 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium', onAnnounc
             e.stopPropagation();
             const wasLiked = isFavorite(movie.id);
             toggle(movie);
-            
-            // Announce the favorite action
+
             if (onAnnouncement) {
-              const newCount = wasLiked ? -1 : 1; // Approximate change for announcement
+              const newCount = wasLiked ? -1 : 1;
               onAnnouncement(getStatusAnnouncement('favorite', {
                 movieTitle: title,
                 favoritesCount: newCount,
               }));
             }
-            
-            // Remove focus on touch devices to prevent blue outline
+
             if ('ontouchstart' in window) {
               (e.target as HTMLButtonElement).blur();
             }

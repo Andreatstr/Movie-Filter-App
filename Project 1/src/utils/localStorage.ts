@@ -1,10 +1,6 @@
-// Safe localStorage helpers with JSON handling and graceful fallbacks
-
 type JSONValue = string | number | boolean | null | JSONValue[] | {[key: string]: JSONValue};
 
 const isBrowser = typeof window !== 'undefined' && !!window.localStorage;
-
-// In-memory fallback if localStorage is unavailable or errors occur
 const memoryStore = new Map<string, string>();
 
 function safeGetItem(key: string): string | null {
