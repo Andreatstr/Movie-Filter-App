@@ -1,4 +1,3 @@
-/* Mobile-first base styles */
 .movie-viewer {
   max-width: 800px;
   margin: 0 auto;
@@ -6,11 +5,11 @@
   --mobile-content-width: 280px;
 }
 
-/* Ensure filter panel dialog has consistent width at all breakpoints */
 .movie-viewer > section[role="dialog"] {
   width: 100%;
   max-width: 500px;
   margin: 0 auto;
+  position: relative;
 }
 
 .dropdown-container {
