@@ -1,7 +1,6 @@
 import {useQuery} from '@tanstack/react-query';
 import {tmdbApi} from './services/tmdbApi';
 import {MovieViewer} from './components/MovieViewer';
-import {MotionProvider} from './components/MotionProvider';
 import './App.css';
 import './styles/accessibility.css';
 
@@ -34,26 +33,24 @@ function App() {
   const movies = data?.results || [];
 
   return (
-    <MotionProvider>
-      <main className="app">
-        {/* Skip Navigation Links */}
-        <a href="#main-content" className="skip-link">
-          Skip to main content
-        </a>
-        <a href="#movie-navigation" className="skip-link">
-          Skip to movie navigation
-        </a>
-        
-        <header className="app-header">
-          <h1>Movies</h1>
-          <p>Browse popular movies from TMDB</p>
-        </header>
+    <main className="app">
+      {/* Skip Navigation Links */}
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+      <a href="#movie-navigation" className="skip-link">
+        Skip to movie navigation
+      </a>
 
-        <div id="main-content" tabIndex={-1}>
-          <MovieViewer movies={movies} />
-        </div>
-      </main>
-    </MotionProvider>
+      <header className="app-header">
+        <h1>Movies</h1>
+        <p>Browse popular movies from TMDB</p>
+      </header>
+
+      <div id="main-content" tabIndex={-1}>
+        <MovieViewer movies={movies} />
+      </div>
+    </main>
   );
 }
 
