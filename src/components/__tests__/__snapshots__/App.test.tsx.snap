@@ -46,10 +46,23 @@ exports[`App Component > Snapshot Tests > should render App with movies loaded 1
   <header
     class="app-header"
   >
-    <h1>
-      Movies
+    <h1
+      class="app-logo"
+    >
+      <span
+        class="logo-movie"
+      >
+        Movie
+      </span>
+      <span
+        class="logo-heaven"
+      >
+        Heaven
+      </span>
     </h1>
-    <p>
+    <p
+      class="sr-only"
+    >
       Browse popular movies from TMDB
     </p>
   </header>

@@ -43,8 +43,11 @@ function App() {
       </a>
 
       <header className="app-header">
-        <h1>Movies</h1>
-        <p>Browse popular movies from TMDB</p>
+        <h1 className="app-logo">
+          <span className="logo-movie">Movie</span>
+          <span className="logo-heaven">Heaven</span>
+        </h1>
+        <p className="sr-only">Browse popular movies from TMDB</p>
       </header>
 
       <div id="main-content" tabIndex={-1}>
