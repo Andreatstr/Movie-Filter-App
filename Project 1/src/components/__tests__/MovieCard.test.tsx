@@ -151,10 +151,10 @@ describe('MovieCard', () => {
       expect(screen.getByRole('heading', {level: 2})).toBeInTheDocument();
     });
 
-    it('should have aria-label for rating', () => {
+    it('should have accessible rating display', () => {
       render(<MovieCard movie={mockMovie} />);
 
-      const ratingElement = screen.getByLabelText('Rating: 8.5 out of 10 stars');
+      const ratingElement = screen.getByText('★ 8.5/10');
       expect(ratingElement).toBeInTheDocument();
     });
   });

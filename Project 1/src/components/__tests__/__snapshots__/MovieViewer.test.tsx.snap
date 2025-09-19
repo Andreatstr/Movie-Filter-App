@@ -88,7 +88,6 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
               2023
             </time>
             <span
-              aria-label="Rating: 9.1 out of 10 stars"
               class="rating"
             >
               ★ 
@@ -168,7 +167,6 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
       class="movie-position"
     >
       <span
-        aria-label="Showing Third Movie, movie 1 of 3"
         class="position-text"
       >
         1
@@ -552,7 +550,6 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
               2023
             </time>
             <span
-              aria-label="Rating: 8.5 out of 10 stars"
               class="rating"
             >
               ★ 
@@ -620,7 +617,6 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
       class="movie-position"
     >
       <span
-        aria-label="Showing First Movie, movie 1 of 1"
         class="position-text"
       >
         1

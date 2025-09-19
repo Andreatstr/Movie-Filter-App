@@ -3,7 +3,7 @@ import { Heart } from 'lucide-react';
 import type { Movie } from '../types/movie';
 import { tmdbApi } from '../services/tmdbApi';
 import { useFavorites } from '../hooks/useFavorites';
-import { getFavoriteButtonLabel, getRatingLabel, getOverviewLabel, getStatusAnnouncement } from '../utils/aria';
+import { getFavoriteButtonLabel, getStatusAnnouncement } from '../utils/aria';
 import '../styles/MovieCard.css';
 
 interface MovieCardProps {
@@ -130,7 +130,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium', onAnnounc
             <time className="year" dateTime={movie?.release_date || undefined}>
               {year}
             </time>
-            <span className="rating" aria-label={getRatingLabel(parseFloat(rating))}>
+            <span className="rating">
               ★ {rating}/10
             </span>
           </aside>
@@ -147,7 +147,6 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium', onAnnounc
               className="expand-btn"
               onClick={toggleExpanded}
               aria-expanded={isExpanded}
-              aria-label={getOverviewLabel(movie?.overview || 'No description available.', isExpanded, title)}
             >
               {isExpanded ? 'Show less' : 'Show more'}
             </button>

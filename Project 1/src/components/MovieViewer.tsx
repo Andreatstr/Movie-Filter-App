@@ -11,7 +11,6 @@ import {useFavorites} from '../hooks/useFavorites';
 import {storage} from '../utils/localStorage';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { 
-  getMoviePositionLabel, 
   getNavigationButtonLabel, 
   getMovieSelectLabel,
   getStatusAnnouncement 
@@ -24,6 +23,7 @@ interface MovieViewerProps {
 export const MovieViewer = ({ movies }: MovieViewerProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [announcement, setAnnouncement] = useState('');
+  const [lastAnnouncementTime, setLastAnnouncementTime] = useState(0);
   const { filters, setFilters, reset, hasActiveFilters, applyFilters } =
     useFilters();
   const {ids: favoriteIds, count: favoritesCount} = useFavorites();
@@ -65,6 +65,15 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     setFilterDropdown(prev => !prev);
   };
 
+  // Throttled announcement to prevent excessive screen reader chatter
+  const throttledAnnouncement = useCallback((message: string) => {
+    const now = Date.now();
+    if (now - lastAnnouncementTime > 1000) { // Throttle to max 1 announcement per second
+      setAnnouncement(message);
+      setLastAnnouncementTime(now);
+    }
+  }, [lastAnnouncementTime]);
+
   // Enhanced setFilters with announcements
   const setFiltersWithAnnouncement = useCallback((patch: Partial<MovieFilters>) => {
     setFilters(patch);
@@ -78,11 +87,11 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     if (patch.sortBy) filterDescriptions.push(`Sort by: ${patch.sortBy}`);
     
     if (filterDescriptions.length > 0) {
-      setAnnouncement(getStatusAnnouncement('filter', {
+      throttledAnnouncement(getStatusAnnouncement('filter', {
         filterApplied: filterDescriptions.join(', ')
       }));
     }
-  }, [setFilters]);
+  }, [setFilters, throttledAnnouncement]);
 
   const handleSearch = useCallback(async (query: string) => {
     setSearchTerm(query);
@@ -103,14 +112,14 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
       setCurrentIndex(0);
       
       // Announce search results
-      setAnnouncement(getStatusAnnouncement('search', {
+      throttledAnnouncement(getStatusAnnouncement('search', {
         searchResults: response.results.length
       }));
     } catch (error) {
       console.error('Search error:', error);
       setSearchResults([]);
       setViewerSource([]);
-      setAnnouncement(getStatusAnnouncement('search', { searchResults: 0 }));
+      throttledAnnouncement(getStatusAnnouncement('search', { searchResults: 0 }));
     } finally {
       setLoadingSearch(false);
     }
@@ -136,12 +145,12 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     // Announce navigation change
     const movieTitle = viewerSource[newIndex]?.title;
     if (movieTitle) {
-      setAnnouncement(getStatusAnnouncement('navigation', {
+      throttledAnnouncement(getStatusAnnouncement('navigation', {
         movieTitle,
         position: { current: newIndex + 1, total: viewerSource.length }
       }));
     }
-  }, [viewerSource.length, currentIndex, viewerSource]);
+  }, [viewerSource.length, currentIndex, viewerSource, throttledAnnouncement]);
 
   const goToPrevious = useCallback(() => {
     const newIndex = currentIndex === 0 ? viewerSource.length - 1 : currentIndex - 1;
@@ -150,12 +159,12 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     // Announce navigation change
     const movieTitle = viewerSource[newIndex]?.title;
     if (movieTitle) {
-      setAnnouncement(getStatusAnnouncement('navigation', {
+      throttledAnnouncement(getStatusAnnouncement('navigation', {
         movieTitle,
         position: { current: newIndex + 1, total: viewerSource.length }
       }));
     }
-  }, [viewerSource.length, currentIndex, viewerSource]);
+  }, [viewerSource.length, currentIndex, viewerSource, throttledAnnouncement]);
 
   useEffect(() => {
     if (!searchActive) {
@@ -359,7 +368,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
         <MovieCard 
           movie={currentMovie} 
           size="large" 
-          onAnnouncement={setAnnouncement}
+          onAnnouncement={throttledAnnouncement}
         />
       </main>
 
@@ -408,10 +417,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
         </button>
 
         <aside className="movie-position">
-          <span 
-            className="position-text"
-            aria-label={getMoviePositionLabel(currentIndex + 1, filteredMovies.length, currentMovie?.title)}
-          >
+          <span className="position-text">
             {currentIndex + 1} of {filteredMovies.length}
           </span>
         </aside>
