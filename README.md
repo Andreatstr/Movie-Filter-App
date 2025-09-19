@@ -3,6 +3,7 @@
 A React-based movie filtering application built with TypeScript that allows users to browse, filter, and manage movie collections using the TMDB API.
 
 ## Link to webpage
+
 [Live Demo](http://it2810-26.idi.ntnu.no/project1/)
 
 Make sure to connect to edoram VPN if you are accessing from outside NTNU.

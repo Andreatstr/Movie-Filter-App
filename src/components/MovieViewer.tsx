@@ -62,17 +62,30 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
   ]);
 
   const [filterDropdown, setFilterDropdown] = useState(false);
+  const [filterClosing, setFilterClosing] = useState(false);
+
+  const closeFilterDropdown = () => {
+    setFilterClosing(true);
+    setTimeout(() => {
+      setFilterDropdown(false);
+      setFilterClosing(false);
+    }, 200); // Match closing animation duration
+  };
+
+  const toggleFilterDropdown = () => {
+    if (filterDropdown) {
+      closeFilterDropdown();
+    } else {
+      setFilterDropdown(true);
+    }
+  };
 
   const filterPanelRef = useFocusTrap({
     isActive: filterDropdown,
     initialFocus: false,
     restoreFocus: false,
-    onEscape: () => setFilterDropdown(false),
+    onEscape: closeFilterDropdown,
   });
-
-  const toggleFilterDropdown = () => {
-    setFilterDropdown((prev) => !prev);
-  };
 
   const throttledAnnouncement = useCallback((message: string) => {
     setAnnouncement('​');
@@ -350,8 +363,13 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
         </button>
       </section>
 
-      {filterDropdown && (
-        <section ref={filterPanelRef} role="dialog" aria-label="Filters">
+      {(filterDropdown || filterClosing) && (
+        <section
+          ref={filterPanelRef}
+          role="dialog"
+          aria-label="Filters"
+          className={`filter-dropdown-container ${filterClosing ? 'filter-closing' : ''}`}
+        >
           <FilterPanel
             movies={movies}
             genres={genresData?.genres ?? []}
