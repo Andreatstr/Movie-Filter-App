@@ -2,6 +2,11 @@
 
 A React-based movie filtering application built with TypeScript that allows users to browse, filter, and manage movie collections using the TMDB API.
 
+## Link to webpage
+[Live Demo](http://it2810-26.idi.ntnu.no/project1/)
+
+Make sure to connect to edoram VPN if you are accessing from outside NTNU.
+
 ## Project Overview
 
 This project is part of the NTNU IT2810 web development course, demonstrating modern React development practices, REST API integration, accessibility features, and comprehensive testing strategies. The application showcases fundamental web technologies while implementing advanced features like responsive design, state management, and performance optimization.
