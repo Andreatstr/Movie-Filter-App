@@ -183,7 +183,7 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
   </nav>
   <div
     aria-atomic="true"
-    aria-live="polite"
+    aria-live="assertive"
     class="sr-only"
   />
 </section>
@@ -634,7 +634,7 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
   </nav>
   <div
     aria-atomic="true"
-    aria-live="polite"
+    aria-live="assertive"
     class="sr-only"
   />
 </section>

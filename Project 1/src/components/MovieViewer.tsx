@@ -23,7 +23,6 @@ interface MovieViewerProps {
 export const MovieViewer = ({ movies }: MovieViewerProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [announcement, setAnnouncement] = useState('');
-  const [lastAnnouncementTime, setLastAnnouncementTime] = useState(0);
   const { filters, setFilters, reset, hasActiveFilters, applyFilters } =
     useFilters();
   const {ids: favoriteIds, count: favoritesCount} = useFavorites();
@@ -66,14 +65,18 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     setFilterDropdown(prev => !prev);
   };
 
-  // Throttled announcement to prevent excessive screen reader chatter
+  // Immediate announcement that cancels previous ones to prevent screen reader queuing
   const throttledAnnouncement = useCallback((message: string) => {
-    const now = Date.now();
-    if (now - lastAnnouncementTime > 1000) { // Throttle to max 1 announcement per second
-      setAnnouncement(message);
-      setLastAnnouncementTime(now);
-    }
-  }, [lastAnnouncementTime]);
+    // Aggressive interruption technique for stubborn screen readers like Orca
+    // Unfortunately still doesn't seem to work..
+    setAnnouncement('​'); // Zero-width space character
+    requestAnimationFrame(() => {
+      setAnnouncement('');
+      requestAnimationFrame(() => {
+        setAnnouncement(message);
+      });
+    });
+  }, []);
 
   // Enhanced setFilters with announcements
   const setFiltersWithAnnouncement = useCallback((patch: Partial<MovieFilters>) => {
@@ -124,7 +127,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     } finally {
       setLoadingSearch(false);
     }
-  }, [movies, applyFilters]);
+  }, [movies, applyFilters, throttledAnnouncement]);
 
   const handleSelectSuggestion = (suggestion: string) => {
     setSearchTerm(suggestion);
@@ -151,7 +154,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
         position: { current: newIndex + 1, total: viewerSource.length }
       }));
     }
-  }, [viewerSource.length, currentIndex, viewerSource, throttledAnnouncement]);
+  }, [currentIndex, viewerSource, throttledAnnouncement]);
 
   const goToPrevious = useCallback(() => {
     const newIndex = currentIndex === 0 ? viewerSource.length - 1 : currentIndex - 1;
@@ -165,7 +168,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
         position: { current: newIndex + 1, total: viewerSource.length }
       }));
     }
-  }, [viewerSource.length, currentIndex, viewerSource, throttledAnnouncement]);
+  }, [currentIndex, viewerSource, throttledAnnouncement]);
 
   useEffect(() => {
     if (!searchActive) {
@@ -437,8 +440,8 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
         </button>
       </nav>
 
-      {/* Live region for announcements */}
-      <div aria-live="polite" aria-atomic="true" className="sr-only">
+      {/* Live region for announcements - assertive to interrupt previous announcements */}
+      <div aria-live="assertive" aria-atomic="true" className="sr-only">
         {announcement}
       </div>
     </section>

@@ -92,6 +92,9 @@ export function useFocusTrap({
   useEffect(() => {
     if (!isActive) return;
 
+    // Capture container ref at the start of the effect
+    const container = containerRef.current;
+
     // Store the currently focused element to restore later
     if (restoreFocus && document.activeElement instanceof HTMLElement) {
       previouslyFocusedElementRef.current = document.activeElement;
@@ -114,16 +117,16 @@ export function useFocusTrap({
     document.addEventListener('keydown', handleKeyDown);
 
     // Add class to container for styling
-    if (containerRef.current) {
-      containerRef.current.classList.add('focus-trap-active');
+    if (container) {
+      container.classList.add('focus-trap-active');
     }
 
     // Cleanup function
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       
-      if (containerRef.current) {
-        containerRef.current.classList.remove('focus-trap-active');
+      if (container) {
+        container.classList.remove('focus-trap-active');
       }
 
       // Restore focus to previously focused element

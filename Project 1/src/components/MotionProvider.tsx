@@ -1,23 +1,7 @@
-import React, { createContext, useContext } from 'react';
+import React from 'react';
 import { useReducedMotion, useAnimationConfig } from '../hooks/useReducedMotion';
-
-/**
- * Context for providing motion preferences throughout the app
- * Supports WCAG 2.1 Level AA motion control requirements
- */
-interface MotionContextType {
-  prefersReducedMotion: boolean;
-  animationConfig: {
-    prefersReducedMotion: boolean;
-    duration: number;
-    easing: string;
-    shouldAnimate: boolean;
-    transitionStyle: React.CSSProperties;
-    animationClass: string;
-  };
-}
-
-const MotionContext = createContext<MotionContextType | undefined>(undefined);
+import { MotionContext, type MotionContextType } from '../contexts/MotionContext';
+import { useMotion } from '../hooks/useMotion';
 
 /**
  * Provider component for motion preferences
@@ -37,18 +21,6 @@ export function MotionProvider({ children }: { children: React.ReactNode }) {
       {children}
     </MotionContext.Provider>
   );
-}
-
-/**
- * Hook to access motion preferences from any component
- * Throws error if used outside MotionProvider
- */
-export function useMotion(): MotionContextType {
-  const context = useContext(MotionContext);
-  if (context === undefined) {
-    throw new Error('useMotion must be used within a MotionProvider');
-  }
-  return context;
 }
 
 /**

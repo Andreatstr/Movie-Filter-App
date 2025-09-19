@@ -181,8 +181,8 @@ export function createAriaAttributes(config: {
   expanded?: boolean;
   pressed?: boolean;
   current?: boolean | 'page' | 'step' | 'location' | 'date' | 'time';
-}): Record<string, any> {
-  const attrs: Record<string, any> = {};
+}): Record<string, string | boolean> {
+  const attrs: Record<string, string | boolean> = {};
   
   if (config.label) attrs['aria-label'] = config.label;
   if (config.describedBy) attrs['aria-describedby'] = config.describedBy;
