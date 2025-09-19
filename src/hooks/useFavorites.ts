@@ -57,7 +57,10 @@ function subscribe(listener: () => void) {
   return () => listeners.delete(listener);
 }
 
-function getSnapshot() { ensureInit(); return snapshot!; }
+function getSnapshot() {
+  ensureInit();
+  return snapshot!;
+}
 
 // Sync with storage events (cross-tab support)
 if (typeof window !== 'undefined') {
@@ -79,13 +82,16 @@ export function useFavorites() {
   const favorites = snapshot.favorites;
   const error = snapshot.error;
 
-  const ids = useMemo(() => new Set(Object.keys(favorites).map(Number)), [
-    favorites,
-  ]);
+  const ids = useMemo(
+    () => new Set(Object.keys(favorites).map(Number)),
+    [favorites]
+  );
 
   const list = useMemo(
     () =>
-      Object.values(favorites).sort((a, b) => (b.timestamp ?? 0) - (a.timestamp ?? 0)),
+      Object.values(favorites).sort(
+        (a, b) => (b.timestamp ?? 0) - (a.timestamp ?? 0)
+      ),
     [favorites]
   );
 

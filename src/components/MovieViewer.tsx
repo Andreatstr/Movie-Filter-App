@@ -1,29 +1,29 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import type { Movie, MovieFilters } from '../types/movie';
+import {useState, useEffect, useCallback, useMemo, useRef} from 'react';
+import {useQuery} from '@tanstack/react-query';
+import type {Movie, MovieFilters} from '../types/movie';
 import MovieCard from './MovieCard';
 import './../styles/MovieViewer.css';
 import FilterPanel from './FilterPanel';
-import { useFilters } from '../hooks/useFilters';
+import {useFilters} from '../hooks/useFilters';
 import SearchBar from './SearchBar';
 import {tmdbApi} from '../services/tmdbApi';
 import {useFavorites} from '../hooks/useFavorites';
 import {storage} from '../utils/localStorage';
-import { useFocusTrap } from '../hooks/useFocusTrap';
-import { 
-  getNavigationButtonLabel, 
+import {useFocusTrap} from '../hooks/useFocusTrap';
+import {
+  getNavigationButtonLabel,
   getMovieSelectLabel,
-  getStatusAnnouncement 
+  getStatusAnnouncement,
 } from '../utils/aria';
 
 interface MovieViewerProps {
   movies: Movie[];
 }
 
-export const MovieViewer = ({ movies }: MovieViewerProps) => {
+export const MovieViewer = ({movies}: MovieViewerProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [announcement, setAnnouncement] = useState('');
-  const { filters, setFilters, reset, hasActiveFilters, applyFilters } =
+  const {filters, setFilters, reset, hasActiveFilters, applyFilters} =
     useFilters();
   const {ids: favoriteIds, count: favoritesCount} = useFavorites();
   const SHOW_FAVORITES_KEY = 'favorites:showOnly';
@@ -52,7 +52,14 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     }
     const source = searchActive && searchResults ? searchResults : movies;
     return applyFilters(source);
-  }, [searchActive, searchResults, applyFilters, movies, showFavoritesOnly, fetchedFavorites]);
+  }, [
+    searchActive,
+    searchResults,
+    applyFilters,
+    movies,
+    showFavoritesOnly,
+    fetchedFavorites,
+  ]);
 
   const [filterDropdown, setFilterDropdown] = useState(false);
 
@@ -64,7 +71,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   });
 
   const toggleFilterDropdown = () => {
-    setFilterDropdown(prev => !prev);
+    setFilterDropdown((prev) => !prev);
   };
 
   const throttledAnnouncement = useCallback((message: string) => {
@@ -77,53 +84,67 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     });
   }, []);
 
-  const setFiltersWithAnnouncement = useCallback((patch: Partial<MovieFilters>) => {
-    setFilters(patch);
+  const setFiltersWithAnnouncement = useCallback(
+    (patch: Partial<MovieFilters>) => {
+      setFilters(patch);
 
-    const filterDescriptions = [];
-    if (patch.genre) filterDescriptions.push(`Genre: ${patch.genre}`);
-    if (patch.year) filterDescriptions.push(`Year: ${patch.year}`);
-    if (patch.minRating !== undefined) filterDescriptions.push(`Min rating: ${patch.minRating}`);
-    if (patch.maxRating !== undefined) filterDescriptions.push(`Max rating: ${patch.maxRating}`);
-    if (patch.sortBy) filterDescriptions.push(`Sort by: ${patch.sortBy}`);
+      const filterDescriptions = [];
+      if (patch.genre) filterDescriptions.push(`Genre: ${patch.genre}`);
+      if (patch.year) filterDescriptions.push(`Year: ${patch.year}`);
+      if (patch.minRating !== undefined)
+        filterDescriptions.push(`Min rating: ${patch.minRating}`);
+      if (patch.maxRating !== undefined)
+        filterDescriptions.push(`Max rating: ${patch.maxRating}`);
+      if (patch.sortBy) filterDescriptions.push(`Sort by: ${patch.sortBy}`);
 
-    if (filterDescriptions.length > 0) {
-      throttledAnnouncement(getStatusAnnouncement('filter', {
-        filterApplied: filterDescriptions.join(', ')
-      }));
-    }
-  }, [setFilters, throttledAnnouncement]);
+      if (filterDescriptions.length > 0) {
+        throttledAnnouncement(
+          getStatusAnnouncement('filter', {
+            filterApplied: filterDescriptions.join(', '),
+          })
+        );
+      }
+    },
+    [setFilters, throttledAnnouncement]
+  );
 
-  const handleSearch = useCallback(async (query: string) => {
-    setSearchTerm(query);
-    setSearchActive(!!query);
-    setLoadingSearch(true);
+  const handleSearch = useCallback(
+    async (query: string) => {
+      setSearchTerm(query);
+      setSearchActive(!!query);
+      setLoadingSearch(true);
 
-    if (!query) {
-      setSearchResults(null);
-      setViewerSource(applyFilters(movies));
-      setLoadingSearch(false);
-      return;
-    }
+      if (!query) {
+        setSearchResults(null);
+        setViewerSource(applyFilters(movies));
+        setLoadingSearch(false);
+        return;
+      }
 
-    try {
-      const response = await tmdbApi.searchMovies(query);
-      setSearchResults(response.results);
-      setViewerSource(response.results);
-      setCurrentIndex(0);
+      try {
+        const response = await tmdbApi.searchMovies(query);
+        setSearchResults(response.results);
+        setViewerSource(response.results);
+        setCurrentIndex(0);
 
-      throttledAnnouncement(getStatusAnnouncement('search', {
-        searchResults: response.results.length
-      }));
-    } catch (error) {
-      console.error('Search error:', error);
-      setSearchResults([]);
-      setViewerSource([]);
-      throttledAnnouncement(getStatusAnnouncement('search', { searchResults: 0 }));
-    } finally {
-      setLoadingSearch(false);
-    }
-  }, [movies, applyFilters, throttledAnnouncement]);
+        throttledAnnouncement(
+          getStatusAnnouncement('search', {
+            searchResults: response.results.length,
+          })
+        );
+      } catch (error) {
+        console.error('Search error:', error);
+        setSearchResults([]);
+        setViewerSource([]);
+        throttledAnnouncement(
+          getStatusAnnouncement('search', {searchResults: 0})
+        );
+      } finally {
+        setLoadingSearch(false);
+      }
+    },
+    [movies, applyFilters, throttledAnnouncement]
+  );
 
   const handleSelectSuggestion = (suggestion: string) => {
     setSearchTerm(suggestion);
@@ -132,35 +153,41 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     handleSearch(suggestion);
   };
 
-  const { data: genresData } = useQuery({
+  const {data: genresData} = useQuery({
     queryKey: ['genres'],
     queryFn: () => tmdbApi.getGenres(),
     staleTime: 24 * 60 * 60 * 1000,
   });
 
   const goToNext = useCallback(() => {
-    const newIndex = currentIndex === viewerSource.length - 1 ? 0 : currentIndex + 1;
+    const newIndex =
+      currentIndex === viewerSource.length - 1 ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
 
     const movieTitle = viewerSource[newIndex]?.title;
     if (movieTitle) {
-      throttledAnnouncement(getStatusAnnouncement('navigation', {
-        movieTitle,
-        position: { current: newIndex + 1, total: viewerSource.length }
-      }));
+      throttledAnnouncement(
+        getStatusAnnouncement('navigation', {
+          movieTitle,
+          position: {current: newIndex + 1, total: viewerSource.length},
+        })
+      );
     }
   }, [currentIndex, viewerSource, throttledAnnouncement]);
 
   const goToPrevious = useCallback(() => {
-    const newIndex = currentIndex === 0 ? viewerSource.length - 1 : currentIndex - 1;
+    const newIndex =
+      currentIndex === 0 ? viewerSource.length - 1 : currentIndex - 1;
     setCurrentIndex(newIndex);
 
     const movieTitle = viewerSource[newIndex]?.title;
     if (movieTitle) {
-      throttledAnnouncement(getStatusAnnouncement('navigation', {
-        movieTitle,
-        position: { current: newIndex + 1, total: viewerSource.length }
-      }));
+      throttledAnnouncement(
+        getStatusAnnouncement('navigation', {
+          movieTitle,
+          position: {current: newIndex + 1, total: viewerSource.length},
+        })
+      );
     }
   }, [currentIndex, viewerSource, throttledAnnouncement]);
 
@@ -170,7 +197,14 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     } else if (searchResults) {
       setViewerSource(filteredMovies);
     }
-  }, [filters, movies, searchResults, applyFilters, searchActive, filteredMovies]);
+  }, [
+    filters,
+    movies,
+    searchResults,
+    applyFilters,
+    searchActive,
+    filteredMovies,
+  ]);
 
   useEffect(() => {
     storage.set(SHOW_FAVORITES_KEY, showFavoritesOnly);
@@ -180,7 +214,9 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     const fetchAllFavorites = async () => {
       if (showFavoritesOnly && favoriteIds.size > 0) {
         try {
-          const favoriteMovies = await tmdbApi.getMoviesByIds(Array.from(favoriteIds));
+          const favoriteMovies = await tmdbApi.getMoviesByIds(
+            Array.from(favoriteIds)
+          );
           setFetchedFavorites(favoriteMovies);
         } catch (error) {
           console.error('Failed to fetch favorite movies:', error);
@@ -254,8 +290,8 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
 
   return (
     <section className="movie-viewer" aria-label="Movie Viewer">
-      <section className='dropdown-container' ref={searchContainerRef}>
-        <div style={{ position: 'relative', width: '100%' }}>
+      <section className="dropdown-container" ref={searchContainerRef}>
+        <div style={{position: 'relative', width: '100%'}}>
           <SearchBar
             onSearch={handleSearch}
             initialValue={searchTerm}
@@ -264,53 +300,52 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
             suggestions={searchResults?.map((movie) => movie.title) || []}
           />
 
-          <section className='suggestion-container'>
-        {loadingSearch && (
-          <aside className="search-loading">
-            <p>Loading search results...</p>
-          </aside>
-        )}
+          <section className="suggestion-container">
+            {loadingSearch && (
+              <aside className="search-loading">
+                <p>Loading search results...</p>
+              </aside>
+            )}
 
-        {searchTerm &&
-          showSuggestions &&
-          !loadingSearch &&
-          filteredMovies.length > 0 && (
-            <section className="search-suggestions">
-              {filteredMovies.slice(0, 5).map((movie, index) => (
-                <li key={movie.id}>
-                  <button
-                    className="suggestion-button"
-                    onClick={() => {
-                      const actualIndex = filteredMovies.findIndex(m => m.id === movie.id);
-                      jumpToMovie(actualIndex, filteredMovies);
-                      setShowSuggestions(false);
-                    }}
-                    title={`${movie.title} (${movie.release_date?.split('-')[0] || 'N/A'})`}
-                  >
-                    <span>{movie.title}</span>
-                    {movie.release_date && (
-                      <span
-                        style={{
-                          fontSize: '12px',
-                          color: '#666',
-                          marginLeft: '8px',
+            {searchTerm &&
+              showSuggestions &&
+              !loadingSearch &&
+              filteredMovies.length > 0 && (
+                <section className="search-suggestions">
+                  {filteredMovies.slice(0, 5).map((movie) => (
+                    <li key={movie.id}>
+                      <button
+                        className="suggestion-button"
+                        onClick={() => {
+                          const actualIndex = filteredMovies.findIndex(
+                            (m) => m.id === movie.id
+                          );
+                          jumpToMovie(actualIndex, filteredMovies);
+                          setShowSuggestions(false);
                         }}
+                        title={`${movie.title} (${movie.release_date?.split('-')[0] || 'N/A'})`}
                       >
-                        ({movie.release_date.split('-')[0]})
-                      </span>
-                    )}
-                  </button>
-                </li>
-              ))}
-            </section>
-          )}
+                        <span>{movie.title}</span>
+                        {movie.release_date && (
+                          <span
+                            style={{
+                              fontSize: '12px',
+                              color: '#666',
+                              marginLeft: '8px',
+                            }}
+                          >
+                            ({movie.release_date.split('-')[0]})
+                          </span>
+                        )}
+                      </button>
+                    </li>
+                  ))}
+                </section>
+              )}
           </section>
         </div>
 
-        <button
-          onClick={toggleFilterDropdown}
-          className='dropdown-button'
-        >
+        <button onClick={toggleFilterDropdown} className="dropdown-button">
           Filter
         </button>
       </section>
@@ -378,7 +413,11 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
               aria-label={getNavigationButtonLabel(
                 'previous',
                 currentMovie?.title,
-                viewerSource[currentIndex === 0 ? viewerSource.length - 1 : currentIndex - 1]?.title
+                viewerSource[
+                  currentIndex === 0
+                    ? viewerSource.length - 1
+                    : currentIndex - 1
+                ]?.title
               )}
               disabled={totalMovies <= 1}
             >
@@ -397,7 +436,11 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
               aria-label={getNavigationButtonLabel(
                 'next',
                 currentMovie?.title,
-                viewerSource[currentIndex === viewerSource.length - 1 ? 0 : currentIndex + 1]?.title
+                viewerSource[
+                  currentIndex === viewerSource.length - 1
+                    ? 0
+                    : currentIndex + 1
+                ]?.title
               )}
               disabled={totalMovies <= 1}
             >
@@ -408,7 +451,9 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
       ) : (
         <p className="no-movies">
           {!filteredMovies || filteredMovies.length === 0
-            ? (showFavoritesOnly ? 'No favorite movies found' : 'No movies available')
+            ? showFavoritesOnly
+              ? 'No favorite movies found'
+              : 'No movies available'
             : 'No movies available'}
         </p>
       )}
