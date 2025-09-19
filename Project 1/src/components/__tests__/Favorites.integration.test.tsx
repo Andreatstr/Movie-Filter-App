@@ -75,6 +75,9 @@ describe('Favorites Integration', () => {
     mockLocalStorage.setItem.mockClear();
     mockLocalStorage.removeItem.mockClear();
   });
+
+  // TODO: These tests require FavoritesCounter and favorites filtering features
+  // that haven't been implemented yet. Re-enable when those features are added.
   
   it('toggles favorite on MovieCard and updates count immediately', () => {
     renderWithQuery(<MovieViewer movies={movies} />);

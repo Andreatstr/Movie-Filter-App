@@ -19,7 +19,10 @@ interface MotionContextType {
 
 const MotionContext = createContext<MotionContextType | undefined>(undefined);
 
-// Wraps the app to provide motion settings to all components
+/**
+ * Provider component for motion preferences
+ * Wraps the app to provide motion settings to all components
+ */
 export function MotionProvider({ children }: { children: React.ReactNode }) {
   const prefersReducedMotion = useReducedMotion();
   const animationConfig = useAnimationConfig();
@@ -36,9 +39,10 @@ export function MotionProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-
-// Hook to access motion preferences from any component
-
+/**
+ * Hook to access motion preferences from any component
+ * Throws error if used outside MotionProvider
+ */
 export function useMotion(): MotionContextType {
   const context = useContext(MotionContext);
   if (context === undefined) {

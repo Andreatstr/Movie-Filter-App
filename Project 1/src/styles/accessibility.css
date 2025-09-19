@@ -3,8 +3,9 @@
  * WCAG 2.1 Level AA Compliance
  */
 
-
-/* SKIP NAVIGATION LINKS */
+/* ============================================
+   SKIP NAVIGATION LINKS
+   ============================================ */
 
 .skip-link {
   position: absolute;
@@ -24,7 +25,9 @@
   top: 6px;
 }
 
-/* FOCUS MANAGEMENT */
+/* ============================================
+   FOCUS MANAGEMENT
+   ============================================ */
 
 /* Enhanced focus indicators for WCAG AA compliance */
 :focus-visible {
@@ -71,7 +74,9 @@ textarea:focus-visible,
   pointer-events: none;
 }
 
-/* REDUCED MOTION SUPPORT */
+/* ============================================
+   REDUCED MOTION SUPPORT
+   ============================================ */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -100,7 +105,9 @@ textarea:focus-visible,
   }
 }
 
-/* HIGH CONTRAST MODE SUPPORT */
+/* ============================================
+   HIGH CONTRAST MODE SUPPORT
+   ============================================ */
 
 @media (prefers-contrast: high) {
   /* Enhance borders and outlines for high contrast */
@@ -152,8 +159,9 @@ textarea:focus-visible,
   }
 }
 
-
-/* ENHANCED COLOR CONTRAST */
+/* ============================================
+   ENHANCED COLOR CONTRAST
+   ============================================ */
 
 /* Ensure WCAG AA contrast ratios (4.5:1 for normal text, 3:1 for large text) */
 .movie-card .title {
@@ -190,7 +198,9 @@ textarea:focus-visible,
   opacity: 0.6;
 }
 
-/* SCREEN READER SUPPORT */
+/* ============================================
+   SCREEN READER SUPPORT
+   ============================================ */
 
 /* Screen reader only content */
 .sr-only {
@@ -214,7 +224,9 @@ textarea:focus-visible,
   overflow: hidden;
 }
 
-/* KEYBOARD NAVIGATION IMPROVEMENTS */
+/* ============================================
+   KEYBOARD NAVIGATION IMPROVEMENTS
+   ============================================ */
 
 /* Visual indicator for keyboard users */
 .keyboard-navigation-active {
@@ -236,7 +248,9 @@ textarea:focus-visible,
   font-weight: 600;
 }
 
-/* MOBILE ACCESSIBILITY */
+/* ============================================
+   MOBILE ACCESSIBILITY
+   ============================================ */
 
 @media (max-width: 768px) {
   /* Larger touch targets for mobile (minimum 44px) */
@@ -265,7 +279,9 @@ textarea:focus-visible,
   }
 }
 
-/* ARIA LIVE REGIONS STYLING */
+/* ============================================
+   ARIA LIVE REGIONS STYLING
+   ============================================ */
 
 [aria-live="polite"],
 [aria-live="assertive"] {
@@ -290,7 +306,9 @@ textarea:focus-visible,
   border-left: 4px solid var(--status-border, #0284c7);
 }
 
-/* PRINT ACCESSIBILITY */
+/* ============================================
+   PRINT ACCESSIBILITY
+   ============================================ */
 
 @media print {
   /* Ensure focus indicators are visible in print */

@@ -36,6 +36,7 @@ function App() {
   return (
     <MotionProvider>
       <main className="app">
+        {/* Skip Navigation Links */}
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
