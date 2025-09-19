@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useDebounce } from '../hooks/useDebounce';
+import React, {useState, useEffect, useRef} from 'react';
+import {useDebounce} from '../hooks/useDebounce';
 import './../styles/SearchBar.css';
 
 interface SearchBarProps {
@@ -57,15 +57,15 @@ const SearchBar: React.FC<SearchBarProps> = ({
         onKeyDown={handleKeyDown}
       />
       {input && (
-          <button
-            type="button"
-            className="clear-icon"
-            onClick={clearSearch}
-            aria-label="Clear search"
-          >
-            ✕
-          </button>
-        )}
+        <button
+          type="button"
+          className="clear-icon"
+          onClick={clearSearch}
+          aria-label="Clear search"
+        >
+          ✕
+        </button>
+      )}
     </form>
   );
 };

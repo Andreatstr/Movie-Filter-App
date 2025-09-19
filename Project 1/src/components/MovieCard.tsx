@@ -1,9 +1,9 @@
-import { useState, useRef, useEffect } from 'react';
-import { Heart } from 'lucide-react';
-import type { Movie } from '../types/movie';
-import { tmdbApi } from '../services/tmdbApi';
-import { useFavorites } from '../hooks/useFavorites';
-import { getFavoriteButtonLabel, getStatusAnnouncement } from '../utils/aria';
+import {useState, useRef, useEffect} from 'react';
+import {Heart} from 'lucide-react';
+import type {Movie} from '../types/movie';
+import {tmdbApi} from '../services/tmdbApi';
+import {useFavorites} from '../hooks/useFavorites';
+import {getFavoriteButtonLabel, getStatusAnnouncement} from '../utils/aria';
 import '../styles/MovieCard.css';
 
 interface MovieCardProps {
@@ -12,12 +12,16 @@ interface MovieCardProps {
   onAnnouncement?: (message: string) => void;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium', onAnnouncement }) => {
+const MovieCard: React.FC<MovieCardProps> = ({
+  movie,
+  size = 'medium',
+  onAnnouncement,
+}) => {
   const [imageError, setImageError] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTruncated, setIsTruncated] = useState(false);
   const overviewRef = useRef<HTMLParagraphElement>(null);
-  const { isFavorite, toggle } = useFavorites();
+  const {isFavorite, toggle} = useFavorites();
 
   const year = movie?.release_date
     ? new Date(movie.release_date).getFullYear()
@@ -105,32 +109,36 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium', onAnnounc
 
             if (onAnnouncement) {
               const newCount = wasLiked ? -1 : 1;
-              onAnnouncement(getStatusAnnouncement('favorite', {
-                movieTitle: title,
-                favoritesCount: newCount,
-              }));
+              onAnnouncement(
+                getStatusAnnouncement('favorite', {
+                  movieTitle: title,
+                  favoritesCount: newCount,
+                })
+              );
             }
 
             if ('ontouchstart' in window) {
               (e.target as HTMLButtonElement).blur();
             }
           }}
-          title={isFavorite(movie.id) ? 'Remove from favorites' : 'Add to favorites'}
+          title={
+            isFavorite(movie.id) ? 'Remove from favorites' : 'Add to favorites'
+          }
         >
-          <Heart fill={isFavorite(movie.id) ? 'currentColor' : 'none'} size={20} />
+          <Heart
+            fill={isFavorite(movie.id) ? 'currentColor' : 'none'}
+            size={20}
+          />
         </button>
       </figure>
       <section className="movie-content">
         <header className="header">
-
           <h2 className="title">{title}</h2>
           <aside className="meta">
             <time className="year" dateTime={movie?.release_date || undefined}>
               {year}
             </time>
-            <span className="rating">
-              ★ {rating}/10
-            </span>
+            <span className="rating">★ {rating}/10</span>
           </aside>
         </header>
         <section className="overview-container">

@@ -1,5 +1,5 @@
 import {useMemo, useState, useEffect, memo} from 'react';
-import { Heart } from 'lucide-react';
+import {Heart} from 'lucide-react';
 import type {Genre, Movie, MovieFilters} from '../types/movie';
 import '../styles/FilterPanel.css';
 
