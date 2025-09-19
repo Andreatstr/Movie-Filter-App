@@ -279,7 +279,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 120ms ease, background 120ms ease, opacity 120ms ease;
+  transition:
+    transform 120ms ease,
+    background 120ms ease,
+    opacity 120ms ease;
 }
 
 .favorite-btn:focus {
