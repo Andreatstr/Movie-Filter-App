@@ -193,9 +193,7 @@
   }
 }
 
-/* Desktop and up (min-width: 1024px) */
 @media (min-width: 1024px) {
-  /* Desktop: Large cards are horizontal */
   .movie-card--large {
     width: 700px;
     flex-direction: row;

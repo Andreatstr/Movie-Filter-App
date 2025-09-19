@@ -236,62 +236,9 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
     setCurrentIndex(index);
   };
 
-  if (!filteredMovies || filteredMovies.length === 0) {
-    return (
-      <section className="movie-viewer" aria-label="Movie Viewer">
-        <FilterPanel
-          movies={movies}
-          genres={genresData?.genres ?? []}
-          filters={filters}
-          setFilters={setFiltersWithAnnouncement}
-          reset={reset}
-          hasActiveFilters={hasActiveFilters}
-          showFavoritesOnly={showFavoritesOnly}
-          onToggleFavoritesOnly={setShowFavoritesOnly}
-          favoritesCount={favoritesCount}
-        />
-        <SearchBar
-          onSearch={handleSearch}
-          initialValue={searchTerm}
-          onTyping={() => setShowSuggestions(true)}
-          onSelectSuggestion={handleSelectSuggestion}
-          suggestions={searchResults?.map((movie) => movie.title) || []}
-        />
-        <p className="no-movies">
-          {showFavoritesOnly ? 'No favorite movies found' : 'No movies available'}
-        </p>
-      </section>
-    );
-  }
-
   const currentMovie = viewerSource[currentIndex];
   const totalMovies = viewerSource.length;
-
-  if (!currentMovie) {
-    return (
-      <section className="movie-viewer" aria-label="Movie Viewer">
-        <FilterPanel
-          movies={movies}
-          genres={genresData?.genres ?? []}
-          filters={filters}
-          setFilters={setFiltersWithAnnouncement}
-          reset={reset}
-          hasActiveFilters={hasActiveFilters}
-          showFavoritesOnly={showFavoritesOnly}
-          onToggleFavoritesOnly={setShowFavoritesOnly}
-          favoritesCount={favoritesCount}
-        />
-        <SearchBar
-          onSearch={handleSearch}
-          initialValue={searchTerm}
-          onTyping={() => setShowSuggestions(true)}
-          onSelectSuggestion={handleSelectSuggestion}
-          suggestions={searchResults?.map((movie) => movie.title) || []}
-        />
-        <p className="no-movies">No movies available</p>
-      </section>
-    );
-  }
+  const hasMovies = filteredMovies && filteredMovies.length > 0 && currentMovie;
 
   return (
     <section className="movie-viewer" aria-label="Movie Viewer">
@@ -368,77 +315,87 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
         </section>
       )}
 
-      <main className="movie-display">
-        <MovieCard 
-          movie={currentMovie} 
-          size="large" 
-          onAnnouncement={throttledAnnouncement}
-        />
-      </main>
+      {hasMovies ? (
+        <>
+          <main className="movie-display">
+            <MovieCard
+              movie={currentMovie}
+              size="large"
+              onAnnouncement={throttledAnnouncement}
+            />
+          </main>
 
-      <aside className="movie-jump-controls">
-        <label htmlFor="movie-select" className="jump-label">
-          Go to movie
-        </label>
-        <select
-          id="movie-select"
-          className="movie-select"
-          value={currentIndex}
-          onChange={(e) =>
-            jumpToMovie(parseInt(e.target.value, 10), viewerSource)
-          }
-          disabled={totalMovies <= 1}
-          aria-label={getMovieSelectLabel(totalMovies)}
-        >
-          {filteredMovies.map((movie, index) => (
-            <option key={movie.id} value={index}>
-              {index + 1}. {movie.title}
-            </option>
-          ))}
-        </select>
-      </aside>
+          <aside className="movie-jump-controls">
+            <label htmlFor="movie-select" className="jump-label">
+              Go to movie
+            </label>
+            <select
+              id="movie-select"
+              className="movie-select"
+              value={currentIndex}
+              onChange={(e) =>
+                jumpToMovie(parseInt(e.target.value, 10), viewerSource)
+              }
+              disabled={totalMovies <= 1}
+              aria-label={getMovieSelectLabel(totalMovies)}
+            >
+              {filteredMovies.map((movie, index) => (
+                <option key={movie.id} value={index}>
+                  {index + 1}. {movie.title}
+                </option>
+              ))}
+            </select>
+          </aside>
 
-      <aside className="keyboard-hint">
-        <p>Use ← → arrow keys to navigate</p>
-      </aside>
+          <aside className="keyboard-hint">
+            <p>Use ← → arrow keys to navigate</p>
+          </aside>
 
-      <nav
-        id="movie-navigation"
-        aria-label="Movie navigation"
-        className="movie-nav-controls"
-      >
-        <button
-          className="nav-btn nav-btn--prev"
-          onClick={goToPrevious}
-          aria-label={getNavigationButtonLabel(
-            'previous', 
-            currentMovie?.title,
-            viewerSource[currentIndex === 0 ? viewerSource.length - 1 : currentIndex - 1]?.title
-          )}
-          disabled={totalMovies <= 1}
-        >
-          ← Prev
-        </button>
+          <nav
+            id="movie-navigation"
+            aria-label="Movie navigation"
+            className="movie-nav-controls"
+          >
+            <button
+              className="nav-btn nav-btn--prev"
+              onClick={goToPrevious}
+              aria-label={getNavigationButtonLabel(
+                'previous',
+                currentMovie?.title,
+                viewerSource[currentIndex === 0 ? viewerSource.length - 1 : currentIndex - 1]?.title
+              )}
+              disabled={totalMovies <= 1}
+            >
+              ← Prev
+            </button>
 
-        <aside className="movie-position">
-          <span className="position-text">
-            {currentIndex + 1} of {filteredMovies.length}
-          </span>
-        </aside>
+            <aside className="movie-position">
+              <span className="position-text">
+                {currentIndex + 1} of {filteredMovies.length}
+              </span>
+            </aside>
 
-        <button
-          className="nav-btn nav-btn--next"
-          onClick={goToNext}
-          aria-label={getNavigationButtonLabel(
-            'next', 
-            currentMovie?.title,
-            viewerSource[currentIndex === viewerSource.length - 1 ? 0 : currentIndex + 1]?.title
-          )}
-          disabled={totalMovies <= 1}
-        >
-          Next →
-        </button>
-      </nav>
+            <button
+              className="nav-btn nav-btn--next"
+              onClick={goToNext}
+              aria-label={getNavigationButtonLabel(
+                'next',
+                currentMovie?.title,
+                viewerSource[currentIndex === viewerSource.length - 1 ? 0 : currentIndex + 1]?.title
+              )}
+              disabled={totalMovies <= 1}
+            >
+              Next →
+            </button>
+          </nav>
+        </>
+      ) : (
+        <p className="no-movies">
+          {!filteredMovies || filteredMovies.length === 0
+            ? (showFavoritesOnly ? 'No favorite movies found' : 'No movies available')
+            : 'No movies available'}
+        </p>
+      )}
 
       {/* Live region for announcements - assertive to interrupt previous announcements */}
       <div aria-live="assertive" aria-atomic="true" className="sr-only">

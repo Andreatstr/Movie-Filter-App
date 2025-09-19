@@ -6,6 +6,13 @@
   --mobile-content-width: 280px;
 }
 
+/* Ensure filter panel dialog has consistent width at all breakpoints */
+.movie-viewer > section[role="dialog"] {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
 .dropdown-container {
   display: flex;
   justify-content: center;
@@ -221,6 +228,11 @@
     padding: 1.5rem;
   }
 
+  /* Override filter panel dialog width for tablet */
+  .movie-viewer > section[role="dialog"] {
+    max-width: 700px;
+  }
+
   .movie-display {
     margin: 2rem 0;
   }
@@ -238,6 +250,12 @@
 @media (min-width: 1024px) {
   .movie-viewer {
     padding: 2rem;
+  }
+
+  /* Override filter panel dialog width for desktop */
+  .movie-viewer > section[role="dialog"] {
+    width: 700px;
+    max-width: 700px;
   }
 
   .dropdown-container {
