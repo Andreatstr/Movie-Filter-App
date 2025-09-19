@@ -230,7 +230,7 @@ describe('useDebounce', () => {
     it('should handle undefined values', () => {
       const {result, rerender} = renderHook(
         ({value}) => useDebounce(value, 300),
-        {initialProps: {value: undefined}}
+        {initialProps: {value: undefined as string | undefined}}
       );
 
       expect(result.current).toBeUndefined();
@@ -247,7 +247,7 @@ describe('useDebounce', () => {
     it('should handle null values', () => {
       const {result, rerender} = renderHook(
         ({value}) => useDebounce(value, 300),
-        {initialProps: {value: null}}
+        {initialProps: {value: null as string | null}}
       );
 
       expect(result.current).toBeNull();
@@ -383,7 +383,7 @@ describe('useDebounce', () => {
     it('should work with filter changes pattern', () => {
       const {result, rerender} = renderHook(
         ({value}) => useDebounce(value, 200),
-        {initialProps: {value: {genre: null, rating: 0}}}
+        {initialProps: {value: {genre: null as string | null, rating: 0}}}
       );
 
       // User adjusts filters rapidly

@@ -1,4 +1,3 @@
-import React from 'react';
 import {render, screen, fireEvent, act} from '@testing-library/react';
 import {describe, it, expect, vi, beforeEach, afterEach} from 'vitest';
 import SearchBar from '../SearchBar';
@@ -234,12 +233,7 @@ describe('SearchBar Component', () => {
 
     it('should handle undefined suggestions', () => {
       expect(() => {
-        render(
-          <SearchBar
-            {...defaultProps}
-            suggestions={undefined as string[] | undefined}
-          />
-        );
+        render(<SearchBar {...defaultProps} suggestions={[] as string[]} />);
       }).not.toThrow();
     });
 

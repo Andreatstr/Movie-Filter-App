@@ -54,7 +54,7 @@ vi.mock('../../services/tmdbApi', () => ({
 
 import {tmdbApi} from '../../services/tmdbApi';
 
-const mockTmdbApi = tmdbApi as {
+const mockTmdbApi = tmdbApi as unknown as {
   getPopularMovies: ReturnType<typeof vi.fn>;
   getImageUrl: ReturnType<typeof vi.fn>;
   getGenres: ReturnType<typeof vi.fn>;
@@ -250,7 +250,7 @@ describe('App Component', () => {
       });
 
       // Trigger refetch
-      await queryClient.refetchQueries(['popularMovies']);
+      await queryClient.refetchQueries({queryKey: ['popularMovies']});
 
       expect(mockTmdbApi.getPopularMovies).toHaveBeenCalledTimes(2);
     });
