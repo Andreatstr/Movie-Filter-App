@@ -389,8 +389,8 @@ describe('MovieViewer', () => {
     it('should have proper ARIA labels on navigation buttons', () => {
       renderWithQuery(<MovieViewer movies={mockMovies} />);
 
-      expect(screen.getByLabelText('Previous movie')).toBeInTheDocument();
-      expect(screen.getByLabelText('Next movie')).toBeInTheDocument();
+      expect(screen.getByLabelText(/Go to previous movie/)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Go to next movie/)).toBeInTheDocument();
     });
 
     it('should have proper ARIA label on dropdown', () => {

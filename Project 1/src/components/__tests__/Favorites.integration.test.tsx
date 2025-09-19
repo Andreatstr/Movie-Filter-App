@@ -75,9 +75,6 @@ describe('Favorites Integration', () => {
     mockLocalStorage.setItem.mockClear();
     mockLocalStorage.removeItem.mockClear();
   });
-
-  // TODO: These tests require FavoritesCounter and favorites filtering features
-  // that haven't been implemented yet. Re-enable when those features are added.
   
   it('toggles favorite on MovieCard and updates count immediately', () => {
     renderWithQuery(<MovieViewer movies={movies} />);
@@ -98,7 +95,7 @@ describe('Favorites Integration', () => {
     expect(counter).toHaveTextContent('1');
 
     // Clicking again should unfavorite and decrement
-    const unfavBtn = screen.getByRole('button', {name: /unfavorite/i});
+    const unfavBtn = screen.getByRole('button', {name: /Remove from favorites/i});
     fireEvent.click(unfavBtn);
     expect(counter).toHaveTextContent('0');
   });
@@ -120,7 +117,7 @@ describe('Favorites Integration', () => {
 
     // Should still render a movie (the favorited one). The title in the card should be present.
     // Note: Sorting may reorder; we assert that the displayed card has a heart as Unfavorite button present.
-    expect(screen.getByRole('button', {name: /unfavorite/i})).toBeInTheDocument();
+    expect(screen.getByRole('button', {name: /Remove from favorites/i})).toBeInTheDocument();
   });
 });
 

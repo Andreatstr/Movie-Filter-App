@@ -14,7 +14,7 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with complete movi
       src="mocked-image-url"
     />
     <button
-      aria-label="Favorite"
+      aria-label="Add to favorites: Test Movie"
       class="favorite-btn "
       title="Add to favorites"
       type="button"
@@ -59,7 +59,7 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with complete movi
           2023
         </time>
         <span
-          aria-label="Rating: 8.5 out of 10"
+          aria-label="Rating: 8.5 out of 10 stars"
           class="rating"
         >
           ★ 
@@ -94,7 +94,7 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing data 
       src="/placeholder-movie.jpg"
     />
     <button
-      aria-label="Favorite"
+      aria-label="Add to favorites: Title Missing"
       class="favorite-btn "
       title="Add to favorites"
       type="button"
@@ -138,7 +138,7 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing data 
           Missing year
         </time>
         <span
-          aria-label="Rating: N/A out of 10"
+          aria-label="Rating: NaN out of 10 stars"
           class="rating"
         >
           ★ 
@@ -173,7 +173,7 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing poste
       src="/placeholder-movie.jpg"
     />
     <button
-      aria-label="Favorite"
+      aria-label="Add to favorites: Test Movie"
       class="favorite-btn "
       title="Add to favorites"
       type="button"
@@ -218,7 +218,7 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing poste
           2023
         </time>
         <span
-          aria-label="Rating: 8.5 out of 10"
+          aria-label="Rating: 8.5 out of 10 stars"
           class="rating"
         >
           ★ 

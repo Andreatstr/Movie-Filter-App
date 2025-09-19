@@ -1,0 +1,312 @@
+/**
+ * Accessibility Styles
+ * WCAG 2.1 Level AA Compliance
+ */
+
+
+/* SKIP NAVIGATION LINKS */
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--color-primary, #2563eb);
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
+  z-index: 1000;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* FOCUS MANAGEMENT */
+
+/* Enhanced focus indicators for WCAG AA compliance */
+:focus-visible {
+  outline: 3px solid var(--focus-color, #2563eb);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Remove default focus outline when :focus-visible is supported */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* High contrast focus for interactive elements */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[tabindex="0"]:focus-visible {
+  outline: 3px solid var(--focus-color, #2563eb);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+/* Focus trap container */
+.focus-trap {
+  isolation: isolate;
+}
+
+.focus-trap-active {
+  position: relative;
+}
+
+.focus-trap-active::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  pointer-events: none;
+}
+
+/* REDUCED MOTION SUPPORT */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Remove parallax and smooth scroll effects */
+  .movie-card {
+    transform: none !important;
+  }
+
+  /* Reduce or remove hover animations */
+  .movie-card:hover {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Ensure important transitions remain functional but quick */
+  .filter-panel {
+    transition: opacity 0.01ms !important;
+  }
+}
+
+/* HIGH CONTRAST MODE SUPPORT */
+
+@media (prefers-contrast: high) {
+  /* Enhance borders and outlines for high contrast */
+  .movie-card,
+  .filter-panel,
+  .search-bar {
+    border: 2px solid;
+  }
+
+  /* Ensure sufficient contrast for text */
+  .movie-card .title,
+  .movie-card .overview,
+  .filter-label {
+    font-weight: 600;
+  }
+
+  /* High contrast focus indicators */
+  :focus-visible {
+    outline: 4px solid;
+    outline-offset: 2px;
+  }
+}
+
+/* Windows High Contrast Mode support */
+@media screen and (-ms-high-contrast: active) {
+  /* Use system colors for Windows HCM */
+  .movie-card {
+    background: Window;
+    color: WindowText;
+    border: 1px solid WindowText;
+  }
+
+  .nav-btn {
+    background: ButtonFace;
+    color: ButtonText;
+    border: 1px solid ButtonText;
+  }
+
+  .nav-btn:hover,
+  .nav-btn:focus {
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  /* Ensure interactive elements are visible */
+  button,
+  [role="button"] {
+    border: 1px solid ButtonText;
+  }
+}
+
+
+/* ENHANCED COLOR CONTRAST */
+
+/* Ensure WCAG AA contrast ratios (4.5:1 for normal text, 3:1 for large text) */
+.movie-card .title {
+  color: var(--text-primary, #1f2937);
+  font-weight: 600; /* Helps with contrast perception */
+}
+
+.movie-card .overview {
+  color: var(--text-secondary, #374151);
+  font-size: 0.9rem;
+  line-height: 1.5; /* Improves readability */
+}
+
+.movie-card .year {
+  color: var(--text-tertiary, #6b7280);
+  font-weight: 500; /* Slightly bolder for better contrast */
+}
+
+/* Enhanced contrast for interactive elements */
+.nav-btn {
+  background: var(--button-bg, #f3f4f6);
+  color: var(--button-text, #1f2937);
+  border: 1px solid var(--button-border, #d1d5db);
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: var(--button-hover-bg, #e5e7eb);
+  color: var(--button-hover-text, #111827);
+}
+
+.nav-btn:disabled {
+  background: var(--button-disabled-bg, #f9fafb);
+  color: var(--button-disabled-text, #9ca3af);
+  opacity: 0.6;
+}
+
+/* SCREEN READER SUPPORT */
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Live regions for dynamic content announcements */
+.live-region {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* KEYBOARD NAVIGATION IMPROVEMENTS */
+
+/* Visual indicator for keyboard users */
+.keyboard-navigation-active {
+  outline: 2px solid var(--focus-color, #2563eb);
+  outline-offset: 2px;
+}
+
+/* Skip to content when tabbing */
+.skip-to-content:focus {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: var(--color-primary, #2563eb);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 4px;
+  text-decoration: none;
+  z-index: 1000;
+  font-weight: 600;
+}
+
+/* MOBILE ACCESSIBILITY */
+
+@media (max-width: 768px) {
+  /* Larger touch targets for mobile (minimum 44px) */
+  .nav-btn,
+  .favorite-btn,
+  .dropdown-button {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px;
+  }
+
+  /* Improved focus visibility on mobile */
+  :focus-visible {
+    outline-width: 4px;
+  }
+
+  /* Ensure text is readable at mobile zoom levels */
+  .movie-card .title {
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
+
+  .movie-card .overview {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+}
+
+/* ARIA LIVE REGIONS STYLING */
+
+[aria-live="polite"],
+[aria-live="assertive"] {
+  /* Ensure live regions don't interfere with layout */
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Status announcements that should be visible */
+.status-announcement {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  padding: 8px 12px;
+  background: var(--status-bg, #f0f9ff);
+  color: var(--status-text, #0369a1);
+  border-radius: 4px;
+  border-left: 4px solid var(--status-border, #0284c7);
+}
+
+/* PRINT ACCESSIBILITY */
+
+@media print {
+  /* Ensure focus indicators are visible in print */
+  :focus {
+    outline: 2px solid black !important;
+  }
+
+  /* Hide decorative elements in print */
+  .skip-link,
+  .keyboard-hint {
+    display: none !important;
+  }
+
+  /* Ensure text is readable in print */
+  .movie-card .title,
+  .movie-card .overview {
+    color: black !important;
+  }
+}

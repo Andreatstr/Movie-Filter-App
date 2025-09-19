@@ -3,6 +3,7 @@ import { Heart } from 'lucide-react';
 import type { Movie } from '../types/movie';
 import { tmdbApi } from '../services/tmdbApi';
 import { useFavorites } from '../hooks/useFavorites';
+import { getFavoriteButtonLabel, getRatingLabel, getOverviewLabel } from '../utils/aria';
 import '../styles/MovieCard.css';
 
 interface MovieCardProps {
@@ -94,12 +95,11 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium' }) => {
         )}
         <button
           type="button"
-          aria-label={isFavorite(movie.id) ? 'Unfavorite' : 'Favorite'}
+          aria-label={getFavoriteButtonLabel(title, isFavorite(movie.id))}
           className={`favorite-btn ${isFavorite(movie.id) ? 'is-favorited' : ''}`}
           onClick={(e) => {
             e.stopPropagation();
             toggle(movie);
-            // Remove focus on touch devices to prevent blue outline
             if ('ontouchstart' in window) {
               (e.target as HTMLButtonElement).blur();
             }
@@ -117,7 +117,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium' }) => {
             <time className="year" dateTime={movie?.release_date || undefined}>
               {year}
             </time>
-            <span className="rating" aria-label={`Rating: ${rating} out of 10`}>
+            <span className="rating" aria-label={getRatingLabel(parseFloat(rating))}>
               ★ {rating}/10
             </span>
           </aside>
@@ -134,6 +134,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, size = 'medium' }) => {
               className="expand-btn"
               onClick={toggleExpanded}
               aria-expanded={isExpanded}
+              aria-label={getOverviewLabel(movie?.overview || 'No description available.', isExpanded, title)}
             >
               {isExpanded ? 'Show less' : 'Show more'}
             </button>

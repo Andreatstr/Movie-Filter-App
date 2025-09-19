@@ -1,7 +1,9 @@
 import {useQuery} from '@tanstack/react-query';
 import {tmdbApi} from './services/tmdbApi';
 import {MovieViewer} from './components/MovieViewer';
+import {MotionProvider} from './components/MotionProvider';
 import './App.css';
+import './styles/accessibility.css';
 
 function App() {
   const {data, isLoading, error} = useQuery({
@@ -32,14 +34,25 @@ function App() {
   const movies = data?.results || [];
 
   return (
-    <main className="app">
-      <header className="app-header">
-        <h1>Movies</h1>
-        <p>Browse popular movies from TMDB</p>
-      </header>
+    <MotionProvider>
+      <main className="app">
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+        <a href="#movie-navigation" className="skip-link">
+          Skip to movie navigation
+        </a>
+        
+        <header className="app-header">
+          <h1>Movies</h1>
+          <p>Browse popular movies from TMDB</p>
+        </header>
 
-      <MovieViewer movies={movies} />
-    </main>
+        <div id="main-content" tabIndex={-1}>
+          <MovieViewer movies={movies} />
+        </div>
+      </main>
+    </MotionProvider>
   );
 }
 

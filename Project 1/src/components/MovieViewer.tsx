@@ -9,6 +9,13 @@ import SearchBar from './SearchBar';
 import {tmdbApi} from '../services/tmdbApi';
 import {useFavorites} from '../hooks/useFavorites';
 import {storage} from '../utils/localStorage';
+import { useFocusTrap } from '../hooks/useFocusTrap';
+import { 
+  getMoviePositionLabel, 
+  getNavigationButtonLabel, 
+  getMovieSelectLabel,
+  getStatusAnnouncement 
+} from '../utils/aria';
 
 interface MovieViewerProps {
   movies: Movie[];
@@ -16,6 +23,7 @@ interface MovieViewerProps {
 
 export const MovieViewer = ({ movies }: MovieViewerProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [announcement, setAnnouncement] = useState('');
   const { filters, setFilters, reset, hasActiveFilters, applyFilters } =
     useFilters();
   const {ids: favoriteIds, count: favoritesCount} = useFavorites();
@@ -46,6 +54,12 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   }, [searchActive, searchResults, applyFilters, movies, showFavoritesOnly, favoriteIds]);
 
   const [filterDropdown, setFilterDropdown] = useState(false);
+
+  // Focus trap for filter dropdown accessibility
+  const filterPanelRef = useFocusTrap({
+    isActive: filterDropdown,
+    onEscape: () => setFilterDropdown(false),
+  });
 
   const toggleFilterDropdown = () => {
     setFilterDropdown(prev => !prev);
@@ -91,16 +105,32 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   });
 
   const goToNext = useCallback(() => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === viewerSource.length - 1 ? 0 : prevIndex + 1
-    );
-  }, [viewerSource.length]);
+    const newIndex = currentIndex === viewerSource.length - 1 ? 0 : currentIndex + 1;
+    setCurrentIndex(newIndex);
+    
+    // Announce navigation change
+    const movieTitle = viewerSource[newIndex]?.title;
+    if (movieTitle) {
+      setAnnouncement(getStatusAnnouncement('navigation', {
+        movieTitle,
+        position: { current: newIndex + 1, total: viewerSource.length }
+      }));
+    }
+  }, [viewerSource.length, currentIndex, viewerSource]);
 
   const goToPrevious = useCallback(() => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? viewerSource.length - 1 : prevIndex - 1
-    );
-  }, [viewerSource.length]);
+    const newIndex = currentIndex === 0 ? viewerSource.length - 1 : currentIndex - 1;
+    setCurrentIndex(newIndex);
+    
+    // Announce navigation change
+    const movieTitle = viewerSource[newIndex]?.title;
+    if (movieTitle) {
+      setAnnouncement(getStatusAnnouncement('navigation', {
+        movieTitle,
+        position: { current: newIndex + 1, total: viewerSource.length }
+      }));
+    }
+  }, [viewerSource.length, currentIndex, viewerSource]);
 
   useEffect(() => {
     if (!searchActive) {
@@ -285,17 +315,19 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
       </section>
 
       {filterDropdown && (
-        <FilterPanel
-          movies={movies}
-          genres={genresData?.genres ?? []}
-          filters={filters}
-          setFilters={setFilters}
-          reset={reset}
-          hasActiveFilters={hasActiveFilters}
-          showFavoritesOnly={showFavoritesOnly}
-          onToggleFavoritesOnly={setShowFavoritesOnly}
-          favoritesCount={favoritesCount}
-        />
+        <section ref={filterPanelRef} role="dialog" aria-label="Filters">
+          <FilterPanel
+            movies={movies}
+            genres={genresData?.genres ?? []}
+            filters={filters}
+            setFilters={setFilters}
+            reset={reset}
+            hasActiveFilters={hasActiveFilters}
+            showFavoritesOnly={showFavoritesOnly}
+            onToggleFavoritesOnly={setShowFavoritesOnly}
+            favoritesCount={favoritesCount}
+          />
+        </section>
       )}
 
       <main className="movie-display">
@@ -314,6 +346,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
             jumpToMovie(parseInt(e.target.value, 10), viewerSource)
           }
           disabled={totalMovies <= 1}
+          aria-label={getMovieSelectLabel(totalMovies)}
         >
           {filteredMovies.map((movie, index) => (
             <option key={movie.id} value={index}>
@@ -327,18 +360,29 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
         <p>Use ← → arrow keys to navigate</p>
       </aside>
 
-      <nav className="movie-nav-controls" aria-label="Movie navigation">
+      <nav
+        id="movie-navigation"
+        aria-label="Movie navigation"
+        className="movie-nav-controls"
+      >
         <button
           className="nav-btn nav-btn--prev"
           onClick={goToPrevious}
-          aria-label="Previous movie"
+          aria-label={getNavigationButtonLabel(
+            'previous', 
+            currentMovie?.title,
+            viewerSource[currentIndex === 0 ? viewerSource.length - 1 : currentIndex - 1]?.title
+          )}
           disabled={totalMovies <= 1}
         >
           ← Prev
         </button>
 
         <aside className="movie-position">
-          <span className="position-text">
+          <span 
+            className="position-text"
+            aria-label={getMoviePositionLabel(currentIndex + 1, filteredMovies.length, currentMovie?.title)}
+          >
             {currentIndex + 1} of {filteredMovies.length}
           </span>
         </aside>
@@ -346,12 +390,21 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
         <button
           className="nav-btn nav-btn--next"
           onClick={goToNext}
-          aria-label="Next movie"
+          aria-label={getNavigationButtonLabel(
+            'next', 
+            currentMovie?.title,
+            viewerSource[currentIndex === viewerSource.length - 1 ? 0 : currentIndex + 1]?.title
+          )}
           disabled={totalMovies <= 1}
         >
           Next →
         </button>
       </nav>
+
+      {/* Live region for announcements */}
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {announcement}
+      </div>
     </section>
   );
 };

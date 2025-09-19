@@ -154,7 +154,7 @@ describe('MovieCard', () => {
     it('should have aria-label for rating', () => {
       render(<MovieCard movie={mockMovie} />);
 
-      const ratingElement = screen.getByLabelText('Rating: 8.5 out of 10');
+      const ratingElement = screen.getByLabelText('Rating: 8.5 out of 10 stars');
       expect(ratingElement).toBeInTheDocument();
     });
   });
