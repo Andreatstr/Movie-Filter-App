@@ -239,24 +239,38 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   if (!filteredMovies || filteredMovies.length === 0) {
     return (
       <section className="movie-viewer" aria-label="Movie Viewer">
-        <FilterPanel
-          movies={movies}
-          genres={genresData?.genres ?? []}
-          filters={filters}
-          setFilters={setFiltersWithAnnouncement}
-          reset={reset}
-          hasActiveFilters={hasActiveFilters}
-          showFavoritesOnly={showFavoritesOnly}
-          onToggleFavoritesOnly={setShowFavoritesOnly}
-          favoritesCount={favoritesCount}
-        />
-        <SearchBar
-          onSearch={handleSearch}
-          initialValue={searchTerm}
-          onTyping={() => setShowSuggestions(true)}
-          onSelectSuggestion={handleSelectSuggestion}
-          suggestions={searchResults?.map((movie) => movie.title) || []}
-        />
+        <section className='dropdown-container' ref={searchContainerRef}>
+          <SearchBar
+            onSearch={handleSearch}
+            initialValue={searchTerm}
+            onTyping={() => setShowSuggestions(true)}
+            onSelectSuggestion={handleSelectSuggestion}
+            suggestions={searchResults?.map((movie) => movie.title) || []}
+          />
+          <button
+            onClick={toggleFilterDropdown}
+            className='dropdown-button'
+          >
+            Filter
+          </button>
+        </section>
+
+        {filterDropdown && (
+          <section ref={filterPanelRef} role="dialog" aria-label="Filters">
+            <FilterPanel
+              movies={movies}
+              genres={genresData?.genres ?? []}
+              filters={filters}
+              setFilters={setFiltersWithAnnouncement}
+              reset={reset}
+              hasActiveFilters={hasActiveFilters}
+              showFavoritesOnly={showFavoritesOnly}
+              onToggleFavoritesOnly={setShowFavoritesOnly}
+              favoritesCount={favoritesCount}
+            />
+          </section>
+        )}
+
         <p className="no-movies">
           {showFavoritesOnly ? 'No favorite movies found' : 'No movies available'}
         </p>
@@ -270,24 +284,38 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   if (!currentMovie) {
     return (
       <section className="movie-viewer" aria-label="Movie Viewer">
-        <FilterPanel
-          movies={movies}
-          genres={genresData?.genres ?? []}
-          filters={filters}
-          setFilters={setFiltersWithAnnouncement}
-          reset={reset}
-          hasActiveFilters={hasActiveFilters}
-          showFavoritesOnly={showFavoritesOnly}
-          onToggleFavoritesOnly={setShowFavoritesOnly}
-          favoritesCount={favoritesCount}
-        />
-        <SearchBar
-          onSearch={handleSearch}
-          initialValue={searchTerm}
-          onTyping={() => setShowSuggestions(true)}
-          onSelectSuggestion={handleSelectSuggestion}
-          suggestions={searchResults?.map((movie) => movie.title) || []}
-        />
+        <section className='dropdown-container' ref={searchContainerRef}>
+          <SearchBar
+            onSearch={handleSearch}
+            initialValue={searchTerm}
+            onTyping={() => setShowSuggestions(true)}
+            onSelectSuggestion={handleSelectSuggestion}
+            suggestions={searchResults?.map((movie) => movie.title) || []}
+          />
+          <button
+            onClick={toggleFilterDropdown}
+            className='dropdown-button'
+          >
+            Filter
+          </button>
+        </section>
+
+        {filterDropdown && (
+          <section ref={filterPanelRef} role="dialog" aria-label="Filters">
+            <FilterPanel
+              movies={movies}
+              genres={genresData?.genres ?? []}
+              filters={filters}
+              setFilters={setFiltersWithAnnouncement}
+              reset={reset}
+              hasActiveFilters={hasActiveFilters}
+              showFavoritesOnly={showFavoritesOnly}
+              onToggleFavoritesOnly={setShowFavoritesOnly}
+              favoritesCount={favoritesCount}
+            />
+          </section>
+        )}
+
         <p className="no-movies">No movies available</p>
       </section>
     );

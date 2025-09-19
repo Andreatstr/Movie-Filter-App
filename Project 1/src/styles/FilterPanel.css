@@ -360,29 +360,26 @@
   border: 1px solid #e5e7eb;
 }
 
-/* Tablet and up (min-width: 768px) */
 @media (min-width: 768px) {
   .filter-panel {
     max-width: 700px;
   }
 
-  /* Tablet: Two column layout */
   .filter-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  /* Rating spans full width on tablet and up */
   .filter-control-rating {
     grid-column: 1 / -1;
   }
 }
 
-/* Desktop and up (min-width: 1024px) */
 @media (min-width: 1024px) {
-  /* Rating control already spans full width from 768px+ */
+  .filter-panel {
+    width: 700px;
+  }
 }
 
-/* Favorites control styles */
 .favorites-control {
   align-items: flex-start;
 }

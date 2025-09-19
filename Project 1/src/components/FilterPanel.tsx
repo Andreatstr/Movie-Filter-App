@@ -1,4 +1,4 @@
-import {useMemo, useState, useEffect} from 'react';
+import {useMemo, useState, useEffect, memo} from 'react';
 import { Heart } from 'lucide-react';
 import type {Genre, Movie, MovieFilters} from '../types/movie';
 import '../styles/FilterPanel.css';
@@ -15,7 +15,7 @@ interface FilterPanelProps {
   favoritesCount?: number;
 }
 
-export default function FilterPanel({
+const FilterPanel = memo(function FilterPanel({
   movies,
   genres = [],
   filters,
@@ -37,15 +37,20 @@ export default function FilterPanel({
 
   const ratingMin = filters.minRating ?? 0;
   const ratingMax = filters.maxRating ?? 10;
-  
-  const [isMobile, setIsMobile] = useState(false);
+
+  // Initialize with the correct value to prevent flicker
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 1024;
+    }
+    return false;
+  });
 
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 1024);
     };
 
-    checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
@@ -292,4 +297,6 @@ export default function FilterPanel({
       </aside>
     </section>
   );
-}
+});
+
+export default FilterPanel;
