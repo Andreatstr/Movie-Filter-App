@@ -30,6 +30,7 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   const [showFavoritesOnly, setShowFavoritesOnly] = useState<boolean>(() =>
     storage.get<boolean>(SHOW_FAVORITES_KEY, false)
   );
+  const [fetchedFavorites, setFetchedFavorites] = useState<Movie[]>([]);
 
   const [searchResults, setSearchResults] = useState<Movie[] | null>(null);
   const [searchTerm, setSearchTerm] = useState(
@@ -46,11 +47,12 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
   const filteredMovies = useMemo(() => {
+    if (showFavoritesOnly) {
+      return applyFilters(fetchedFavorites);
+    }
     const source = searchActive && searchResults ? searchResults : movies;
-    const base = applyFilters(source);
-    if (!showFavoritesOnly) return base;
-    return base.filter((m) => favoriteIds.has(m.id));
-  }, [searchActive, searchResults, applyFilters, movies, showFavoritesOnly, favoriteIds]);
+    return applyFilters(source);
+  }, [searchActive, searchResults, applyFilters, movies, showFavoritesOnly, fetchedFavorites]);
 
   const [filterDropdown, setFilterDropdown] = useState(false);
 
@@ -175,6 +177,24 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   }, [showFavoritesOnly]);
 
   useEffect(() => {
+    const fetchAllFavorites = async () => {
+      if (showFavoritesOnly && favoriteIds.size > 0) {
+        try {
+          const favoriteMovies = await tmdbApi.getMoviesByIds(Array.from(favoriteIds));
+          setFetchedFavorites(favoriteMovies);
+        } catch (error) {
+          console.error('Failed to fetch favorite movies:', error);
+          setFetchedFavorites([]);
+        }
+      } else {
+        setFetchedFavorites([]);
+      }
+    };
+
+    fetchAllFavorites();
+  }, [showFavoritesOnly, favoriteIds]);
+
+  useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === 'ArrowLeft') {
         event.preventDefault();
@@ -235,22 +255,16 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
   return (
     <section className="movie-viewer" aria-label="Movie Viewer">
       <section className='dropdown-container' ref={searchContainerRef}>
-        <SearchBar
-          onSearch={handleSearch}
-          initialValue={searchTerm}
-          onTyping={() => setShowSuggestions(true)}
-          onSelectSuggestion={handleSelectSuggestion}
-          suggestions={searchResults?.map((movie) => movie.title) || []}
-        />
-        <button
-          onClick={toggleFilterDropdown}
-          className='dropdown-button'
-        >
-          Filter
-        </button>
-      </section>
+        <div style={{ position: 'relative', width: '100%' }}>
+          <SearchBar
+            onSearch={handleSearch}
+            initialValue={searchTerm}
+            onTyping={() => setShowSuggestions(true)}
+            onSelectSuggestion={handleSelectSuggestion}
+            suggestions={searchResults?.map((movie) => movie.title) || []}
+          />
 
-      <section className='suggestion-container'>
+          <section className='suggestion-container'>
         {loadingSearch && (
           <aside className="search-loading">
             <p>Loading search results...</p>
@@ -267,7 +281,8 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
                   <button
                     className="suggestion-button"
                     onClick={() => {
-                      jumpToMovie(index, filteredMovies);
+                      const actualIndex = filteredMovies.findIndex(m => m.id === movie.id);
+                      jumpToMovie(actualIndex, filteredMovies);
                       setShowSuggestions(false);
                     }}
                     title={`${movie.title} (${movie.release_date?.split('-')[0] || 'N/A'})`}
@@ -289,6 +304,15 @@ export const MovieViewer = ({ movies }: MovieViewerProps) => {
               ))}
             </section>
           )}
+          </section>
+        </div>
+
+        <button
+          onClick={toggleFilterDropdown}
+          className='dropdown-button'
+        >
+          Filter
+        </button>
       </section>
 
       {filterDropdown && (

@@ -28,7 +28,11 @@
 }
 
 .suggestion-container {
-  width: 390px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
   padding: 0;
 }
 
@@ -40,7 +44,7 @@
 }
 
 .search-suggestions {
-  max-width: 800px;
+  width: 100%;
   max-height: 200px;
   overflow-y: auto;
   list-style: none;
@@ -60,7 +64,9 @@
   font-size: 16px;
   color: #0077cc;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 12px 16px;
+  width: 100%;
+  display: block;
 }
 
 .suggestion-button:hover {
