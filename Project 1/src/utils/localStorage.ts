@@ -1,4 +1,10 @@
-type JSONValue = string | number | boolean | null | JSONValue[] | {[key: string]: JSONValue};
+type JSONValue =
+  | string
+  | number
+  | boolean
+  | null
+  | JSONValue[]
+  | {[key: string]: JSONValue};
 
 const isBrowser = typeof window !== 'undefined' && !!window.localStorage;
 const memoryStore = new Map<string, string>();
@@ -63,4 +69,3 @@ export const __TEST_ONLY__ = {
   safeSetItem,
   safeRemoveItem,
 };
-

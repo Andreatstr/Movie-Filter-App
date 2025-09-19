@@ -3,7 +3,8 @@ export function getNavigationButtonLabel(
   currentMovie?: string,
   targetMovie?: string
 ): string {
-  const baseAction = direction === 'previous' ? 'Go to previous movie' : 'Go to next movie';
+  const baseAction =
+    direction === 'previous' ? 'Go to previous movie' : 'Go to next movie';
 
   if (currentMovie && targetMovie) {
     return `${baseAction}: ${targetMovie}. Currently viewing ${currentMovie}`;
@@ -28,7 +29,7 @@ export function getStatusAnnouncement(
   type: 'navigation' | 'favorite' | 'filter' | 'search',
   data: {
     movieTitle?: string;
-    position?: { current: number; total: number };
+    position?: {current: number; total: number};
     favoritesCount?: number;
     searchResults?: number;
     filterApplied?: string;
@@ -64,4 +65,3 @@ export function getStatusAnnouncement(
       return 'Content updated';
   }
 }
-
