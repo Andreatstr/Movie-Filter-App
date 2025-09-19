@@ -85,7 +85,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
       <figure className="image-container">
         {showPlaceholder ? (
           <img
-            src="/placeholder-movie.jpg"
+            src="/project1/placeholder-movie.jpg"
             alt="Movie poster placeholder"
             className="image"
           />

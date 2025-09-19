@@ -328,8 +328,6 @@ pnpm run test:ui     # Interactive UI
 - Real-time filter chips showing active filters
 - Modal-like behavior with focus trap
 
-For more detailed design decisions and rationale, see the `/docs` directory.
-
 ## AI-Assisted Development Process
 
 ### Claude Code Usage

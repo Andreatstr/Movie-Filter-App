@@ -90,7 +90,7 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing data 
     <img
       alt="Movie poster placeholder"
       class="image"
-      src="/placeholder-movie.jpg"
+      src="/project1/placeholder-movie.jpg"
     />
     <button
       aria-label="Add to favorites: Title Missing"
@@ -168,7 +168,7 @@ exports[`MovieCard > Snapshot Tests > should render MovieCard with missing poste
     <img
       alt="Movie poster placeholder"
       class="image"
-      src="/placeholder-movie.jpg"
+      src="/project1/placeholder-movie.jpg"
     />
     <button
       aria-label="Add to favorites: Test Movie"

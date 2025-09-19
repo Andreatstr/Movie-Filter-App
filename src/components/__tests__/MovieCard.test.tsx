@@ -113,7 +113,7 @@ describe('MovieCard', () => {
 
       const placeholderImage = screen.getByAltText('Movie poster placeholder');
       expect(placeholderImage).toBeInTheDocument();
-      expect(placeholderImage).toHaveAttribute('src', '/placeholder-movie.jpg');
+      expect(placeholderImage).toHaveAttribute('src', '/project1/placeholder-movie.jpg');
     });
 
     it('should show placeholder when poster_path is empty string', () => {
