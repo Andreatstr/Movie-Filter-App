@@ -8,25 +8,29 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
   <section
     class="dropdown-container"
   >
-    <form
-      class="search-bar"
+    <div
+      style="position: relative; width: 100%;"
     >
-      <input
-        class="input-field"
-        placeholder="Search for movies..."
-        type="search"
-        value=""
+      <form
+        class="search-bar"
+      >
+        <input
+          class="input-field"
+          placeholder="Search for movies..."
+          type="search"
+          value=""
+        />
+      </form>
+      <section
+        class="suggestion-container"
       />
-    </form>
+    </div>
     <button
       class="dropdown-button"
     >
       Filter
     </button>
   </section>
-  <section
-    class="suggestion-container"
-  />
   <main
     class="movie-display"
   >
@@ -197,25 +201,29 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies
   <section
     class="dropdown-container"
   >
-    <form
-      class="search-bar"
+    <div
+      style="position: relative; width: 100%;"
     >
-      <input
-        class="input-field"
-        placeholder="Search for movies..."
-        type="search"
-        value=""
+      <form
+        class="search-bar"
+      >
+        <input
+          class="input-field"
+          placeholder="Search for movies..."
+          type="search"
+          value=""
+        />
+      </form>
+      <section
+        class="suggestion-container"
       />
-    </form>
+    </div>
     <button
       class="dropdown-button"
     >
       Filter
     </button>
   </section>
-  <section
-    class="suggestion-container"
-  />
   <p
     class="no-movies"
   >
@@ -237,25 +245,29 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
   <section
     class="dropdown-container"
   >
-    <form
-      class="search-bar"
+    <div
+      style="position: relative; width: 100%;"
     >
-      <input
-        class="input-field"
-        placeholder="Search for movies..."
-        type="search"
-        value=""
+      <form
+        class="search-bar"
+      >
+        <input
+          class="input-field"
+          placeholder="Search for movies..."
+          type="search"
+          value=""
+        />
+      </form>
+      <section
+        class="suggestion-container"
       />
-    </form>
+    </div>
     <button
       class="dropdown-button"
     >
       Filter
     </button>
   </section>
-  <section
-    class="suggestion-container"
-  />
   <main
     class="movie-display"
   >

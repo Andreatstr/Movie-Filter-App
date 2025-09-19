@@ -64,25 +64,29 @@ exports[`App Component > Snapshot Tests > should render App with movies loaded 1
       <section
         class="dropdown-container"
       >
-        <form
-          class="search-bar"
+        <div
+          style="position: relative; width: 100%;"
         >
-          <input
-            class="input-field"
-            placeholder="Search for movies..."
-            type="search"
-            value=""
+          <form
+            class="search-bar"
+          >
+            <input
+              class="input-field"
+              placeholder="Search for movies..."
+              type="search"
+              value=""
+            />
+          </form>
+          <section
+            class="suggestion-container"
           />
-        </form>
+        </div>
         <button
           class="dropdown-button"
         >
           Filter
         </button>
       </section>
-      <section
-        class="suggestion-container"
-      />
       <main
         class="movie-display"
       >
