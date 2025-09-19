@@ -1,0 +1,241 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`App Component > Snapshot Tests > should render App with error state 1`] = `
+<main
+  class="app"
+>
+  <section
+    class="error"
+    role="alert"
+  >
+    Error: 
+    API Error
+  </section>
+</main>
+`;
+
+exports[`App Component > Snapshot Tests > should render App with loading state 1`] = `
+<main
+  class="app"
+>
+  <section
+    aria-live="polite"
+    class="loading"
+  >
+    Loading movies...
+  </section>
+</main>
+`;
+
+exports[`App Component > Snapshot Tests > should render App with movies loaded 1`] = `
+<main
+  class="app"
+>
+  <a
+    class="skip-link"
+    href="#main-content"
+  >
+    Skip to main content
+  </a>
+  <a
+    class="skip-link"
+    href="#movie-navigation"
+  >
+    Skip to movie navigation
+  </a>
+  <header
+    class="app-header"
+  >
+    <h1>
+      Movies
+    </h1>
+    <p>
+      Browse popular movies from TMDB
+    </p>
+  </header>
+  <div
+    id="main-content"
+    tabindex="-1"
+  >
+    <section
+      aria-label="Movie Viewer"
+      class="movie-viewer"
+    >
+      <section
+        class="dropdown-container"
+      >
+        <form
+          class="search-bar"
+        >
+          <input
+            class="input-field"
+            placeholder="Search for movies..."
+            type="search"
+            value=""
+          />
+        </form>
+        <button
+          class="dropdown-button"
+        >
+          Filter
+        </button>
+      </section>
+      <section
+        class="suggestion-container"
+      />
+      <main
+        class="movie-display"
+      >
+        <article
+          class="movie-card movie-card--large"
+        >
+          <figure
+            class="image-container"
+          >
+            <img
+              alt="Test Movie 1 poster"
+              class="image"
+              loading="lazy"
+              src="mocked-image-url"
+            />
+            <button
+              aria-label="Add to favorites: Test Movie 1"
+              class="favorite-btn "
+              title="Add to favorites"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-heart"
+                fill="none"
+                height="20"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"
+                />
+              </svg>
+            </button>
+          </figure>
+          <section
+            class="movie-content"
+          >
+            <header
+              class="header"
+            >
+              <h2
+                class="title"
+              >
+                Test Movie 1
+              </h2>
+              <aside
+                class="meta"
+              >
+                <time
+                  class="year"
+                  datetime="2023-01-01"
+                >
+                  2023
+                </time>
+                <span
+                  class="rating"
+                >
+                  ★ 
+                  8.5
+                  /10
+                </span>
+              </aside>
+            </header>
+            <section
+              class="overview-container"
+            >
+              <p
+                class="overview "
+              >
+                First test movie description
+              </p>
+            </section>
+          </section>
+        </article>
+      </main>
+      <aside
+        class="movie-jump-controls"
+      >
+        <label
+          class="jump-label"
+          for="movie-select"
+        >
+          Go to movie
+        </label>
+        <select
+          aria-label="Select movie to view. 2 movies available"
+          class="movie-select"
+          id="movie-select"
+        >
+          <option
+            value="0"
+          >
+            1
+            . 
+            Test Movie 1
+          </option>
+          <option
+            value="1"
+          >
+            2
+            . 
+            Test Movie 2
+          </option>
+        </select>
+      </aside>
+      <aside
+        class="keyboard-hint"
+      >
+        <p>
+          Use ← → arrow keys to navigate
+        </p>
+      </aside>
+      <nav
+        aria-label="Movie navigation"
+        class="movie-nav-controls"
+        id="movie-navigation"
+      >
+        <button
+          aria-label="Go to previous movie: Test Movie 2. Currently viewing Test Movie 1"
+          class="nav-btn nav-btn--prev"
+        >
+          ← Prev
+        </button>
+        <aside
+          class="movie-position"
+        >
+          <span
+            class="position-text"
+          >
+            1
+             of 
+            2
+          </span>
+        </aside>
+        <button
+          aria-label="Go to next movie: Test Movie 2. Currently viewing Test Movie 1"
+          class="nav-btn nav-btn--next"
+        >
+          Next →
+        </button>
+      </nav>
+      <div
+        aria-atomic="true"
+        aria-live="assertive"
+        class="sr-only"
+      />
+    </section>
+  </div>
+</main>
+`;
