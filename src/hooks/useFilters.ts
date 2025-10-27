@@ -147,7 +147,7 @@ export function useFilters() {
 
       // Filter by genre
       if (typeof filters.genre === 'number') {
-        out = out.filter((m) => m.genre_ids.includes(filters.genre!));
+        out = out.filter((m) => m.genre_ids?.includes(filters.genre!));
       }
 
       // Filter by rating range

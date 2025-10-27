@@ -44,7 +44,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <form className="search-bar" onSubmit={(e) => e.preventDefault()}>
+      <label htmlFor="movie-search" className="visually-hidden">
+        Search for movies
+      </label>
       <input
+        id="movie-search"
         className="input-field"
         type="search"
         placeholder="Search for movies..."
@@ -55,6 +59,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         }}
         onFocus={() => onTyping?.()}
         onKeyDown={handleKeyDown}
+        aria-label="Search for movies"
       />
       {input && (
         <button

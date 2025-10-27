@@ -66,7 +66,14 @@ export const tmdbApi = {
       `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}`
     );
     if (!response.ok) throw new Error('Failed to fetch movie details');
-    return response.json();
+    const data = await response.json();
+
+    // Transform genres array to genre_ids for consistency with search/discover endpoints
+    if (data.genres && Array.isArray(data.genres)) {
+      data.genre_ids = data.genres.map((g: {id: number}) => g.id);
+    }
+
+    return data;
   },
 
   async getMoviesByIds(movieIds: number[]): Promise<Movie[]> {

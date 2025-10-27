@@ -2,6 +2,8 @@
 
 A React-based movie filtering application built with TypeScript that allows users to browse, filter, and manage movie collections using the TMDB API.
 
+> **📋 Project Improvements:** See [IMPROVEMENTS.md](docs/IMPROVEMENTS.md) for detailed documentation of all improvements made based on peer review feedback.
+
 ## Link to webpage
 
 [Live Demo](http://it2810-26.idi.ntnu.no/project1/)
@@ -60,7 +62,7 @@ This project is part of the NTNU IT2810 web development course, demonstrating mo
 
 - Node.js v24.6.x or higher
 - npm v11.x or higher / pnpm v10.x or higher
-- TMDB API key (free at [themoviedb.org](https://www.themoviedb.org/settings/api))
+- TMDB API key (see instructions below)
 
 ### Installation
 
@@ -83,19 +85,32 @@ Alternatively, you can use npm:
 npm install
 ```
 
-3. Set up environment variables
+3. Obtain a TMDB API key
+
+Follow these steps to get your free API key:
+
+a. Go to [The Movie Database (TMDB)](https://www.themoviedb.org/) and create a free account
+b. Once logged in, go to your account settings
+c. Navigate to the [API section](https://www.themoviedb.org/settings/api)
+d. Click on "Request an API Key" and select "Developer"
+e. Fill out the application form (you can use generic information for a student project)
+f. Once approved, copy your API key (v3 auth)
+
+4. Set up environment variables
 
 ```bash
 cp .env.example .env
 ```
 
-4. Add your TMDB API key to `.env`:
+5. Add your TMDB API key to `.env`:
 
 ```
 VITE_TMDB_API_KEY=your_api_key_here
 ```
 
-5. Start the development server
+Replace `your_api_key_here` with the API key you obtained in step 3.
+
+6. Start the development server
 
 ```bash
 pnpm run dev
