@@ -325,34 +325,36 @@ export const MovieViewer = ({movies}: MovieViewerProps) => {
               !loadingSearch &&
               filteredMovies.length > 0 && (
                 <section className="search-suggestions">
-                  {filteredMovies.slice(0, 5).map((movie) => (
-                    <li key={movie.id}>
-                      <button
-                        className="suggestion-button"
-                        onClick={() => {
-                          const actualIndex = filteredMovies.findIndex(
-                            (m) => m.id === movie.id
-                          );
-                          jumpToMovie(actualIndex, filteredMovies);
-                          setShowSuggestions(false);
-                        }}
-                        title={`${movie.title} (${movie.release_date?.split('-')[0] || 'N/A'})`}
-                      >
-                        <span>{movie.title}</span>
-                        {movie.release_date && (
-                          <span
-                            style={{
-                              fontSize: '12px',
-                              color: '#666',
-                              marginLeft: '8px',
-                            }}
-                          >
-                            ({movie.release_date.split('-')[0]})
-                          </span>
-                        )}
-                      </button>
-                    </li>
-                  ))}
+                  <ul className="suggestion-list">
+                    {filteredMovies.slice(0, 5).map((movie) => (
+                      <li key={movie.id}>
+                        <button
+                          className="suggestion-button"
+                          onClick={() => {
+                            const actualIndex = filteredMovies.findIndex(
+                              (m) => m.id === movie.id
+                            );
+                            jumpToMovie(actualIndex, filteredMovies);
+                            setShowSuggestions(false);
+                          }}
+                          title={`${movie.title} (${movie.release_date?.split('-')[0] || 'N/A'})`}
+                        >
+                          <span>{movie.title}</span>
+                          {movie.release_date && (
+                            <span
+                              style={{
+                                fontSize: '12px',
+                                color: '#666',
+                                marginLeft: '8px',
+                              }}
+                            >
+                              ({movie.release_date.split('-')[0]})
+                            </span>
+                          )}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                 </section>
               )}
           </section>
