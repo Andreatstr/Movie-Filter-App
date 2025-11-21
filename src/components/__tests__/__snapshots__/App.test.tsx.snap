@@ -83,8 +83,16 @@ exports[`App Component > Snapshot Tests > should render App with movies loaded 1
           <form
             class="search-bar"
           >
+            <label
+              class="visually-hidden"
+              for="movie-search"
+            >
+              Search for movies
+            </label>
             <input
+              aria-label="Search for movies"
               class="input-field"
+              id="movie-search"
               placeholder="Search for movies..."
               type="search"
               value=""

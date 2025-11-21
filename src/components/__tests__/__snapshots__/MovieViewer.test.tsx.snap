@@ -14,8 +14,16 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with multiple 
       <form
         class="search-bar"
       >
+        <label
+          class="visually-hidden"
+          for="movie-search"
+        >
+          Search for movies
+        </label>
         <input
+          aria-label="Search for movies"
           class="input-field"
+          id="movie-search"
           placeholder="Search for movies..."
           type="search"
           value=""
@@ -207,8 +215,16 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with no movies
       <form
         class="search-bar"
       >
+        <label
+          class="visually-hidden"
+          for="movie-search"
+        >
+          Search for movies
+        </label>
         <input
+          aria-label="Search for movies"
           class="input-field"
+          id="movie-search"
           placeholder="Search for movies..."
           type="search"
           value=""
@@ -251,8 +267,16 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
       <form
         class="search-bar"
       >
+        <label
+          class="visually-hidden"
+          for="movie-search"
+        >
+          Search for movies
+        </label>
         <input
+          aria-label="Search for movies"
           class="input-field"
+          id="movie-search"
           placeholder="Search for movies..."
           type="search"
           value=""
@@ -411,6 +435,58 @@ exports[`MovieViewer > Snapshot Tests > should render MovieViewer with single mo
       Next →
     </button>
   </nav>
+  <div
+    aria-atomic="true"
+    aria-live="assertive"
+    class="sr-only"
+  />
+</section>
+`;
+
+exports[`should render MovieViewer with no movies 1`] = `
+<section
+  aria-label="Movie Viewer"
+  class="movie-viewer"
+>
+  <section
+    class="dropdown-container"
+  >
+    <div
+      style="position: relative; width: 100%;"
+    >
+      <form
+        class="search-bar"
+      >
+        <label
+          class="visually-hidden"
+          for="movie-search"
+        >
+          Search for movies
+        </label>
+        <input
+          aria-label="Search for movies"
+          class="input-field"
+          id="movie-search"
+          placeholder="Search for movies..."
+          type="search"
+          value=""
+        />
+      </form>
+      <section
+        class="suggestion-container"
+      />
+    </div>
+    <button
+      class="dropdown-button"
+    >
+      Filter
+    </button>
+  </section>
+  <p
+    class="no-movies"
+  >
+    No movies available
+  </p>
   <div
     aria-atomic="true"
     aria-live="assertive"
