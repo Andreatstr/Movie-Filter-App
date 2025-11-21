@@ -24,6 +24,7 @@ This document details the improvements made to the project following peer review
 **Issue Identified by:** Nina ([REVIEWS.md:407-408](../REVIEWS.md#L407))
 
 **Problem:**
+
 > "Når man kombinerer 'Favorites only' med sjangerfilter kaster `TypeError: j.genre_ids is undefined`. Man må lukke hele nettsiden, for å komme seg ut av denne crashen. Hele skjermen blir hvit."
 
 The application crashed with a `TypeError` when users enabled "Favorites only" and then applied a genre filter. This was a critical issue that required a complete page reload to recover.
@@ -34,6 +35,7 @@ When fetching movie details from TMDB API using `getMovieDetails()`, the respons
 **Solution Implemented:**
 
 1. **Transform API Response** ([src/services/tmdbApi.ts](../src/services/tmdbApi.ts#L64-L77))
+
    ```typescript
    async getMovieDetails(movieId: number): Promise<Movie> {
      const response = await fetch(
@@ -52,10 +54,11 @@ When fetching movie details from TMDB API using `getMovieDetails()`, the respons
    ```
 
 2. **Make genre_ids Optional** ([src/types/movie.ts](../src/types/movie.ts#L10))
+
    ```typescript
    export interface Movie {
      // ... other fields
-     genre_ids?: number[];  // Made optional
+     genre_ids?: number[]; // Made optional
      // ... other fields
    }
    ```
@@ -69,6 +72,7 @@ When fetching movie details from TMDB API using `getMovieDetails()`, the respons
    ```
 
 **Impact:**
+
 - ✅ Application no longer crashes when combining favorites with genre filters
 - ✅ All movie data is now consistently structured regardless of API endpoint
 - ✅ Defensive programming prevents similar issues with undefined data
@@ -82,6 +86,7 @@ When fetching movie details from TMDB API using `getMovieDetails()`, the respons
 **Issue Identified by:** Nina ([REVIEWS.md:412](../REVIEWS.md#L412))
 
 **Problem:**
+
 > "Listen over forslag for filmer rendres som `<li>` uten `<ul>`, dette gjør at det ikke blir en liste som er like godt strukturert."
 
 Search suggestions were rendered as `<li>` elements without a surrounding `<ul>` wrapper, violating HTML semantics and reducing accessibility for screen readers.
@@ -105,6 +110,7 @@ Modified [src/components/MovieViewer.tsx](../src/components/MovieViewer.tsx#L327
 ```
 
 Added corresponding CSS ([src/styles/SearchBar.css](../src/styles/SearchBar.css#L77-L81)):
+
 ```css
 .suggestion-list {
   list-style: none;
@@ -114,6 +120,7 @@ Added corresponding CSS ([src/styles/SearchBar.css](../src/styles/SearchBar.css#
 ```
 
 **Impact:**
+
 - ✅ Proper HTML semantics for better accessibility
 - ✅ Screen readers can properly announce list structure
 - ✅ Improved navigation for assistive technology users
@@ -125,6 +132,7 @@ Added corresponding CSS ([src/styles/SearchBar.css](../src/styles/SearchBar.css#
 **Issue Identified by:** Beau2 ([REVIEWS.md:473](../REVIEWS.md#L473))
 
 **Problem:**
+
 > "I søkefelt, gi input en eksplisitt label (kan være skjult) eller aria-label, ikke stol på placeholder. Fordi uten en eksplisitt etikett kan skjermlesere annonsere feltet uklart, som fører til at brukere mister konteksten når placeholder forsvinner."
 
 The search input relied solely on a placeholder for context, which disappears when users start typing and is not consistently read by screen readers.
@@ -151,6 +159,7 @@ Updated [src/components/SearchBar.tsx](../src/components/SearchBar.tsx#L45-L63):
 ```
 
 Added visually-hidden CSS class ([src/styles/SearchBar.css](../src/styles/SearchBar.css#L9-L18)):
+
 ```css
 .visually-hidden {
   position: absolute;
@@ -166,6 +175,7 @@ Added visually-hidden CSS class ([src/styles/SearchBar.css](../src/styles/Search
 ```
 
 **Impact:**
+
 - ✅ Screen readers properly announce the search field purpose
 - ✅ Context is maintained even when placeholder disappears
 - ✅ WCAG 2.1 compliance for form labels (Success Criterion 3.3.2)
@@ -179,6 +189,7 @@ Added visually-hidden CSS class ([src/styles/SearchBar.css](../src/styles/Search
 **Issue Identified by:** Ulrich ([REVIEWS.md:634](../REVIEWS.md#L634))
 
 **Problem:**
+
 > "En ting jeg la merke til er at det er en dobbel krysnings (X) når man skal fjerne input i søkefeltet når feltet er i fokus."
 
 Browsers' native search input clear button appeared alongside our custom clear button, creating a confusing double-X icon.
@@ -196,6 +207,7 @@ Added CSS to hide the native cancel button ([src/styles/SearchBar.css](../src/st
 ```
 
 **Impact:**
+
 - ✅ Single, consistent clear button across all browsers
 - ✅ Reduced visual confusion for users
 - ✅ Better control over UX and styling
@@ -209,6 +221,7 @@ Added CSS to hide the native cancel button ([src/styles/SearchBar.css](../src/st
 **Issue Identified by:** Nina ([REVIEWS.md:487-488](../REVIEWS.md#L487))
 
 **Problem:**
+
 > "Det er noe uklarhet i hvordan man setter opp API-en i prosjektet. Linken sender meg til en nettside der jeg får beskjed om at jeg 'ikke har rettigheter til aksessere dette'. Dette burde vært bedre forklart."
 
 The documentation linked directly to TMDB API settings page, which requires authentication, causing confusion for new users trying to set up the project.
@@ -217,7 +230,7 @@ The documentation linked directly to TMDB API settings page, which requires auth
 
 Added comprehensive step-by-step instructions in [README.md](../README.md#L86-L109):
 
-```markdown
+````markdown
 3. Obtain a TMDB API key
 
 Follow these steps to get your free API key:
@@ -234,6 +247,7 @@ f. Once approved, copy your API key (v3 auth)
 ```bash
 cp .env.example .env
 ```
+````
 
 5. Add your TMDB API key to `.env`:
 
@@ -242,6 +256,7 @@ VITE_TMDB_API_KEY=your_api_key_here
 Replace `your_api_key_here` with the API key you obtained in step 3.
 
 **Impact:**
+
 - ✅ Clear, actionable instructions for obtaining API key
 - ✅ New developers can set up the project without confusion
 - ✅ Reduced setup friction and support requests
@@ -255,15 +270,17 @@ Replace `your_api_key_here` with the API key you obtained in step 3.
 **Issue Identified by:** Bob & Felix13 ([REVIEWS.md:939](../REVIEWS.md#L939), [REVIEWS.md:960](../REVIEWS.md#L960))
 
 **Problem:**
+
 > "Det er skrevet tester til alle komponenter og hooks (med unntak av useFocusTrap)"
 
 The `useFocusTrap` hook, which manages keyboard navigation and focus trapping for accessibility, had no test coverage.
 
 **Solution Implemented:**
 
-Created comprehensive test suite ([src/hooks/__tests__/useFocusTrap.test.ts](../src/hooks/__tests__/useFocusTrap.test.ts)):
+Created comprehensive test suite ([src/hooks/**tests**/useFocusTrap.test.ts](../src/hooks/__tests__/useFocusTrap.test.ts)):
 
 **Test Suite Structure:**
+
 - Basic Functionality (2 tests)
 - Keyboard Events (3 tests)
 - CSS Classes (2 tests)
@@ -271,11 +288,13 @@ Created comprehensive test suite ([src/hooks/__tests__/useFocusTrap.test.ts](../
 - Edge Cases (1 test)
 
 **Test Results:**
+
 - ✅ 10/10 tests passing
 - ✅ Coverage includes: event listeners, CSS class management, cleanup, edge cases
 - ✅ Note: Focus behavior tests are documented as requiring manual browser testing due to JSDOM limitations
 
 **Impact:**
+
 - ✅ Increased test coverage for critical accessibility functionality
 - ✅ Confidence in focus trap behavior during refactoring
 - ✅ Regression prevention for keyboard navigation features
@@ -286,16 +305,16 @@ Created comprehensive test suite ([src/hooks/__tests__/useFocusTrap.test.ts](../
 
 ### Files Modified
 
-| File | Changes | Purpose |
-|------|---------|---------|
-| [src/services/tmdbApi.ts](../src/services/tmdbApi.ts) | Transform `genres` → `genre_ids` | Fix TypeError crash |
-| [src/types/movie.ts](../src/types/movie.ts) | Make `genre_ids` optional | Type safety improvement |
-| [src/hooks/useFilters.ts](../src/hooks/useFilters.ts) | Add optional chaining | Defensive programming |
-| [src/components/SearchBar.tsx](../src/components/SearchBar.tsx) | Add label + aria-label | Accessibility compliance |
-| [src/styles/SearchBar.css](../src/styles/SearchBar.css) | Visually-hidden class, remove native X | Accessibility + UX |
-| [src/components/MovieViewer.tsx](../src/components/MovieViewer.tsx) | Add `<ul>` wrapper | Semantic HTML |
-| [README.md](../README.md) | Detailed API setup steps | Better documentation |
-| [src/hooks/__tests__/useFocusTrap.test.ts](../src/hooks/__tests__/useFocusTrap.test.ts) | New test file (10 tests) | Test coverage |
+| File                                                                                    | Changes                                | Purpose                  |
+| --------------------------------------------------------------------------------------- | -------------------------------------- | ------------------------ |
+| [src/services/tmdbApi.ts](../src/services/tmdbApi.ts)                                   | Transform `genres` → `genre_ids`       | Fix TypeError crash      |
+| [src/types/movie.ts](../src/types/movie.ts)                                             | Make `genre_ids` optional              | Type safety improvement  |
+| [src/hooks/useFilters.ts](../src/hooks/useFilters.ts)                                   | Add optional chaining                  | Defensive programming    |
+| [src/components/SearchBar.tsx](../src/components/SearchBar.tsx)                         | Add label + aria-label                 | Accessibility compliance |
+| [src/styles/SearchBar.css](../src/styles/SearchBar.css)                                 | Visually-hidden class, remove native X | Accessibility + UX       |
+| [src/components/MovieViewer.tsx](../src/components/MovieViewer.tsx)                     | Add `<ul>` wrapper                     | Semantic HTML            |
+| [README.md](../README.md)                                                               | Detailed API setup steps               | Better documentation     |
+| [src/hooks/**tests**/useFocusTrap.test.ts](../src/hooks/__tests__/useFocusTrap.test.ts) | New test file (10 tests)               | Test coverage            |
 
 ### Metrics
 
@@ -308,6 +327,7 @@ Created comprehensive test suite ([src/hooks/__tests__/useFocusTrap.test.ts](../
 ### Review Feedback Addressed
 
 Out of 7 reviewers:
+
 - **Nina:** 4/4 critical issues fixed (TypeError, list semantics, label, API docs)
 - **Beau2:** 1/1 suggestion implemented (search label)
 - **Ulrich:** 1/1 issue fixed (duplicate X icon)
@@ -333,6 +353,7 @@ These items are noted for potential future improvements but were not essential f
 ## Conclusion
 
 All critical issues identified in peer review have been addressed, with particular focus on:
+
 - **Stability:** Fixed crash-causing TypeError
 - **Accessibility:** Improved screen reader support and semantic HTML
 - **User Experience:** Enhanced visual feedback and consistency

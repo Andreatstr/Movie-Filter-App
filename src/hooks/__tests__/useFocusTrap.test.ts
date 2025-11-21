@@ -1,4 +1,4 @@
-import {renderHook, waitFor} from '@testing-library/react';
+import {renderHook} from '@testing-library/react';
 import {describe, it, expect, vi, beforeEach, afterEach} from 'vitest';
 import {useFocusTrap} from '../useFocusTrap';
 
@@ -31,9 +31,7 @@ describe('useFocusTrap', () => {
 
   describe('Basic Functionality', () => {
     it('should return a ref object', () => {
-      const {result} = renderHook(() =>
-        useFocusTrap({isActive: false})
-      );
+      const {result} = renderHook(() => useFocusTrap({isActive: false}));
 
       expect(result.current).toBeDefined();
       expect(result.current.current).toBeNull();
