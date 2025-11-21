@@ -1,4 +1,11 @@
-import {render, screen, fireEvent, within, act} from '@testing-library/react';
+import {
+  render,
+  screen,
+  fireEvent,
+  within,
+  act,
+  waitFor,
+} from '@testing-library/react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {describe, it, expect, vi, beforeEach, afterEach} from 'vitest';
 import {MovieViewer} from '../MovieViewer';
@@ -359,15 +366,23 @@ describe('MovieViewer', () => {
       );
     });
 
-    it('should restore position from sessionStorage', () => {
-      // Mock sessionStorage returning index 1
-      mockSessionStorage.getItem.mockReturnValue('1');
+    it('should restore position from sessionStorage', async () => {
+      // Mock sessionStorage returning index 1 for movieViewerIndex, and no searchTerm
+      mockSessionStorage.getItem.mockImplementation((key) => {
+        if (key === 'movieViewerIndex') return '1';
+        if (key === 'searchTerm') return '';
+        return null;
+      });
 
-      renderWithQuery(<MovieViewer movies={mockMovies} />);
+      await act(async () => {
+        renderWithQuery(<MovieViewer movies={mockMovies} />);
+      });
 
-      // With sorted order, index 1 is First Movie
-      expect(screen.getByText('First Movie')).toBeInTheDocument();
-      expect(screen.getByText('2 of 3')).toBeInTheDocument();
+      await waitFor(() => {
+        // With sorted order, index 1 is First Movie
+        expect(screen.getByText('First Movie')).toBeInTheDocument();
+        expect(screen.getByText('2 of 3')).toBeInTheDocument();
+      });
     });
 
     it('should handle invalid sessionStorage values gracefully', () => {
@@ -427,9 +442,7 @@ const renderWithQuery = (ui: React.ReactNode) => {
   const client = new QueryClient({
     defaultOptions: {queries: {retry: false, staleTime: 0}},
   });
-  return act(() => {
-    return render(
-      <QueryClientProvider client={client}>{ui}</QueryClientProvider>
-    );
-  });
+  return render(
+    <QueryClientProvider client={client}>{ui}</QueryClientProvider>
+  );
 };
